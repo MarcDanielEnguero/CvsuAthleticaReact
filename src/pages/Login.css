@@ -1,0 +1,91 @@
+/* Background Container */
+.background-container {
+    background-image: url(../assets/img/bg.jpg); /* Replace with the actual image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Login Container */
+  .login-container {
+    background: rgba(40, 1, 1, 0.85);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    text-align: center;
+    width: 400px;
+  }
+  
+  .logo {
+    width: 200px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 1px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #c9842b;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .login-btn:hover {
+    background-color: #b27222;
+  }
+  
+  .or-container {
+    margin: 20px 0;
+    font-weight: bold;
+  }
+  
+  .google-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .google-btn .google-icon {
+    margin-right: 10px;
+  }
+  
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    background-color: #280101;
+    padding: 10px;
+  }
+  
