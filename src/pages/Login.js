@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 import logo from '../assets/img/logo.png';
@@ -8,27 +9,36 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/login`; // Fallback to localhost
+      console.log('API URL:', apiUrl);
+  
+      const response = await axios.post(apiUrl, {
         email,
         password,
       });
-
-      // Save the token to local storage
+  
+      console.log('Backend response:', response.data);
+  
       localStorage.setItem('token', response.data.token);
-
-      // Redirect or show success message
-      console.log('Login successful:', response.data);
+  
       setError('');
       alert('Login successful!');
+      navigate('/landing'); // Redirect to Landing.js
     } catch (err) {
-      console.error('Error:', err.response?.data || err.message);
+      console.error('Error details:', err.response || err.message);
+      if (err.response) {
+        console.log('Status:', err.response.status);
+        console.log('Data:', err.response.data);
+      }
       setError(err.response?.data?.error || 'Something went wrong');
     }
   };
+  
 
   return (
     <>
@@ -63,6 +73,9 @@ const Login = () => {
             <button type="submit" className="login-btn">Login</button>
           </form>
         </div>
+        <footer>
+          <p>csgmain@cvsu.edu.ph | cvsu.cspear.sc@cvsu.edu.ph</p>
+        </footer>
       </div>
     </>
   );
