@@ -1,8 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth');
+const mongoose = require('mongoose');
 const cors = require('cors');
+const connectDB = require('./config/db');
+const registrationRoutes = require('./routes/registration');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -14,7 +16,8 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); // Authentication routes
+app.use('/api/registration', registrationRoutes); // Registration routes
 
 // Error handling for unknown routes
 app.use((req, res, next) => {

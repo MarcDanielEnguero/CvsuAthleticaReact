@@ -1,6 +1,8 @@
 import React from 'react';
 import './Landing.css'; // Assuming CSS is managed in an external file
+import Navbar from './Navbar';
 
+<Navbar />
 const Banner = () => (
   <div className="banner">
     <div className="banner-slide">
