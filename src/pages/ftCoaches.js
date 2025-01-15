@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import TrainingContext from './TrainingContext';
-import './ftCoaches.css';
+import styles from './ftCoaches.module.css';
 
 const FtCoaches = () => {
   const { formData, coachSelection, setCoachSelection } = useContext(TrainingContext);
@@ -16,7 +16,6 @@ const FtCoaches = () => {
     console.log('Selected coach:', selectedCoach);
     setCoachSelection(selectedCoach);
   };
-  
 
   const handleConfirmClick = () => {
     console.log('Confirm button clicked');
@@ -28,12 +27,10 @@ const FtCoaches = () => {
       setConfirmationMessage('Please select a coach before confirming.');
     }
   };
-  
 
   const handleConfirmBooking = async () => {
     try {
       const dataToSubmit = { ...formData, coach: coachSelection };
-      console.log('Submitting data:', dataToSubmit);
       const response = await axios.post('http://localhost:5000/api/registration', dataToSubmit);
       console.log('Response from server:', response.data);
       setConfirmationMessage('Registration successful! You will be contacted shortly.');
@@ -43,12 +40,6 @@ const FtCoaches = () => {
       setConfirmationMessage('Registration failed. Please try again later.');
     }
   };
-  
-  
-  
-  
-  
-  
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -57,12 +48,12 @@ const FtCoaches = () => {
   return (
     <div>
       <Navbar />
-      <section className="coach-section">
-        <div className="registration-box">
+      <section className={styles.coachSection}>
+        <div className={styles.registrationBox}>
           <h2>Coach Selection</h2>
-          <div className="coach-selection-box">
-            <label htmlFor="coachSelect" className="select-coach-title">Select Coach:</label>
-            <select value={coachSelection} onChange={handleCoachSelection}>
+          <div className={styles.coachSelectionBox}>
+            <label htmlFor="coachSelect" className={styles.selectCoachTitle}>Select Coach:</label>
+            <select onChange={handleCoachSelection} className={styles.coachSelect}>
               <option value="">Choose a coach</option>
               <option value="Coach 1">Coach 1</option>
               <option value="Coach 2">Coach 2</option>
@@ -71,7 +62,7 @@ const FtCoaches = () => {
             </select>
           </div>
 
-          <table className="schedule-table">
+          <table className={styles.scheduleTable}>
             <thead>
               <tr>
                 <th>Coach</th>
@@ -118,33 +109,28 @@ const FtCoaches = () => {
             </tbody>
           </table>
 
-          <div className="buttons">
-            <button type="button" className="confirm-btn" onClick={handleConfirmClick}>
+          <div className={styles.buttons}>
+            <button type="button" className={styles.confirmBtn} onClick={handleConfirmClick}>
               Confirm
             </button>
           </div>
-          {confirmationMessage && <p className="confirmation-message">{confirmationMessage}</p>}
+          {confirmationMessage && <p className={styles.confirmationMessage}>{confirmationMessage}</p>}
         </div>
       </section>
 
       {showModal && (
-  <div
-    id="confirmation-modal"
-    className={`confirmation-modal ${showModal ? 'show' : ''}`}
-  >
-    <div className="confirmation-box">
-      <h3>Are you sure you want to proceed with this information?</h3>
-      <button className="confirm-booking" onClick={handleConfirmBooking}>
-        Confirm Booking
-      </button>
-      <button className="cancel-booking" onClick={handleCloseModal}>
-        Cancel Booking
-      </button>
-    </div>
-  </div>
-)}
-
-
+        <div id="confirmation-modal" className={`${styles.confirmationModal} ${showModal ? styles.show : ''}`}>
+          <div className={styles.confirmationBox}>
+            <h3>Are you sure you want to proceed with this information?</h3>
+            <button className={styles.confirmBooking} onClick={handleConfirmBooking}>
+              Confirm Booking
+            </button>
+            <button className={styles.cancelBooking} onClick={handleCloseModal}>
+              Cancel Booking
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

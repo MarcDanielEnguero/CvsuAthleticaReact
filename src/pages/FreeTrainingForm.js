@@ -3,7 +3,7 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import TrainingContext from './TrainingContext';
-import './FreeTrainingForm.css';
+import styles from './FreeTrainingForm.module.css'; // Import the CSS module
 
 const FreeTrainingForm = () => {
   const { setFormData } = useContext(TrainingContext); // Access context
@@ -43,12 +43,12 @@ const FreeTrainingForm = () => {
   return (
     <>
       <Navbar />
-      <div className="registration-container">
-        <div className="registration-box">
+      <div className={styles.registrationContainer}>
+        <div className={styles.registrationBox}>
           <h2>FREE-TRAINING FORM</h2>
-          {message && <p className="message">{message}</p>}
+          {message && <p className={styles.message}>{message}</p>}
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="first-name">First Name</label>
               <input
                 type="text"
@@ -59,7 +59,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="last-name">Last Name</label>
               <input
                 type="text"
@@ -70,7 +70,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="student-number">Student Number</label>
               <input
                 type="text"
@@ -81,7 +81,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="phone-number">Phone Number</label>
               <input
                 type="text"
@@ -92,7 +92,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="college">College</label>
               <select
                 id="college"
@@ -107,7 +107,7 @@ const FreeTrainingForm = () => {
                 <option value="college3">College 3</option>
               </select>
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="department">Department</label>
               <input
                 type="text"
@@ -118,7 +118,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="course">Course</label>
               <input
                 type="text"
@@ -129,7 +129,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="year-section">Year & Section</label>
               <input
                 type="text"
@@ -140,7 +140,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="cvsu-email">CvSU Email</label>
               <input
                 type="email"
@@ -151,7 +151,7 @@ const FreeTrainingForm = () => {
                 required
               />
             </div>
-            <button type="submit" className="registration-btn" disabled={!isFormValid}>
+            <button type="submit" className={styles.registrationBtn} disabled={!isFormValid}>
               Next
             </button>
           </form>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 import logo from '../assets/img/logo.png';
+import googleIcon from '../assets/img/google-icon.png';
 import Navbar from './Navbar';
 
 const Login = () => {
@@ -14,31 +15,24 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/login`; // Fallback to localhost
-      console.log('API URL:', apiUrl);
-  
+      const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/login`;
       const response = await axios.post(apiUrl, {
         email,
         password,
       });
-  
-      console.log('Backend response:', response.data);
-  
+      
       localStorage.setItem('token', response.data.token);
-  
       setError('');
-      alert('Login successful!');
-      navigate('/landing'); // Redirect to Landing.js
+      navigate('/landing');
     } catch (err) {
-      console.error('Error details:', err.response || err.message);
-      if (err.response) {
-        console.log('Status:', err.response.status);
-        console.log('Data:', err.response.data);
-      }
-      setError(err.response?.data?.error || 'Something went wrong');
+      setError(err.response?.data?.error || 'Login failed. Please check your credentials.');
     }
   };
-  
+
+  const handleGoogleLogin = () => {
+    // Implement Google login functionality
+    console.log('Google login clicked');
+  };
 
   return (
     <>
@@ -48,7 +42,7 @@ const Login = () => {
           <img src={logo} alt="CvSU Athletica" className="logo" />
           <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label htmlFor="email">Email:</label>
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
@@ -59,7 +53,7 @@ const Login = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
@@ -69,13 +63,28 @@ const Login = () => {
                 required
               />
             </div>
+            <div className="forgot-password">
+              <a href="/forgot-password">Forgot Password</a>
+            </div>
             {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="login-btn">Login</button>
+            <button type="submit" className="login-btn">
+              Login
+            </button>
           </form>
+          
+          <div className="or-divider">
+            <span>Or With</span>
+          </div>
+
+          <button onClick={handleGoogleLogin} className="google-btn">
+            <img src={googleIcon} alt="Google" />
+            Login with CvSU Email
+          </button>
         </div>
-        <footer>
+        
+        <div className="login-footer">
           <p>csgmain@cvsu.edu.ph | cvsu.cspear.sc@cvsu.edu.ph</p>
-        </footer>
+        </div>
       </div>
     </>
   );
