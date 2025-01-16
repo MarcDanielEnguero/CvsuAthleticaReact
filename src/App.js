@@ -12,7 +12,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/" element={<FreeTrainingForm />} />
+        <Route path="/free-training-form" element={<FreeTrainingForm />} />
         <Route path="/coaches" element={<FtCoaches />} />
         <Route path="/landing" element={<Landing />} /> {/* Define the route for Landing */}
       </Routes>
