@@ -1,89 +1,35 @@
-/* General Styles for Registration Page */
-body {
-    font-family: 'Arial', sans-serif;
-    background: url(../assets/img/bg.jpg) no-repeat center center;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.coachSection {
+    margin-top: 100px;
+    padding: 20px;
 }
 
-/* Profile Icon Styles */
-.profile {
-    margin-left: 20px; /* Space between notification and profile icon */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1001; /* Make sure it stays above other elements */
-}
-
-.profile i {
-    color: #FFBB00;
-    font-size: 22px; /* Adjust size as needed */
-    transition: color 0.3s ease;
-}
-
-.profile i:hover {
-    color: #FFD966; /* Hover effect */
-}
-
-/* ----- Other Navbar Styles ----- */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(150deg, #4F0909 0%, #150101 85%);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
-    justify-content: space-between;
-}
-
-
-
-
-.registration-box {
+.registrationBox {
     width: 100%;
     max-width: 900px;
     padding: 30px;
-    background: rgba(40, 1, 1, 0.85); /* Dark red background */
+    background: rgba(40, 1, 1, 0.85);
     border-radius: 15px;
-    border: 3px solid #FFBB00; /* Yellow border */
+    border: 3px solid #FFBB00;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     margin: 20px auto;
 }
 
-
-
-/* Select Coach Section */
-.coach-section {
-    margin-top: 100px; /* Ensures the section is below the navbar */
-    padding: 20px;
-}
-
-.coach-selection-box {
+.coachSelectionBox {
     display: flex;
-    justify-content: flex-start; /* Align to the left */
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.select-coach-title {
-    color: white; /* Change text color to white */
-    font-family: 'Montserrat', sans-serif; /* You can change the font if needed */
-    font-size: 18px; /* Adjust font size */
-    margin-right: 10px; /* Space between label and dropdown */
+.selectCoachTitle {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    margin-right: 10px;
 }
 
-#coachSelect {
+.coachSelect {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -91,39 +37,31 @@ body {
     font-size: 14px;
 }
 
-
-
-
-
-
-/* Schedule Table Styles */
-.schedule-table {
+.scheduleTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.schedule-table th, .schedule-table td {
+.scheduleTable th,
+.scheduleTable td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
 }
 
-.schedule-table th {
+.scheduleTable th {
     background-color: #4F0909;
     color: white;
 }
 
-.schedule-table td {
+.scheduleTable td {
     background-color: #f2f2f2;
 }
 
-.schedule-table td:nth-child(even) {
+.scheduleTable td:nth-child(even) {
     background-color: #ddd;
 }
-
-
-
 
 .buttons {
     display: flex;
@@ -132,72 +70,66 @@ body {
     margin-top: 20px;
 }
 
-button {
+.confirmBtn {
+    background-color: #97430F;
+    color: white;
     padding: 12px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
     border: 3px solid #FFBB00;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-.confirm-btn {
-    background-color: #97430F;
-    color: white;
-}
-
-.confirm-btn:hover {
+.confirmBtn:hover {
     background-color: #0056b3;
 }
 
-.cancel-btn {
+.cancelBtn {
     background-color: #D32F2F;
     color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid #FFBB00;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-.cancel-btn:hover {
+.cancelBtn:hover {
     background-color: #b71c1c;
 }
 
-
-
-
-
-
-
-.confirmation-message {
+.confirmationMessage {
     color: green;
     margin-top: 15px;
     font-weight: bold;
-  }
-  
+}
 
-
-
-/* Modal Styling */
-.confirmation-modal {
-    display: flex; /* Default to flex for visibility */
+.confirmationModal {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Slight black overlay */
+    background-color: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    opacity: 0; /* Start hidden */
-    pointer-events: none; /* Prevent interaction when hidden */
-    transition: opacity 0.3s ease; /* Smooth transition */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-.confirmation-modal.show {
-    opacity: 1; /* Fully visible when active */
-    pointer-events: all; /* Allow interaction */
+.confirmationModal.show {
+    opacity: 1;
+    pointer-events: all;
 }
 
-.confirmation-box {
+.confirmationBox {
     background-color: rgba(40, 1, 1, 0.85);
     padding: 30px;
     border-radius: 15px;
@@ -208,12 +140,12 @@ button {
     color: white;
 }
 
-
-.modal-buttons {
+.modalButtons {
     margin-top: 20px;
 }
 
-.modal-buttons button {
+.confirmBooking,
+.cancelBooking {
     padding: 10px 20px;
     background-color: #FFBB00;
     border: none;
@@ -225,6 +157,7 @@ button {
     color: white;
 }
 
-.modal-buttons button:hover {
+.confirmBooking:hover,
+.cancelBooking:hover {
     background-color: #0056b3;
 }

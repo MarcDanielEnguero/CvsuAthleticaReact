@@ -1,0 +1,168 @@
+/* Background Container */
+.loginBackgroundContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(../assets/img/bg.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  z-index: 0; /* Ensure background stays behind navbar */
+}
+
+/* Login Container */
+.loginContainer {
+  background: rgba(40, 1, 1, 0.9);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1; /* Above background, below navbar */
+}
+
+.loginContainer .logo {
+  width: 150px;
+  margin-bottom: 25px;
+}
+
+.loginContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formGroup {
+  text-align: left;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  color: white;
+  font-size: 14px;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 14px;
+}
+
+.loginBtn {
+  width: 100%;
+  padding: 12px;
+  background-color: #c9842b;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.loginBtn:hover {
+  background-color: #b27222;
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-top: -10px;
+}
+
+.forgotPassword a {
+  color: #c9842b;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgotPassword a:hover {
+  text-decoration: underline;
+}
+
+.orDivider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+.orDivider::before,
+.orDivider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.orDivider span {
+  padding: 0 10px;
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.googleBtn img {
+  width: 20px;
+  height: 20px;
+}
+
+.googleBtn:hover {
+  background-color: #f5f5f5;
+}
+
+.errorMessage {
+  color: #ff4444;
+  margin: 10px 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+.loginFooter {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 1; /* Above background, below navbar */
+}
+
+.loginFooter p {
+  font-size: 14px;
+}
+
+/* Add margin-top to the login container to account for navbar */
+@media (max-height: 800px) {
+  .loginContainer {
+      margin-top: 60px; /* Adjust this value based on your navbar height */
+  }
+}

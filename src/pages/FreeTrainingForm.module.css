@@ -1,106 +1,118 @@
-/* General Styles for Registration Page */
-body {
-    font-family: 'Arial', sans-serif;
-    background: url(../assets/img/bg.jpg) ;
-    background-position: center;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.registration-container {
+.registrationContainer {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
+    background: url(../assets/img/bg.jpg) no-repeat center center;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    padding: 20px;
 }
 
-/* Adjusted registration box for a smaller, responsive design */
-.registration-box {
-    width: 100%; /* Reduce width to make it smaller */
-    max-width: 900px; /* Limit maximum width to prevent it from becoming too large */
+.registrationBox {
+    width: 100%;
+    max-width: 900px;
     padding: 30px;
     background: rgba(40, 1, 1, 0.85);
     border-radius: 15px;
     border: 3px solid #FFBB00;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-top: 20px;
     margin: 200px auto;
 }
 
-/* Grid Layout for Form */
-form {
+.registrationBox h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.registrationForm {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Create 2 equal columns */
-    gap: 15px; /* Adjusted space between columns and rows */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
     width: 100%;
 }
 
-/* Style for form elements */
-.form-group {
+.formGroup {
     display: flex;
     flex-direction: column;
 }
 
-/* Labels above the input fields */
-label {
-    font-size: 14px; /* Adjust the font size */
+.formGroup label {
+    font-size: 14px;
     font-weight: bold;
     color: #fff;
     margin-bottom: 5px;
-    align-self: flex-start; /* Align label to the top-left corner */
+    align-self: flex-start;
 }
 
-/* Input fields style */
-input, select {
+.formGroup input,
+.formGroup select {
     padding: 8px;
     margin-bottom: 12px;
     border-radius: 10px;
     border: 1px solid #ddd;
-    font-size: 14px; /* Reduced font size */
+    font-size: 14px;
 }
 
-input::placeholder {
+.formGroup input::placeholder {
     color: #aaa;
 }
 
-/* Adjusting button to center and style */
-.registration-btn {
-    grid-column: span 2; /* Make button span across both columns */
+.registrationBtn {
+    grid-column: span 2;
     width: 150px;
     padding: 12px;
     background-color: #97430F;
     color: white;
-    font-size: 18px; /* Smaller button text */
+    font-size: 18px;
     font-weight: bold;
     border: 3px solid #FFBB00;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
-    justify-self: end; /* Align the button to the right */
+    justify-self: end;
 }
 
-.registration-btn:hover {
+.registrationBtn:hover {
     background-color: #0056b3;
 }
 
-/* Style for the logo and title */
+.registrationBtn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    border-color: #999999;
+}
+
 .logo img {
-    width: 120px; /* Reduced logo size */
+    width: 120px;
     height: auto;
     margin-bottom: 15px;
 }
 
-h2 {
+.message {
     color: #fff;
-    font-size: 24px; /* Smaller title font size */
-    margin-bottom: 20px;
-    text-align: left;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Media query for responsive design */
+@media (max-width: 768px) {
+    .registrationForm {
+        grid-template-columns: 1fr;
+    }
+
+    .registrationBtn {
+        grid-column: 1;
+        width: 100%;
+    }
+
+    .registrationBox {
+        margin: 100px auto;
+        padding: 20px;
+    }
 }

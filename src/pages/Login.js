@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css';
+import styles from './Login.module.css';
 import logo from '../assets/img/logo.png';
 import googleIcon from '../assets/img/google-icon.png';
 import Navbar from './Navbar';
@@ -37,11 +37,11 @@ const Login = () => {
   return (
     <>
       <Navbar />
-      <div className="background-container">
-        <div className="login-container">
-          <img src={logo} alt="CvSU Athletica" className="logo" />
+      <div className={styles.loginBackgroundContainer}>
+        <div className={styles.loginContainer}>
+          <img src={logo} alt="CvSU Athletica" className={styles.logo} />
           <form onSubmit={handleLogin}>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -52,7 +52,7 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className={styles.formGroup}>
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -63,26 +63,26 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="forgot-password">
+            <div className={styles.forgotPassword}>
               <a href="/forgot-password">Forgot Password</a>
             </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="login-btn">
+            {error && <p className={styles.errorMessage}>{error}</p>}
+            <button type="submit" className={styles.loginBtn}>
               Login
             </button>
           </form>
           
-          <div className="or-divider">
+          <div className={styles.orDivider}>
             <span>Or With</span>
           </div>
 
-          <button onClick={handleGoogleLogin} className="google-btn">
+          <button onClick={handleGoogleLogin} className={styles.googleBtn}>
             <img src={googleIcon} alt="Google" />
             Login with CvSU Email
           </button>
         </div>
         
-        <div className="login-footer">
+        <div className={styles.loginFooter}>
           <p>csgmain@cvsu.edu.ph | cvsu.cspear.sc@cvsu.edu.ph</p>
         </div>
       </div>

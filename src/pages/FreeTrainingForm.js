@@ -47,7 +47,7 @@ const FreeTrainingForm = () => {
         <div className={styles.registrationBox}>
           <h2>FREE-TRAINING FORM</h2>
           {message && <p className={styles.message}>{message}</p>}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className={styles.registrationForm}>
             <div className={styles.formGroup}>
               <label htmlFor="first-name">First Name</label>
               <input
