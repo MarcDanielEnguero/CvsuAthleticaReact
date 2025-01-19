@@ -111,7 +111,6 @@
     color: #FFD966;
 }
 
-/*COUNT FOR NOTIFICATIONS*/
 .notifications::after {
     content: "5"; 
     position: absolute;

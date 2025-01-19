@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logonav from '../assets/img/logonav.png';
 
 const Navbar = ({ isLoggedIn }) => {
+  const navigate = useNavigate();
+
   return (
     <nav className="navbar">
       <div className="logonav">
@@ -13,13 +16,13 @@ const Navbar = ({ isLoggedIn }) => {
         <input type="text" id="searchInput" placeholder="Search" />
       </div>
       <ul className="nav-links">
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="#">ABOUT</a></li>
-        <li><a href="#">TRYOUTS</a></li>
-        <li><a href="#">EVENTS</a></li>
-        <li><a href="#">COLLEGES</a></li>
-        <li><a href="#">CONTACT US</a></li>
-        {!isLoggedIn && <li><a href="/login">LOGIN</a></li>}
+        <li><Link to="/">HOME</Link></li>
+        <li><Link to="/about">ABOUT</Link></li>
+        <li><Link to="/free-training-form">TRYOUTS</Link></li>
+        <li><Link to="/events">EVENTS</Link></li>
+        <li><Link to="/colleges">COLLEGES</Link></li>
+        <li><Link to="/contact">CONTACT US</Link></li>
+        {!isLoggedIn && <li><Link to="/login">LOGIN</Link></li>}
       </ul>
       {isLoggedIn && (
         <div className="notifications">
