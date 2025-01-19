@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import ContactUs from '../pages/ContactUs';
+import AboutUs from '../pages/AboutUs';
 import logonav from '../assets/img/logonav.png';
 
 const Navbar = ({ isLoggedIn }) => {
@@ -18,7 +19,7 @@ const Navbar = ({ isLoggedIn }) => {
       </div>
       <ul className="nav-links">
         <li><Link to="/">HOME</Link></li>
-        <li><Link to="/about">ABOUT</Link></li>
+        <li><Link to="/aboutUs">ABOUT</Link></li>
         <li><Link to="/free-training-form">TRYOUTS</Link></li>
         <li><Link to="/events">EVENTS</Link></li>
         <li><Link to="/colleges">COLLEGES</Link></li>
