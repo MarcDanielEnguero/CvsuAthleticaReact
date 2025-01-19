@@ -1,0 +1,172 @@
+/* ----GENERAL---- */
+
+/* ------- ANIMATION -----------*/
+@keyframes slideUpFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ------------BODY--------------*/
+.container {
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
+    min-height: 100vh;
+    color: white;
+}
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 100px auto 20px auto;
+    width: 70%;
+    padding-bottom: 0px;
+    border-bottom: 2px solid #FFD966;
+}
+
+.formTitle {
+    font-size: 50px;
+    font-weight: bold;
+    color: #FFBB00;
+}
+
+/* Dropdown Styling */
+.dropdowns {
+    display: flex;
+    gap: 10px;
+}
+
+.dropdowns select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+}
+
+/* Form Container */
+.formContainer {
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    color: #FFF;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Form Structure */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.formRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.formGroup label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #FFD966;
+    font-size: 16px;
+}
+
+.formGroup input,
+.formGroup select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+/* File Input Styling */
+.formGroup input[type="file"] {
+    padding: 6px;
+    background: #fff;
+    border-radius: 5px;
+}
+
+/* Form Buttons */
+.formButtons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cancelBtn,
+.addBtn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.cancelBtn {
+    background: #FF0000;
+    color: #FFF;
+}
+
+.addBtn {
+    background: #FFBB00;
+    color: #FFF;
+}
+
+.cancelBtn:hover,
+.addBtn:hover {
+    opacity: 0.9;
+}
+
+/* Footer Bar */
+.footerBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background-color: #280101;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+}
+
+.emailContact {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+}
+
+.emailContact i {
+    font-size: 16px;
+    margin-right: 8px;
+    color: white;
+}
+
+.emailContact:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
