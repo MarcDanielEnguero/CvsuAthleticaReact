@@ -6,6 +6,7 @@ import Landing from './pages/Landing'; // Import the Landing component
 import FtCoaches from './pages/ftCoaches';
 import ContactUs from './pages/ContactUs';
 import AboutUs from './pages/AboutUs';
+import CampusIndex from './pages/CampusIndex';
 import { TrainingProvider } from './pages/TrainingContext';
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/landing" element={<Landing />} /> {/* Define the route for Landing */}
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/campusIndex" element={<CampusIndex />} />
         <Route path="/free-training-form" element={<FreeTrainingForm />} />
         <Route path="/coaches" element={<FtCoaches />} />
       </Routes>
