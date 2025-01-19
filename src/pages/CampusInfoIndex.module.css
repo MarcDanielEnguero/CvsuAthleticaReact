@@ -1,0 +1,340 @@
+/* ----GENERAL---- */
+
+/* ------- ANIMATION -----------*/
+@keyframes slideUpFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ------------BODY--------------*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Ramaraja', serif;
+    background: linear-gradient(to right, rgba(79, 9, 9, 1) 50%, rgba(79, 9, 9, 0.5) 100%), url('../assets/img/CampusInfoIndex/background-image.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #FFFFFF;
+    justify-content: center;
+    align-items: center;
+}
+
+html, body {
+    overflow-y: auto;
+    min-height: 100vh;
+}
+
+/* ----------FOOTER BAR-------------*/
+.footerBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45px; 
+    background-color: #280101;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px; 
+    color: white;
+    z-index: 1000;
+    font-family: 'Raleway', sans-serif;
+}
+
+.emailContact {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+}
+
+.emailContact i {
+    font-size: 16px;
+    margin-right: 8px; 
+    color: white;
+}
+
+/* might remove this */
+.emailContact:hover {
+    opacity: 0.8; 
+    transition: opacity 0.3s;
+}
+
+/* University Section */
+.universityHeader {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 150px; 
+    color: #FFFFFF; 
+    font-family: 'Ramaraja', serif;
+}
+
+.logoContainer {
+    margin-right: 15px; 
+}
+
+.universityLogo {
+    max-width: 250px; 
+    height: auto;
+    margin-right: 200px;
+}
+
+.headerText h1 {
+    font-size: 60px; 
+    margin: 0; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    line-height: 1.4; 
+    text-align: left; 
+}
+
+/* General Reset */
+body {
+    margin: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+/* Menu container */
+.menuContainer {
+    position: absolute; 
+    right: 50px; 
+    top: 35%; 
+    transform: translateY(-50%); 
+    z-index: 1500; 
+}
+
+/* Menu button */
+.menuButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.5s ease;
+    z-index: 2000;
+}
+
+.menuButton.active {
+    transform: rotate(360deg);
+}
+
+.menuIcon {
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    position: relative;
+}
+
+.menuIcon::before,
+.menuIcon::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: white;
+    transition: 0.3s ease;
+}
+
+.menuIcon::before {
+    top: -6px;
+}
+
+.menuIcon::after {
+    top: 6px;
+}
+
+/* Dropdown menu */
+.dropdownMenu {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background-color: #4F0909;
+    width: 200px;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+}
+
+.dropdownMenu.active {
+    display: block;
+}
+
+.menuTitle {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: white;
+    font-family: 'Ramaraja', serif;
+}
+
+.sportsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    font-family: 'Ramaraja', serif;
+}
+
+.sportsList li {
+    margin: 10px 0;
+}
+
+.sportsLink {
+    display: block;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sportsLink:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    transform: scale(1.05);
+}
+
+/* Team Name */
+.teamName {
+    display: flex;
+    align-items: center; 
+    justify-content: flex-end; 
+    padding: 0px;
+    color: #FFFFFF; 
+    font-family: 'Ramaraja', serif;
+    position: relative;
+    right: 0; 
+    transform: translateY(-50%); 
+    padding-right: 50px;
+}
+
+.teamName h1 {
+    font-size: 150px;
+    text-transform: uppercase;
+    text-align: right;
+    margin: 0;
+    line-height: 1;
+}
+
+/* Player Container Section */
+.playerContainer {
+    margin: 0 auto; 
+    max-width: 85%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    align-content: center;
+}
+
+/* Player Section */
+.playerInfo {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin: 40px 0; 
+    padding: 20px;
+    width: 100%; 
+    font-family: 'Ramaraja', serif;
+}
+
+/* Player Text */
+.playerText {
+    text-align: right; 
+    flex: 1;
+    margin-right: 30px; 
+}
+
+.playerText h3 {
+    margin: 10px 0;
+    font-size: 50px; 
+    font-weight: bold;
+}
+
+.playerText p {
+    margin: 10px 0;
+    font-size: 30px; 
+    line-height: 1.6; 
+}
+
+.playerText p span {
+    font-size: 100px; 
+    font-weight: bold;
+}
+
+/* Player Image */
+.playerImage {
+    flex: 0 0 500px; 
+    max-width: 550px;
+    margin-left: 30px; 
+}
+
+.playerImage img {
+    width: 100%; 
+    height: auto;
+    border-radius: 10px;
+}
+
+/* ADMIN BUTTONS */
+.buttonContainer {
+    margin-top: 20px; 
+    display: flex;
+    gap: 20px;
+    justify-content: right; 
+    padding-right: 50px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.editButton {
+    background-color: #FF6600;
+    color: #fff;
+}
+
+.editButton:hover {
+    background-color: #FF884D;
+}
+
+.addButton {
+    background-color: #FFD700;
+    color: #fff;
+}
+
+.addButton:hover {
+    background-color: #FFE34D;
+}

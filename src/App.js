@@ -7,6 +7,7 @@ import FtCoaches from './pages/ftCoaches';
 import ContactUs from './pages/ContactUs';
 import AboutUs from './pages/AboutUs';
 import CampusIndex from './pages/CampusIndex';
+import CampusInfoIndex from './pages/CampusInfoIndex';
 import { TrainingProvider } from './pages/TrainingContext';
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/aboutUs" element={<AboutUs />} />
         <Route path="/campusIndex" element={<CampusIndex />} />
+        <Route path="/campusInfoIndex" element={<CampusInfoIndex />} />
         <Route path="/free-training-form" element={<FreeTrainingForm />} />
         <Route path="/coaches" element={<FtCoaches />} />
       </Routes>
