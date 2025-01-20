@@ -2,11 +2,11 @@ import React from 'react';
 import Navbar from '../pages/Navbar';
 import styles from './CampusIndex.module.css';
 import MainCampusLogo from '../assets/img/CampusIndex/cvsu-logo.png';
-import CampusInfoIndex from './CampusInfoIndex';
+import MainCampusInfoIndex from './MainCampusInfoIndex';
 
 const CampusIndex = () => {
   const campuses = [
-    { name: "DON SEVERINO DE LAS ALAS CAMPUS", link: "./CampusInfoIndex" },
+    { name: "DON SEVERINO DE LAS ALAS CAMPUS", link: "./MainCampusInfoIndex" },
     { name: "NAIC CAMPUS", link: "./campus info/info-index.html" },
     { name: "GENERAL TRIAS CAMPUS", link: "general-trias-campus-page.html" },
     { name: "CAVITE CITY CAMPUS", link: "korea-campus-page.html" },
