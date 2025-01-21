@@ -41,6 +41,14 @@ const App = () => {
                   </PublicRoute>
                 }
               />
+              <Route
+                path="/coach-profile"
+                element={
+                  <PublicRoute>
+                    <CoachProfile />
+                  </PublicRoute>
+                }
+              />
 
               {/* Protected Routes - Require Authentication */}
               <Route
