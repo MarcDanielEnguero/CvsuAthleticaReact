@@ -1,0 +1,322 @@
+/* General Styles for Tryout Schedule Page */
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('./pics/loginpagebg.png') no-repeat center center;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.registration-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Adjusted registration box for Tryout Schedule */
+.registration-box {
+    width: 100%;
+    max-width: 900px;
+    padding: 30px;
+    background: rgba(40, 1, 1, 0.85); /* Dark red background */
+    border-radius: 15px;
+    border: 3px solid #FFBB00; /* Yellow border */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin: 20px auto;
+}
+
+h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-content {
+    display: flex;
+    gap: 20px; /* Space between sections */
+    justify-content: space-between;
+}
+
+.form-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 20px; /* Space between sections */
+    justify-content: space-between;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    text-align: left; /* Ensures the label text is aligned to the left */
+    align-self: flex-start; /* Align label to the start of its container */
+}
+
+.time-selection-box,
+.medical-upload-box {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Align both label and input to the left */
+    flex: 1; /* Equal width for both sections */
+}
+
+/* Adjust the width of the 'Select Date' container only */
+.select-date-group {
+    width: 100%; /* Ensure it takes full width */
+    max-width: 300px; /* Limit the width of the date selection container */
+    margin: 0; /* Remove auto centering */
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Align the label and input to the left */
+}
+
+
+.form-group label[for="select-date"] {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    text-align: left; /* Ensures the label text is aligned to the left */
+    align-self: flex-start; /* Align label to the start of its container */
+    display: block; /* Ensure it's displayed as a block-level element */
+}
+
+
+#select-time,
+#medicalUpload {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+    background-color: rgba(224, 210, 210, 0.6); /* Set the desired background color */
+    color: #000; /* Ensure the text remains readable */
+}
+
+
+#select-time::placeholder,
+#medicalUpload::placeholder {
+    color: #333; /* Slightly darker placeholder color */
+}
+
+#select-time:focus,
+#medicalUpload:focus {
+    outline: none; /* Remove default outline */
+    border: 1px solid #FFBB00; /* Highlight border on focus */
+    background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
+}
+#medicalUpload{
+    display: none
+}
+
+.upload-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(224, 210, 210, 0.6); /* Background color */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%; /* Make the button take the full width of its container */
+    max-width: 300px; /* Optional: Set a maximum width */
+}
+
+
+.upload-btn:hover {
+    background-color: rgba(224, 210, 210, 0.8);
+    color: #000;
+}
+
+#select-date {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+    background-color: rgba(224, 210, 210, 0.6);
+    color: #000;
+}
+
+/* calendar */
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    align-self: flex-start;
+}
+
+input, select {
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+
+
+
+
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Button Styles */
+button {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    border: 3px solid #FFBB00;
+}
+
+.confirm-btn {
+    background-color: #3B862C;
+    color: white;
+}
+
+.confirm-btn:hover {
+    opacity: 0.9;
+}
+
+.cancel-btn {
+    background-color: #D32F2F;
+    color: white;
+}
+
+.cancel-btn:hover {
+    opacity: 0.9;
+}
+
+
+
+
+
+
+
+
+
+/* Modal Styling */
+.confirmation-modal {
+    display: none; /* Ensure it's hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Slight black overlay */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirmation-box {
+    background-color: rgba(40, 1, 1, 0.85);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+    border: 3px solid #FFBB00;
+    color: white;
+}
+
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+   
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.modal-buttons button:hover {
+    opacity: 0.9;
+}
+
+/* Confirm Button Styling (Green) */
+.modal-buttons .confirm-booking {
+    background-color: #3B862C; /* Green background */
+}
+
+.modal-buttons .confirm-booking:hover {
+    background-color: #03771e; /* Darker green on hover */
+}
+
+/* Cancel Button Styling (Red) */
+.modal-buttons .cancel-booking {
+    background-color: #D32F2F; /* Red background */
+}
+
+.modal-buttons .cancel-booking:hover {
+    background-color: #971111; /* Darker red on hover */
+}
+
+
+
+
+
+/* Schedule Table Styles */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.schedule-table th {
+    background-color: #4F0909;
+    color: white;
+}
+
+.schedule-table td {
+    background-color: #f2f2f2;
+}
+
+.schedule-table td:nth-child(even) {
+    background-color: #ddd;
+}
+
+
+
+.time-selection-box,
+.medical-title {
+    font-size: 18px; /* Adjust the font size as needed */
+    color: #fff; /* Example color */
+}

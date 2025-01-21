@@ -24,7 +24,7 @@
 }
 
 /* ------------BODY--------------*/
-body {
+.container {
     margin: 0;
     padding: 0;
     font-family: 'Ramaraja', serif;
@@ -33,11 +33,8 @@ body {
     color: #FFFFFF;
     justify-content: center;
     align-items: center;
-}
-
-html, body {
-    overflow-y: auto;
     min-height: 100vh;
+    overflow-y: auto;
 }
 
 /* ----------FOOTER BAR-------------*/
@@ -70,7 +67,6 @@ html, body {
     color: white;
 }
 
-/* might remove this */
 .emailContact:hover {
     opacity: 0.8; 
     transition: opacity 0.3s;
@@ -103,12 +99,6 @@ html, body {
     letter-spacing: 1px; 
     line-height: 1.4; 
     text-align: left; 
-}
-
-/* General Reset */
-body {
-    margin: 0;
-    font-family: 'Raleway', sans-serif;
 }
 
 /* Menu container */

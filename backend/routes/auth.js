@@ -9,7 +9,7 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log('Login request received:', { email, password });
+    console.log('Login request received:', { email });
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -23,12 +23,25 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    console.log('Token generated:', token);
+    const token = jwt.sign(
+      { 
+        id: user._id,
+        role: user.role,
+        email: user.email 
+      }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: '1h' }
+    );
+    
+    console.log('Token generated for role:', user.role);
 
     res.status(200).json({
       message: 'Login successful',
       token,
+      user: {
+        email: user.email,
+        role: user.role
+      }
     });
   } catch (error) {
     console.error('Server error during login:', error.message);

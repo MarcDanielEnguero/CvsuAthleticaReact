@@ -62,6 +62,13 @@ const FtCoaches = () => {
             </select>
           </div>
 
+            {/* Medical Certificate Upload */}
+              <div className="medical-upload-box">
+              <label htmlFor="medicalUpload" className="medical-title">Medical Certificate:</label>
+              <label htmlFor="medicalUpload" className="upload-btn">Attach File</label>
+                <input type="file" id="medicalUpload" accept=".pdf,.jpg,.png" style={{ display: 'none' }} />
+                </div>
+
           <table className={styles.scheduleTable}>
             <thead>
               <tr>
@@ -117,6 +124,8 @@ const FtCoaches = () => {
           {confirmationMessage && <p className={styles.confirmationMessage}>{confirmationMessage}</p>}
         </div>
       </section>
+
+
 
       {showModal && (
         <div id="confirmation-modal" className={`${styles.confirmationModal} ${showModal ? styles.show : ''}`}>

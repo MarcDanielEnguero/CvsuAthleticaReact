@@ -1,0 +1,138 @@
+.profile-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile-container h1 {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 20px;
+    color: white; /* Adjust the color as needed */
+}
+
+.profile-content {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.profile-icon {
+    text-align: left;
+    margin-right: 20px;
+}
+
+.profile-icon i {
+    color: #333;
+}
+
+.profile-icon p {
+    text-align: center;
+    margin-top: 10px;
+}
+.profile-icon p a {
+    text-decoration: none;
+    color: white;
+}
+
+.profile-icon h2 {
+    text-align: center;
+    color: white; /* Adjust the color as needed */
+    margin-top: 10px;
+}
+
+
+.profile-details {
+    flex-grow: 1;
+}
+
+
+
+
+.profile-details table {
+    width: 50%;
+    border-collapse: collapse;
+}
+
+.profile-details table td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+.profile-details table td label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: white; /* Adjust the color as needed */
+}
+
+.profile-details table td input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
+}
+
+.profile-details table td input:focus {
+    background-color: rgba(224, 210, 210, 1); /* Slightly darker on focus */
+}
+
+
+
+.change-password-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: rgba(224, 210, 210, 1);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.change-password-btn:hover {
+opacity: .9;
+}
+
+.profile-details {
+    flex-grow: 1;
+}
+
+.account-management-title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.account-management-title h2 {
+    color: white; /* Adjust the color as needed */
+}
+
+
+.account-management-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.cvsu-athletica h2 {
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: bold; /* Adjust font weight as needed */
+    color: #ffffff; /* Adjust color as needed */
+    margin: 0; /* Remove default margin */
+}

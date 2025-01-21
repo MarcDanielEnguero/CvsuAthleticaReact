@@ -3,11 +3,12 @@ import Navbar from '../pages/Navbar';
 import styles from './CampusIndex.module.css';
 import MainCampusLogo from '../assets/img/CampusIndex/cvsu-logo.png';
 import MainCampusInfoIndex from './MainCampusInfoIndex';
+import CampusInfoIndex from './CampusInfoIndex';
 
 const CampusIndex = () => {
   const campuses = [
     { name: "DON SEVERINO DE LAS ALAS CAMPUS", link: "./MainCampusInfoIndex" },
-    { name: "NAIC CAMPUS", link: "./campus info/info-index.html" },
+    { name: "NAIC CAMPUS", link: "./CampusInfoIndex" },
     { name: "GENERAL TRIAS CAMPUS", link: "general-trias-campus-page.html" },
     { name: "CAVITE CITY CAMPUS", link: "korea-campus-page.html" },
     { name: "CCAT CAMPUS", link: "manila-campus-page.html" },

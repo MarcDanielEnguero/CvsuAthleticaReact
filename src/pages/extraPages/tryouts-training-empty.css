@@ -1,0 +1,23 @@
+/* Style for the empty content section */
+.empty-content {
+    text-align: center; /* Center align text */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+}
+
+/* Style for the h3 element inside the empty content section */
+.empty-content h3 {
+    font-size: 24px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #ffffff; /* Text color */
+    margin: 0 0 20px 0; /* Margin */
+}
+
+/* Style for the tumbleweed icon container */
+.tumbleweed-icon {
+    font-size: 50px; /* Font size for the icon */
+    color: #ccc; /* Color for the icon */
+}

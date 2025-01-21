@@ -1,0 +1,92 @@
+.profileContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profileIcon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profileIcon i {
+    font-size: 100px;
+    color: #FFBB00;
+}
+
+.profileIcon a {
+    color: #FFBB00;
+    font-weight: bold;
+}
+
+.profileContent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.profileDetails {
+    flex: 1;
+}
+
+.profileDetails form {
+    width: 100%;
+}
+
+.profileDetails table {
+    width: 100%;
+    border-spacing: 10px;
+}
+
+.profileDetails td {
+    padding: 10px;
+}
+
+.profileDetails label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.profileDetails input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.footerBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background-color: #280101;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    color: white;
+    z-index: 1000;
+}
+
+.emailContact {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+}
+
+.emailContact i {
+    font-size: 16px;
+    margin-right: 8px;
+    color: white;
+}
+
+

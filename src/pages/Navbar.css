@@ -111,8 +111,7 @@
     color: #FFD966;
 }
 
-.notifications::after {
-    content: "5"; 
+.notifications::after { 
     position: absolute;
     top: -5px;
     right: -5px;
@@ -126,4 +125,32 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
+}
+
+.nav-button {
+    /* Use the same styles as your nav-links */
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+    padding: 10px 15px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  
+  .nav-button:hover {
+    /* Use the same hover effect as your nav-links */
+    color: #FFD966; /* Replace with your actual hover color */
+  }
+
+  .user-email {
+    color: #FFBB00;
+    margin-right: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

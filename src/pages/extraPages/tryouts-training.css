@@ -1,0 +1,84 @@
+.main-contents {
+    margin-top: 80px;
+    margin-left: 180px;
+    margin-right: 180px;
+    text-align: left;
+    
+}
+
+.main-contents h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 32;
+}
+.main-contents h1 {
+    font-size: 50px;
+    color: #FFBB00;
+    margin-bottom: 50px;
+
+}
+
+
+
+
+/* Style for the tryouts container */
+.tryouts-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(175, 14, 14, 0.314); /* Background color with lowered opacity */
+    border-radius: 15px; /* Rounded edges for the container */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    outline: 2px solid black; /* Black outline for the container */
+    margin-bottom: 30px;
+}
+
+.tryouts-container h2 {
+    color: white; /* White font for the title */
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.tryouts-container p {
+    color: white; /* White font for the text */
+    text-align: left;
+    margin-bottom: 20px;
+    margin: 0; /* Remove default margin */
+}
+
+.tryouts-container h2,
+.tryouts-container p {
+    display: inline-block;
+    vertical-align: middle; /* Aligns the elements vertically in the middle */
+    margin: 0 100px 0px 0; /* Adjust the margin as needed */
+    margin-bottom: 20px;
+}
+
+
+
+
+
+/* Style for the table */
+.tryouts-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white; /* White font for the table */
+    background-color: transparent; /* Transparent background for the table */
+}
+
+/* Style for the table headers */
+.tryouts-container th {
+    border-bottom: 2px solid #fff; /* Line below the column titles */
+    padding: 12px;
+    text-align: center;
+}
+
+/* Style for the table cells */
+.tryouts-container td {
+    padding: 12px;
+    text-align: center;
+}
+

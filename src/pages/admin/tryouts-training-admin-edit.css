@@ -1,0 +1,150 @@
+/* Style for the edit button */
+.edit-button,
+.add-button {
+    margin-bottom: 10px;
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #ffffff; /* Text color */
+    background-color: #ffffffc4; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Border around the text */
+}
+
+.edit-button:hover,
+.add-button:hover {
+    opacity: .8; /* Darker background color on hover */
+}
+
+.edit-button:active,
+.add-button:active {
+    background-color: #ffffff60; /* Even darker background color on click */
+}
+
+.edit-button:focus,
+.add-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+
+
+
+/* Style for the confirm button */
+.confirm-button,
+.confirm-add-button {
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* Text color */
+    background-color: #4CAF50; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    margin-right: 10px; /* Space between buttons */
+    margin-left: 10px; /* Space between buttons */
+}
+
+.confirm-button:hover,
+.confirm-add-button:hover {
+    background-color: #45a049; /* Darker background color on hover */
+}
+
+.confirm-button:active,
+.confirm-add-button:active {
+    background-color: #3e8e41; /* Even darker background color on click */
+}
+
+.confirm-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+/* Style for the cancel button */
+.cancel-button,
+.cancel-add-button {
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* Text color */
+    background-color: #f44336; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.cancel-button:hover,
+.cancel-add-button:hover {
+    background-color: #e53935; /* Darker background color on hover */
+}
+
+.cancel-button:active,
+.cancel-add-button:active {
+    background-color: #d32f2f; /* Even darker background color on click */
+}
+
+.cancel-button:focus,
+.cancel-add-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+
+
+
+
+
+/* Styling for text boxes inside the table */
+table input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+    background-color: rgba(224, 210, 210, 0.6); /* Set the desired background color */
+    color: #000; /* Ensure the text remains readable */
+}
+
+table input[type="text"]::placeholder {
+    color: #252525; /* Slightly darker placeholder color */
+    text-align: center; /* Center the placeholder text */
+
+}
+
+/* Change border color on focus */
+table input[type="text"]:focus {
+    outline: none; /* Remove default outline */
+    border: 1px solid #FFBB00; /* Highlight border on focus */
+    background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
+}
+
+
+
+
+/* Style for the input fields */
+#newTableName,
+#newCoachName {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 30%; /* Decreased width */
+    background-color: rgba(224, 210, 210, 0.6); /* Set the desired background color */
+    color: #000; /* Ensure the text remains readable */
+    margin-bottom: 10px;
+}
+
+/* Style for the input fields when focused */
+#newTableName:focus,
+#newCoachName:focus {
+    outline: none; /* Remove default outline */
+    border: 1px solid #FFBB00; /* Highlight border on focus */
+    background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
+}
+
+

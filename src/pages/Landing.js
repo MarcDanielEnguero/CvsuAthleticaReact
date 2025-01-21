@@ -37,7 +37,6 @@ const Landing = () => {
 
   return (
     <div className="landing">
-      <Navbar /> {/* Navbar imported and rendered */}
       <div className="banner">
         <div className="banner-slide">
           <img src={banner1} alt="Slide 1" className="fade-in" />

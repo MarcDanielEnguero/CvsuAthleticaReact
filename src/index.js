@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import { TrainingProvider } from './pages/TrainingContext'; // Context provider for shared state
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './context/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <AuthProvider>
     <TrainingProvider>
     <App />
     </TrainingProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 

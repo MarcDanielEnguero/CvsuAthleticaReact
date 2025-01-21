@@ -11,6 +11,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    enum: ['student', 'admin'],
+    default: 'student'  // Default role for new users
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 // Hash password before saving
@@ -25,5 +38,10 @@ userSchema.pre('save', async function (next) {
     next(error);
   }
 });
+
+// Method to check password validity
+userSchema.methods.comparePassword = async function(candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 module.exports = mongoose.model('User', userSchema);

@@ -1,0 +1,154 @@
+/* Style for the edit button */
+.edit-button {
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #ffffff; /* Text color */
+    background-color: #ffffffc4; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Border around the text */
+}
+
+.edit-button:hover {
+    opacity: .8; /* Darker background color on hover */
+}
+
+.edit-button:active {
+    background-color: #ffffff60; /* Even darker background color on click */
+}
+
+.edit-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+
+
+
+
+
+
+/* Style for the cancel (X) button */
+.cancel-booking-btn {
+    padding: 5px 10px; /* Padding inside the button */
+    font-size: 14px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* Text color */
+    background-color: #f44336; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 0 5px; /* Space between buttons */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.cancel-booking-btn:hover {
+    background-color: #e53935; /* Darker background color on hover */
+}
+
+.cancel-booking-btn:active {
+    background-color: #d32f2f; /* Even darker background color on click */
+}
+
+.cancel-booking-btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+/* Style for the confirm (Check) button */
+.confirm-booking-btn {
+    padding: 5px 10px; /* Padding inside the button */
+    font-size: 14px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* Text color */
+    background-color: #4CAF50; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 0 5px; /* Space between buttons */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.confirm-booking-btn:hover {
+    background-color: #45a049; /* Darker background color on hover */
+}
+
+.confirm-booking-btn:active {
+    background-color: #3e8e41; /* Even darker background color on click */
+}
+
+.confirm-booking-btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Style for the confirm changes button */
+.confirm-changes-btn {
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* Text color */
+    background-color: #4CAF50; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    margin-right: 10px; /* Space between buttons */
+    margin-left: 10px; /* Space between buttons */
+}
+
+.confirm-changes-btn:hover {
+    background-color: #45a049; /* Darker background color on hover */
+}
+
+.confirm-changes-btn:active {
+    background-color: #3e8e41; /* Even darker background color on click */
+}
+
+.confirm-changes-btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
+
+/* Style for the cancel changes button */
+.cancel-changes-btn {
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold text */
+    color: #fff; /* Text color */
+    background-color: #f44336; /* Background color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+.cancel-changes-btn:hover {
+    background-color: #e53935; /* Darker background color on hover */
+}
+
+.cancel-changes-btn:active {
+    background-color: #d32f2f; /* Even darker background color on click */
+}
+
+.cancel-changes-btn:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on focus */
+}
