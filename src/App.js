@@ -25,7 +25,7 @@ const App = () => {
           <div className="page-container">
             <Routes>
               {/* Root redirect */}
-            <Route path="/" element={<Navigate to="/profile" replace />} />
+            <Route path="/" element={<Navigate to="/landing" replace />} />
               {/* Public Routes */}
               <Route
                 path="/landing"

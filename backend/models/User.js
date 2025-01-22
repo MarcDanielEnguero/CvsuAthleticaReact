@@ -9,12 +9,19 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: function() {
+      return !this.googleId; // Password only required if not Google auth
+    },
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true // Allows null values to not count for uniqueness
   },
   role: {
     type: String,
     enum: ['student', 'admin'],
-    default: 'student'  // Default role for new users
+    default: 'student'
   },
   isActive: {
     type: Boolean,
@@ -26,9 +33,9 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hash password before saving
+// Hash password before saving (only if password exists)
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+  if (!this.isModified('password') || !this.password) return next();
 
   try {
     const salt = await bcrypt.genSalt(10);
@@ -41,6 +48,7 @@ userSchema.pre('save', async function (next) {
 
 // Method to check password validity
 userSchema.methods.comparePassword = async function(candidatePassword) {
+  if (!this.password) return false;
   return await bcrypt.compare(candidatePassword, this.password);
 };
 

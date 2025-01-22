@@ -1,71 +1,45 @@
+// backend/controllers/authController.js
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
 
-// Main authentication middleware
-const verifyToken = (req, res, next) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+// Authenticate with Google using the credential (Google token)
+const authenticateWithGoogle = async (req, res) => {
+  const { credential } = req.body;
 
-  if (!token) {
-    return res.status(401).json({ error: 'Access denied. No token provided.' });
+  if (!credential) {
+    return res.status(400).json({ error: 'No credential provided.' });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
+    // Verify Google token
+    const ticket = await verifyGoogleToken(credential);
+
+    // Extract email and other user info from the Google token
+    const { email } = ticket.getPayload();
+
+    // Ensure the email domain matches CvSU
+    if (!email.endsWith('@cvsu.edu.ph')) {
+      return res.status(400).json({ error: 'Invalid email domain. Please use a CvSU email.' });
+    }
+
+    // Optionally, find or create a user in your database here, e.g.
+    // const user = await User.findOrCreate({ email });
+
+    // Create a JWT token for the user
+    const token = jwt.sign({ email, role: 'student' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    return res.json({ token });
   } catch (error) {
-    res.status(401).json({ error: 'Invalid token.' });
+    console.error('Google login error:', error);
+    return res.status(500).json({ error: 'Failed to authenticate with Google.' });
   }
 };
 
-// Public routes middleware (for Landing and Login)
-const publicRoute = (req, res, next) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
-
-  if (!token) {
-    return next(); // Allow access if no token
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // If user is already authenticated, redirect to appropriate page
-    return res.status(303).json({ 
-      redirect: decoded.role === 'admin' ? '/admin/dashboard' : '/campus'
-    });
-  } catch (error) {
-    // If token is invalid, allow access to public routes
-    next();
-  }
+// Helper function to verify the Google token
+const verifyGoogleToken = async (token) => {
+  const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${token}`;
+  const response = await axios.get(url);
+  return response.data;
 };
 
-// Admin route protection
-const adminOnly = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ error: 'Not authenticated.' });
-  }
-
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Access denied. Admin only.' });
-  }
-
-  next();
-};
-
-// Protected route middleware (requires authentication but not admin)
-const studentOnly = (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ error: 'Not authenticated.' });
-  }
-
-  if (req.user.role !== 'student') {
-    return res.status(403).json({ error: 'Access denied. Students only.' });
-  }
-
-  next();
-};
-
-module.exports = {
-  verifyToken,
-  publicRoute,
-  adminOnly,
-  studentOnly
-};
+module.exports = { authenticateWithGoogle };
