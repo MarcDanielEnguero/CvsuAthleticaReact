@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './register.css';
-import "./style.css"; // Existing styles
+import React, { useState, useEffect } from 'react';
+import Navbar from '../pages/Navbar';  // Assuming Navbar is in src/pages
+import styles from './register.module.css';  // Import register.module.css for styles
 
 const Registration = () => {
     const [formData, setFormData] = useState({
@@ -42,38 +42,19 @@ const Registration = () => {
         }
     };
 
+    useEffect(() => {
+        checkFormValidity();
+    }, [formData]);
+
     return (
         <div>
-            <nav className="navbar">
-                <div className="logo">
-                    <img src="./pics/logo.png" alt="Logo" />
-                </div>
-                <div className="search-bar">
-                    <i className="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search" />
-                </div>
-                <ul className="nav-links">
-                    <li><a href="/">HOME</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">TRYOUTS/TRANING</a></li>
-                    <li><a href="#">EVENTS</a></li>
-                    <li><a href="#">COLLEGES</a></li>
-                    <li><a href="#">CONTACT US</a></li>
-                    <li><a href="/login">LOGIN</a></li>
-                </ul>
-                <div className="notifications">
-                    <i className="fas fa-bell"></i>
-                </div>
-                <div className="profile">
-                    <a href="/profile"><i className="fas fa-user-circle"></i></a>
-                </div>
-            </nav>
+            <Navbar /> {/* Import and use Navbar component */}
 
-            <div className="registration-container">
-                <div className="registration-box">
+            <div className={styles.registrationContainer}>
+                <div className={styles.registrationBox}>
                     <h2>PERSONAL INFORMATION</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="first-name">First Name</label>
                             <input
                                 type="text"
@@ -84,7 +65,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="last-name">Last Name</label>
                             <input
                                 type="text"
@@ -95,7 +76,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="student-number">Student Number</label>
                             <input
                                 type="text"
@@ -106,7 +87,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="phone-number">Phone Number</label>
                             <input
                                 type="text"
@@ -117,7 +98,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="college">College</label>
                             <select
                                 id="college"
@@ -132,7 +113,7 @@ const Registration = () => {
                                 <option value="college3">College 3</option>
                             </select>
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="department">Department</label>
                             <input
                                 type="text"
@@ -143,7 +124,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="course">Course</label>
                             <input
                                 type="text"
@@ -154,7 +135,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="year-section">Year & Section</label>
                             <input
                                 type="text"
@@ -165,7 +146,7 @@ const Registration = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="cvsu-email">CvSU Email</label>
                             <input
                                 type="email"
@@ -178,7 +159,7 @@ const Registration = () => {
                         </div>
                         <button
                             type="submit"
-                            className="registration-btn"
+                            className={styles.registrationBtn}
                             id="next-btn"
                             disabled={!isFormValid}
                         >
@@ -188,11 +169,11 @@ const Registration = () => {
                 </div>
             </div>
 
-            <div className="footer-bar">
-                <div className="email-contact">
+            <div className={styles.footerBar}>
+                <div className={styles.emailContact}>
                     <i className="fa fa-envelope"></i> email1@periodt.com
                 </div>
-                <div className="email-contact">
+                <div className={styles.emailContact}>
                     <i className="fa fa-envelope"></i> email2@periodt.com
                 </div>
             </div>

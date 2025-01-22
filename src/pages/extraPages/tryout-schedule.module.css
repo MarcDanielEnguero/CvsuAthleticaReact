@@ -1,17 +1,5 @@
 /* General Styles for Tryout Schedule Page */
-body {
-    font-family: 'Arial', sans-serif;
-    background: url('./pics/loginpagebg.png') no-repeat center center;
-    background-size: cover;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.registration-container {
+.registrationContainer {
     width: 100%;
     height: 100%;
     display: flex;
@@ -20,7 +8,7 @@ body {
 }
 
 /* Adjusted registration box for Tryout Schedule */
-.registration-box {
+.registrationBox {
     width: 100%;
     max-width: 900px;
     padding: 30px;
@@ -32,37 +20,22 @@ body {
     margin: 20px auto;
 }
 
-h2 {
+.formTitle h2 {
     color: #fff;
     font-size: 24px;
     margin-bottom: 20px;
     text-align: left;
 }
 
-.form-content {
+.formContent {
     display: flex;
     gap: 20px; /* Space between sections */
-    justify-content: space-between;
-}
-
-.form-content {
-    display: flex;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    gap: 20px; /* Space between sections */
     justify-content: space-between;
 }
 
-label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 5px;
-    text-align: left; /* Ensures the label text is aligned to the left */
-    align-self: flex-start; /* Align label to the start of its container */
-}
-
-.time-selection-box,
-.medical-upload-box {
+.timeSelectionBox,
+.medicalUploadBox {
     display: flex;
     flex-direction: column; /* Stack label and input vertically */
     align-items: flex-start; /* Align both label and input to the left */
@@ -70,7 +43,7 @@ label {
 }
 
 /* Adjust the width of the 'Select Date' container only */
-.select-date-group {
+.selectDateGroup {
     width: 100%; /* Ensure it takes full width */
     max-width: 300px; /* Limit the width of the date selection container */
     margin: 0; /* Remove auto centering */
@@ -79,19 +52,18 @@ label {
     align-items: flex-start; /* Align the label and input to the left */
 }
 
-
-.form-group label[for="select-date"] {
+.formGroup label {
     font-size: 18px;
     font-weight: bold;
     color: #fff;
     margin-bottom: 5px;
-    text-align: left; /* Ensures the label text is aligned to the left */
-    align-self: flex-start; /* Align label to the start of its container */
+    text-align: left;
     display: block; /* Ensure it's displayed as a block-level element */
 }
 
-
+/* Style for input and select elements */
 #select-time,
+#select-date,
 #medicalUpload {
     padding: 10px;
     font-size: 14px;
@@ -102,23 +74,8 @@ label {
     color: #000; /* Ensure the text remains readable */
 }
 
-
-#select-time::placeholder,
-#medicalUpload::placeholder {
-    color: #333; /* Slightly darker placeholder color */
-}
-
-#select-time:focus,
-#medicalUpload:focus {
-    outline: none; /* Remove default outline */
-    border: 1px solid #FFBB00; /* Highlight border on focus */
-    background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
-}
-#medicalUpload{
-    display: none
-}
-
-.upload-btn {
+/* Upload Button */
+.uploadBtn {
     display: inline-block;
     padding: 10px 20px;
     font-size: 14px;
@@ -133,48 +90,12 @@ label {
     max-width: 300px; /* Optional: Set a maximum width */
 }
 
-
-.upload-btn:hover {
+.uploadBtn:hover {
     background-color: rgba(224, 210, 210, 0.8);
     color: #000;
 }
 
-#select-date {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    width: 100%;
-    background-color: rgba(224, 210, 210, 0.6);
-    color: #000;
-}
-
-/* calendar */
-label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 5px;
-    align-self: flex-start;
-}
-
-input, select {
-    padding: 8px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
-
-input::placeholder {
-    color: #aaa;
-}
-
-
-
-
-
-
+/* Buttons */
 .buttons {
     display: flex;
     justify-content: flex-end;
@@ -182,7 +103,7 @@ input::placeholder {
 }
 
 /* Button Styles */
-button {
+.confirmBtn {
     padding: 12px;
     font-size: 16px;
     font-weight: bold;
@@ -190,36 +111,32 @@ button {
     cursor: pointer;
     transition: background-color 0.3s, border-color 0.3s;
     border: 3px solid #FFBB00;
-}
-
-.confirm-btn {
     background-color: #3B862C;
     color: white;
 }
 
-.confirm-btn:hover {
+.confirmBtn:hover {
     opacity: 0.9;
 }
 
-.cancel-btn {
+.cancelBtn {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    border: 3px solid #FFBB00;
     background-color: #D32F2F;
     color: white;
 }
 
-.cancel-btn:hover {
+.cancelBtn:hover {
     opacity: 0.9;
 }
 
-
-
-
-
-
-
-
-
 /* Modal Styling */
-.confirmation-modal {
+.confirmationModal {
     display: none; /* Ensure it's hidden by default */
     position: fixed;
     top: 0;
@@ -232,7 +149,7 @@ button {
     z-index: 1000;
 }
 
-.confirmation-box {
+.confirmationBox {
     background-color: rgba(40, 1, 1, 0.85);
     padding: 30px;
     border-radius: 15px;
@@ -243,14 +160,12 @@ button {
     color: white;
 }
 
-
-.modal-buttons {
+.modalButtons {
     margin-top: 20px;
 }
 
-.modal-buttons button {
+.modalButtons button {
     padding: 10px 20px;
-   
     border: none;
     border-radius: 10px;
     margin: 10px;
@@ -260,63 +175,59 @@ button {
     color: white;
 }
 
-.modal-buttons button:hover {
+.modalButtons button:hover {
     opacity: 0.9;
 }
 
 /* Confirm Button Styling (Green) */
-.modal-buttons .confirm-booking {
+.modalButtons .confirmBooking {
     background-color: #3B862C; /* Green background */
 }
 
-.modal-buttons .confirm-booking:hover {
+.modalButtons .confirmBooking:hover {
     background-color: #03771e; /* Darker green on hover */
 }
 
 /* Cancel Button Styling (Red) */
-.modal-buttons .cancel-booking {
+.modalButtons .cancelBooking {
     background-color: #D32F2F; /* Red background */
 }
 
-.modal-buttons .cancel-booking:hover {
+.modalButtons .cancelBooking:hover {
     background-color: #971111; /* Darker red on hover */
 }
 
-
-
-
-
 /* Schedule Table Styles */
-.schedule-table {
+.scheduleTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     margin-bottom: 10px;
 }
 
-.schedule-table th, .schedule-table td {
+.scheduleTable th,
+.scheduleTable td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
 }
 
-.schedule-table th {
+.scheduleTable th {
     background-color: #4F0909;
     color: white;
 }
 
-.schedule-table td {
+.scheduleTable td {
     background-color: #f2f2f2;
 }
 
-.schedule-table td:nth-child(even) {
+.scheduleTable td:nth-child(even) {
     background-color: #ddd;
 }
 
-
-
-.time-selection-box,
-.medical-title {
-    font-size: 18px; /* Adjust the font size as needed */
-    color: #fff; /* Example color */
+.timeSelectionBox,
+.medicalTitle {
+    font-size: 18px;
+    color: #fff;
 }
+
