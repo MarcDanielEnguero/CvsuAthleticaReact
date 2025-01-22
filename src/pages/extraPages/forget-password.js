@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './forget-password.css'; // Import the corresponding CSS file for styling
-import "./style.css"; // Existing styles
+import styles from './forget-password.module.css'; // Import the CSS module
+import Navbar from '../Navbar'; // Import Navbar component
 
 function ForgetPassword() {
   const [email, setEmail] = useState(''); // State to store the email input
@@ -23,33 +23,37 @@ function ForgetPassword() {
   };
 
   return (
-    <div className="forget-password-container">
-      <div className="forget-password-box">
-        <div className="forgot-title">
-          <h2>Forgot Password</h2>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email" className="forgotemail">Enter Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="example@gmail.com"
-              value={email}
-              onChange={handleEmailChange} // Update state on input change
-              required
-            />
+    <div className={styles.forgetPasswordWrapper}> {/* Apply the wrapper class here */}
+      <Navbar /> {/* Render the Navbar component here */}
+      <div className={styles.forgetPasswordContainer}>
+        <div className={styles.forgetPasswordBox}>
+          <div className={styles.forgotTitle}>
+            <h2>Forgot Password</h2>
           </div>
-          <button
-            type="submit"
-            className="reset"
-            id="resetButton"
-            disabled={!isEmailValid} // Disable button if email is empty
-          >
-            Reset Password
-          </button>
-        </form>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.forgotEmail}>Enter Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="example@gmail.com"
+                value={email}
+                onChange={handleEmailChange} // Update state on input change
+                required
+                className={styles.emailInput} // Use the email class for styling
+              />
+            </div>
+            <button
+              type="submit"
+              className={styles.reset}
+              id="resetButton"
+              disabled={!isEmailValid} // Disable button if email is empty
+            >
+              Reset Password
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

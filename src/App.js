@@ -13,6 +13,8 @@ import MainCampusInfoIndex from './pages/MainCampusInfoIndex';
 import { TrainingProvider } from './pages/TrainingContext';
 import Navbar from './pages/Navbar';
 import CoachProfile from './pages/extraPages/coach-profile';
+import ForgetPassword from './pages/extraPages/forget-password';
+import Profile from './pages/extraPages/profile';
 
 const App = () => {
   return (
@@ -23,7 +25,7 @@ const App = () => {
           <div className="page-container">
             <Routes>
               {/* Root redirect */}
-            <Route path="/" element={<Navigate to="/landing" replace />} />
+            <Route path="/" element={<Navigate to="/profile" replace />} />
               {/* Public Routes */}
               <Route
                 path="/landing"
@@ -42,10 +44,10 @@ const App = () => {
                 }
               />
               <Route
-                path="/coach-profile"
+                path="/profile"
                 element={
                   <PublicRoute>
-                    <CoachProfile />
+                    <Profile />
                   </PublicRoute>
                 }
               />

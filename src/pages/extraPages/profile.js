@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './profile.css';
-import "./style.css"; // Existing styles
+import styles from './profile.module.css'; // Import scoped CSS modules
+import Navbar from '../Navbar'; // Import Navbar from separate file
 
 const Profile = () => {
     const [firstName, setFirstName] = useState('');
@@ -20,41 +20,19 @@ const Profile = () => {
 
     return (
         <div>
-            <nav className="navbar">
-                <div className="logo">
-                    <img src="./pics/logo.png" alt="Logo" />
-                </div>
-                <div className="search-bar">
-                    <i className="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search" />
-                </div>
-                <ul className="nav-links">
-                    <li><a href="/">HOME</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">TRYOUTS/TRANING</a></li>
-                    <li><a href="#">EVENTS</a></li>
-                    <li><a href="#">COLLEGES</a></li>
-                    <li><a href="#">CONTACT US</a></li>
-                    <li><a href="/login">LOGIN</a></li>
-                </ul>
-                <div className="notifications">
-                    <i className="fas fa-bell"></i>
-                </div>
-                <div className="profile">
-                    <a href="/profile"><i className="fas fa-user-circle"></i></a>
-                </div>
-            </nav>
+            {/* Use imported Navbar component */}
+            <Navbar />
 
-            <div className="profile-container">
+            <div className={styles.profileContainer}>
                 <h1>Profile</h1>
-                <div className="profile-content">
-                    <div className="profile-icon">
+                <div className={styles.profileContent}>
+                    <div className={styles.profileIcon}>
                         <i className="fas fa-user-circle fa-10x"></i>
                         <p><a href="#">Upload Photo</a></p>
                         <h2>STUDENT</h2>
-                        <button className="change-password-btn">Change Password</button>
+                        <button className={styles.changePasswordBtn}>Change Password</button>
                     </div>
-                    <div className="profile-details">
+                    <div className={styles.profileDetails}>
                         <form onSubmit={handleSubmit}>
                             <table>
                                 <tbody>
@@ -148,18 +126,9 @@ const Profile = () => {
                                     </tr>
                                 </tbody>
                             </table>
-                            <button type="submit" className="submit-btn">Update Profile</button>
+                            <button type="submit" className={styles.submitBtn}>Update Profile</button>
                         </form>
                     </div>
-                </div>
-            </div>
-
-            <div className="footer-bar">
-                <div className="email-contact">
-                    <i className="fa fa-envelope"></i> email1@periodt.com
-                </div>
-                <div className="email-contact">
-                    <i className="fa fa-envelope"></i> email2@periodt.com
                 </div>
             </div>
         </div>

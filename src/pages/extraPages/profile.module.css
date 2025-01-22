@@ -1,4 +1,6 @@
-.profile-container {
+/* profile.module.css */
+
+.profileContainer {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -10,66 +12,66 @@
     align-items: flex-start;
 }
 
-.profile-container h1 {
+.profileContainer h1 {
     text-align: left;
     width: 100%;
     margin-bottom: 20px;
     color: white; /* Adjust the color as needed */
 }
 
-.profile-content {
+.profileContent {
     display: flex;
     align-items: flex-start;
     width: 100%;
 }
 
-.profile-icon {
+.profileIcon {
     text-align: left;
     margin-right: 20px;
 }
 
-.profile-icon i {
+.profileIcon i {
     color: #333;
 }
 
-.profile-icon p {
+.profileIcon p {
     text-align: center;
     margin-top: 10px;
 }
-.profile-icon p a {
+
+.profileIcon p a {
     text-decoration: none;
     color: white;
 }
 
-.profile-icon h2 {
+.profileIcon h2 {
     text-align: center;
     color: white; /* Adjust the color as needed */
     margin-top: 10px;
 }
 
-
-.profile-details {
+.profileDetails {
     flex-grow: 1;
 }
 
-.profile-details table {
+.profileDetails table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.profile-details table td {
+.profileDetails table td {
     padding: 10px;
     vertical-align: top;
 }
 
-.profile-details table td label {
+.profileDetails table td label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
     color: white; /* Adjust the color as needed */
 }
 
-.profile-details table td input {
+.profileDetails table td input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -77,13 +79,11 @@
     background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
 }
 
-.profile-details table td input:focus {
+.profileDetails table td input:focus {
     background-color: rgba(224, 210, 210, 1); /* Slightly darker on focus */
 }
 
-
-
-.change-password-btn {
+.changePasswordBtn {
     display: block;
     margin: 10px auto;
     padding: 10px 20px;
@@ -96,6 +96,23 @@
     font-weight: bold;
 }
 
-.change-password-btn:hover {
-opacity: .9;
+.changePasswordBtn:hover {
+    opacity: .9;
+}
+
+.footerBar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+}
+
+.emailContact {
+    display: flex;
+    align-items: center;
+}
+
+.emailContact i {
+    margin-right: 10px;
 }
