@@ -1,14 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './tryouts-training-student.module.css';
-import Navbar from './Navbar';  // Import Navbar component
+import Navbar from '../Navbar';
+import axios from 'axios';
 
 const TryoutsTraining = () => {
+  const [trainingData, setTrainingData] = useState({
+    tryouts: [],
+    freeTraining: []
+  });
+
+  const [registrations, setRegistrations] = useState([]);
+  const [coaches, setCoaches] = useState({});
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
   const [cancelled, setCancelled] = useState(false);
   const [target, setTarget] = useState('');
 
-  // Handle cancel button click
+  // Fetch data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch registration data
+        const registrationResponse = await axios.get('http://localhost:5000/api/registration');
+        console.log('Fetched registrations:', registrationResponse.data);
+        setRegistrations(registrationResponse.data); // Store registration data
+
+        // Fetch coach data
+        const coachResponse = await axios.get('http://localhost:5000/api/coaches');
+        console.log('Fetched coaches:', coachResponse.data);
+        const coachMap = coachResponse.data.reduce((acc, coach) => {
+          acc[coach.sport] = coach; // Store coaches by sport type or any other key
+          return acc;
+        }, {});
+        setCoaches(coachMap); // Store coaches data in the state
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleCancelButtonClick = (type) => {
     if (type === 'tryouts' && cancelled) {
       setAlertVisible(true);
@@ -18,34 +51,25 @@ const TryoutsTraining = () => {
     }
   };
 
-  // Confirm cancellation
   const handleConfirmCancel = () => {
-    if (target === 'tryouts') {
-      setCancelled(true); // Mark tryouts as cancelled
-    }
-    if (target === 'training') {
-      setCancelled(true); // Mark training as cancelled
+    if (target === 'tryouts' || target === 'training') {
+      setCancelled(true);
     }
     setConfirmationVisible(false);
   };
 
-  // Handle alert modal close
   const handleAlertClose = () => {
     setAlertVisible(false);
   };
 
   return (
     <div>
-      {/* Navbar Component */}
       <Navbar />
-
-      {/* Main Content */}
       <section className={styles.mainContents}>
         <h1>TRYOUTS/TRAINING</h1>
         <h2>TRYOUTS & TRAINING SCHEDULE</h2>
       </section>
 
-      {/* Active History Title */}
       <section className={styles.activeHistoryTitle}>
         <h2>Active Booking</h2>
       </section>
@@ -65,17 +89,24 @@ const TryoutsTraining = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Jane Smith</td>
-              <td>CEIT</td>
-              <td>BSCS 3-2</td>
-              <td>Badminton</td>
-              <td>10:00am-12:00pm, January 10, 2025</td>
-              <td className={styles.statusCell}>{cancelled ? '' : 'Confirmed'}</td>
-            </tr>
+            {registrations.length > 0 ? (
+              registrations.map((registration) => (
+                <tr key={registration._id}>
+                  <td>{registration.firstName} {registration.lastName}</td>
+                  <td>{registration.college}</td>
+                  <td>{registration.course} / {registration.yearSection}</td>
+                  <td>{coaches[registration.sport]?.name || 'Not Assigned'}</td>
+                  <td>{/* Add any time/date logic if applicable */}</td>
+                  <td className={styles.statusCell}>{registration.status}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">No registrations found</td>
+              </tr>
+            )}
           </tbody>
         </table>
-        <h3>Coach: Labrador Colirado</h3>
         <button
           className={styles.confirmCancelBookingButton}
           style={{ backgroundColor: cancelled ? 'gray' : '' }}
@@ -100,17 +131,24 @@ const TryoutsTraining = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Jane Smith</td>
-              <td>CEIT</td>
-              <td>BSCS 3-2</td>
-              <td>Javelin</td>
-              <td>10:00am-12:00pm, January 10, 2025</td>
-              <td className={styles.statusCell}>{cancelled ? '' : 'Confirmed'}</td>
-            </tr>
+            {trainingData.freeTraining.length > 0 ? (
+              trainingData.freeTraining.map((training, index) => (
+                <tr key={index}>
+                  <td>{training.name}</td>
+                  <td>{training.college}</td>
+                  <td>{training.courseYearSection}</td>
+                  <td>{training.sport}</td>
+                  <td>{training.timeAndDate}</td>
+                  <td className={styles.statusCell}>{cancelled ? '' : 'Confirmed'}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">No free training available</td>
+              </tr>
+            )}
           </tbody>
         </table>
-        <h3>Coach: Labrador Colirado</h3>
         <button
           className={styles.confirmCancelBookingButton}
           style={{ backgroundColor: cancelled ? 'gray' : '' }}
@@ -120,7 +158,7 @@ const TryoutsTraining = () => {
         </button>
       </section>
 
-      {/* Confirmation Modal */}
+      {/* Confirmation and Alert Modals */}
       {confirmationVisible && (
         <div id="confirmation-modal" className={styles.confirmationModal}>
           <div className={styles.confirmationBox}>
@@ -133,7 +171,6 @@ const TryoutsTraining = () => {
         </div>
       )}
 
-      {/* Alert Modal */}
       {alertVisible && (
         <div id="alert-modal" className={styles.confirmationModal}>
           <div className={styles.confirmationBox}>
@@ -144,7 +181,6 @@ const TryoutsTraining = () => {
         </div>
       )}
 
-      {/* Footer with Email Contacts */}
       <div className={styles.footerBar}>
         <div className={styles.emailContact}>
           <i className="fa fa-envelope"></i> email1@periodt.com

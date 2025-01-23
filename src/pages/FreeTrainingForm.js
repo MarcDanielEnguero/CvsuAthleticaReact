@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import TrainingContext from './TrainingContext';
 import styles from './FreeTrainingForm.module.css'; // Import the CSS module
 
@@ -28,21 +27,33 @@ const FreeTrainingForm = () => {
     const { name, value } = e.target;
     setLocalFormData({ ...formData, [name]: value });
 
+    // Check if all fields are filled out
     const allFieldsFilled = Object.values({ ...formData, [name]: value }).every(
       (field) => field.trim() !== ''
     );
     setIsFormValid(allFieldsFilled);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormData(formData); // Save form data to context
-    navigate('/coaches'); // Redirect to FtCoaches
+    setFormData({ ...formData, type: 'free-training' }); // Add type field when submitting form
+
+    try {
+      // Send the form data to the backend using axios
+      const response = await axios.post('http://localhost:5000/api/free-training', formData);
+
+      // Handle response
+      console.log('Form submitted successfully:', response.data);
+      setMessage(response.data.message); // Display success message
+      navigate('/coaches'); // Redirect to coach selection page
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setMessage('Failed to submit form. Please try again.');
+    }
   };
 
   return (
     <>
-      <Navbar />
       <div className={styles.registrationContainer}>
         <div className={styles.registrationBox}>
           <h2>FREE-TRAINING FORM</h2>

@@ -52,7 +52,7 @@ const Navbar = () => {
       <ul className="nav-links">
         <li><Link to="/landing">HOME</Link></li>
         <li><Link to="/aboutUs">ABOUT</Link></li>
-        <li><Link to="/free-training-form">TRYOUTS</Link></li>
+        <li><Link to="/tryouts-training-student">TRYOUTS/TRAINING</Link></li>
         <li><Link to="/events">EVENTS</Link></li>
         <li><Link to="/campusIndex">COLLEGES</Link></li>
         <li><Link to="/contactUs">CONTACT US</Link></li>

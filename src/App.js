@@ -15,6 +15,8 @@ import Navbar from './pages/Navbar';
 import CoachProfile from './pages/extraPages/coach-profile';
 import ForgetPassword from './pages/extraPages/forget-password';
 import Profile from './pages/extraPages/profile';
+import TryoutsTraining from './pages/extraPages/tryouts-training-student';
+import TryoutSchedule from './pages/extraPages/tryout-schedule';
 
 const App = () => {
   return (
@@ -48,6 +50,22 @@ const App = () => {
                 element={
                   <PublicRoute>
                     <Profile />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/tryouts-training-student"
+                element={
+                  <PublicRoute>
+                    <TryoutsTraining />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/tryout-schedule"
+                element={
+                  <PublicRoute>
+                    <TryoutSchedule />
                   </PublicRoute>
                 }
               />

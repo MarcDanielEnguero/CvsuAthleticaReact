@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "./Navbar"; // Import the existing Navbar component
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./Landing.css"; // Import your styles for the Landing page
 import beeLogo from '../assets/img/bee-logo.png';
 import banner1 from '../assets/img/banner1.png';
@@ -8,6 +9,8 @@ import banner3 from '../assets/img/banner3.png';
 import news from '../assets/img/news.png';
 
 const Landing = () => {
+
+  const navigate = useNavigate(); // Initialize useNavigate
   useEffect(() => {
     // Banner slider logic
     const slidesContainer = document.querySelector(".banner-slide");
@@ -166,7 +169,12 @@ const Landing = () => {
               <p><span>Date:</span> November 00, 0000</p>
               <p><span>Time:</span> 00:00 PM</p>
               <p><span>Place:</span> Palawan State University, Gymnasium</p>
-              <button className="apply-btn">Apply Now</button>
+              <button
+                  className="apply-btn"
+                  onClick={() => navigate("/free-training-form")}
+                >
+                  Apply Now
+                </button>
             </div>
           </div>
 
@@ -176,7 +184,12 @@ const Landing = () => {
               <p><span>Date:</span> November 00, 0000</p>
               <p><span>Time:</span> 00:00 PM</p>
               <p><span>Place:</span> Palawan State University, Gymnasium</p>
-              <button className="apply-btn">Apply Now</button>
+              <button
+                  className="apply-btn"
+                  onClick={() => navigate("/free-training-form")}
+                >
+                  Apply Now
+                </button>
             </div>
           </div>
 
@@ -186,7 +199,12 @@ const Landing = () => {
               <p><span>Date:</span> November 00, 0000</p>
               <p><span>Time:</span> 00:00 PM</p>
               <p><span>Place:</span> Palawan State University, Gymnasium</p>
-              <button className="apply-btn">Apply Now</button>
+              <button
+                  className="apply-btn"
+                  onClick={() => navigate("/free-training-form")}
+                >
+                  Apply Now
+                </button>
             </div>
           </div>
         </div>
