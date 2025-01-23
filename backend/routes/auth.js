@@ -4,140 +4,101 @@ const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 
 const router = express.Router();
-
-// Create a Google OAuth client
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-// Regular email/password login route
+// Regular login route
 router.post('/login', async (req, res) => {
+  console.log('Login attempt received:', req.body);
+  
   try {
     const { email, password } = req.body;
 
-    // Validate input
     if (!email || !password) {
-      return res.status(400).json({ error: 'Please provide both email and password' });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Find user by email
     const user = await User.findOne({ email });
+    console.log('User found:', user ? 'yes' : 'no');
 
-    // Check if user exists
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Verify password
     const isValidPassword = await user.comparePassword(password);
+    console.log('Password valid:', isValidPassword);
+
     if (!isValidPassword) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check if user is active
-    if (!user.isActive) {
-      return res.status(403).json({ error: 'Account is inactive' });
-    }
-
-    // Generate JWT token
     const token = jwt.sign(
-      { 
-        id: user._id, 
-        email: user.email, 
-        role: user.role 
-      },
-      process.env.JWT_SECRET,
+      { id: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
 
-    // Send successful response
-    res.status(200).json({
-      message: 'Login successful',
+    res.json({
       token,
       user: {
         email: user.email,
         role: user.role
       }
     });
-
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed. Please try again.' });
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
 // Google login route
 router.post('/google', async (req, res) => {
+  console.log('Google login attempt received');
+  
   try {
     const { credential } = req.body;
 
     if (!credential) {
-      console.error('No credential provided');
       return res.status(400).json({ error: 'No credential provided' });
     }
 
-    // Verify the Google ID token
     const ticket = await client.verifyIdToken({
       idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: process.env.GOOGLE_CLIENT_ID
     });
 
     const payload = ticket.getPayload();
-    console.log('Google payload:', payload);
+    console.log('Google payload email:', payload.email);
 
-    // Check if the email is from CvSU domain
     if (!payload.email.endsWith('@cvsu.edu.ph')) {
-      console.error('Invalid email domain:', payload.email);
-      return res.status(403).json({ 
-        error: 'Please use your CvSU email address to login.' 
-      });
+      return res.status(403).json({ error: 'Please use your CvSU email' });
     }
 
-    // Find or create user
     let user = await User.findOne({ email: payload.email });
 
     if (!user) {
-      // Create new user if doesn't exist
       user = await User.create({
         email: payload.email,
         googleId: payload.sub,
-        role: 'student',
-        isActive: true
+        role: 'student'
       });
-      console.log('New user created:', user.email);
-    } else {
-      // Update existing user's Google ID if not set
-      if (!user.googleId) {
-        user.googleId = payload.sub;
-        await user.save();
-        console.log('Updated existing user with Google ID:', user.email);
-      }
     }
 
-    // Generate JWT token
     const token = jwt.sign(
-      { 
-        id: user._id, 
-        email: user.email, 
-        role: user.role 
-      },
-      process.env.JWT_SECRET,
+      { id: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
 
-    // Send successful response
-    res.status(200).json({
-      message: 'Login successful',
+    res.json({
       token,
       user: {
         email: user.email,
         role: user.role
       }
     });
-
   } catch (error) {
-    console.error('Google authentication error:', error);
-    res.status(500).json({ 
-      error: 'Authentication failed. Please try again.' 
-    });
+    console.error('Google login error:', error);
+    res.status(500).json({ error: 'Authentication failed' });
   }
 });
 
