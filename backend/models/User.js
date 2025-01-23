@@ -6,19 +6,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
-    trim: true
   },
   password: {
     type: String,
     required: function() {
-      return !this.googleId;
-    }
+      return !this.googleId; // Password only required if not Google auth
+    },
   },
   googleId: {
     type: String,
     unique: true,
-    sparse: true
+    sparse: true // Allows null values to not count for uniqueness
   },
   role: {
     type: String,
@@ -28,17 +26,18 @@ const userSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
-}, {
-  timestamps: true
 });
 
-userSchema.pre('save', async function(next) {
+// Hash password before saving (only if password exists)
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password') || !this.password) return next();
+
   try {
-    if (!this.isModified('password') || !this.password) {
-      return next();
-    }
-    
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
@@ -47,14 +46,10 @@ userSchema.pre('save', async function(next) {
   }
 });
 
+// Method to check password validity
 userSchema.methods.comparePassword = async function(candidatePassword) {
-  try {
-    if (!this.password) return false;
-    return await bcrypt.compare(candidatePassword, this.password);
-  } catch (error) {
-    console.error('Password comparison error:', error);
-    return false;
-  }
+  if (!this.password) return false;
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);

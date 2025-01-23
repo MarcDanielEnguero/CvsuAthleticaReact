@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import styles from './Login.module.css';
 import logo from '../assets/img/logo.png';
 import Navbar from './Navbar';
 
 const Login = () => {
-  const { login, error: authError } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,8 +18,14 @@ const Login = () => {
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
-      script.onload = initializeGoogleClient;
-      script.onerror = () => setError('Failed to load Google Sign-In');
+      script.onload = () => {
+        console.log('Google API script loaded.');
+        initializeGoogleClient();
+      };
+      script.onerror = () => {
+        console.error('Failed to load Google API script.');
+        setError('Failed to load Google Sign-In. Please try again.');
+      };
       document.head.appendChild(script);
     };
 
@@ -40,7 +44,7 @@ const Login = () => {
     if (response.credential) {
       try {
         setLoading(true);
-        const apiUrl = 'http://localhost:5000/api/auth/google';
+        const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/google`;
         const backendResponse = await axios.post(apiUrl, {
           credential: response.credential,
         });
@@ -50,6 +54,8 @@ const Login = () => {
           localStorage.setItem('user', JSON.stringify(backendResponse.data.user));
           setError('');
           navigate('/landing');
+        } else {
+          throw new Error('No token received from server');
         }
       } catch (err) {
         console.error('Google login error:', err);
@@ -83,32 +89,43 @@ const Login = () => {
           text: 'continue_with',
         }
       );
+
+      console.log('Google Client initialized and button rendered.');
     } catch (err) {
       console.error('Error initializing Google Sign-In:', err);
-      setError('Failed to initialize Google Sign-In');
+      setError('Failed to initialize Google Sign-In. Please refresh the page.');
     }
   };
 
-  const handleLogin = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
     try {
-      console.log('Attempting login to:', 'http://localhost:5000/api/auth/login');
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
-        email,
-        password
+      // Make sure this matches your backend route
+      const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/login`;
+      const response = await axios.post(apiUrl, { 
+        email, 
+        password 
       });
 
+      // Check if we have both token and user data
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        if (response.data.user) {
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+        }
         navigate('/landing');
+      } else {
+        throw new Error('Invalid response from server');
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError(err.response?.data?.error || 'Login failed. Please check your credentials.');
+      setError(
+        err.response?.data?.error || 
+        'Login failed. Please check your credentials.'
+      );
     } finally {
       setLoading(false);
     }
@@ -121,7 +138,7 @@ const Login = () => {
         <div className={styles.loginContainer}>
           <img src={logo} alt="CvSU Athletica" className={styles.logo} />
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleFormSubmit}>
             <div className={styles.formGroup}>
               <label htmlFor="email">Email</label>
               <input
@@ -160,14 +177,9 @@ const Login = () => {
             <span>Or With</span>
           </div>
 
-          <div 
-            id="google-signin-button" 
-            className={styles.googleBtn}
-          />
+          <div id="google-signin-button" className={styles.googleBtn} />
 
-          {(error || authError) && (
-            <p className={styles.errorMessage}>{error || authError}</p>
-          )}
+          {error && <p className={styles.errorMessage}>{error}</p>}
         </div>
 
         <div className={styles.loginFooter}>
