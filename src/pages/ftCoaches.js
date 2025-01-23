@@ -6,7 +6,7 @@ import TrainingContext from './TrainingContext';
 import styles from './ftCoaches.module.css';
 
 const FtCoaches = () => {
-  const { formData, coachSelection, setCoachSelection, setFormData } = useContext(TrainingContext);
+  const { formData, coachSelection, setCoachSelection } = useContext(TrainingContext);
   const navigate = useNavigate();
 
   // State Management
@@ -59,8 +59,8 @@ const FtCoaches = () => {
       'course', 'yearSection', 'cvsuEmail',
     ];
 
-    const isFormComplete = requiredFields.every(field =>
-      formData[field] && formData[field].trim() !== ''
+    const isFormComplete = requiredFields.every(
+      (field) => formData[field] && formData[field].trim() !== ''
     );
 
     if (!isFormComplete) {
@@ -70,8 +70,7 @@ const FtCoaches = () => {
 
   // Coach Selection Handler
   const handleCoachSelection = (e) => {
-    const selectedCoach = e.target.value;
-    setCoachSelection(selectedCoach);
+    setCoachSelection(e.target.value);
     setConfirmationMessage('');
   };
 
@@ -91,51 +90,29 @@ const FtCoaches = () => {
     setErrorDetails([]);
 
     try {
-      // Combine form data with coach selection
       const dataToSubmit = {
         ...formData,
         coach: coachSelection,
-        type: 'free-training',  // Add the form type for identifying the registration
+        type: 'freeTraining',
       };
 
-      // Send registration data to backend
-      const response = await axios.post('http://localhost:5000/api/free-training', dataToSubmit);
+      const response = await axios.post('http://localhost:5000/api/registration', dataToSubmit);
 
-      // Handle successful registration
       setConfirmationMessage('Registration successful! You will be contacted shortly.');
       setShowModal(false);
-      
-      // Navigate to confirmation page with registrationId
+
       navigate('/confirmation', {
         state: {
           registrationId: response.data.registrationId,
           coachName: coachSelection,
         },
       });
-
     } catch (error) {
-      console.error('Registration error:', error.response?.data || error.message);
-
-      // Handle different error scenarios
       if (error.response) {
-        const errorData = error.response.data;
-        
-        if (errorData.errors) {
-          // Validation errors from backend
-          setErrorDetails(errorData.errors);
-          setConfirmationMessage('Registration failed. Please check the details.');
-        } else if (errorData.error) {
-          // Specific error message from backend
-          setConfirmationMessage(errorData.error);
-        } else {
-          setConfirmationMessage('Registration failed. Please try again.');
-        }
-      } else if (error.request) {
-        // No response from server
-        setConfirmationMessage('No response from server. Please check your internet connection.');
+        setErrorDetails(error.response.data.errors || []);
+        setConfirmationMessage(error.response.data.error || 'Registration failed. Please try again.');
       } else {
-        // Request setup error
-        setConfirmationMessage('An unexpected error occurred.');
+        setConfirmationMessage('An unexpected error occurred. Please check your connection.');
       }
     } finally {
       setIsLoading(false);
@@ -152,12 +129,11 @@ const FtCoaches = () => {
   return (
     <div className={styles.container}>
       <Navbar />
-      
+
       <section className={styles.coachSection}>
         <div className={styles.registrationBox}>
           <h2>Coach Selection</h2>
-          
-          {/* Coach Selection Dropdown */}
+
           <div className={styles.coachSelectionBox}>
             <label htmlFor="coachSelect" className={styles.selectCoachTitle}>
               Select Coach:
@@ -177,7 +153,6 @@ const FtCoaches = () => {
             </select>
           </div>
 
-          {/* Coach Schedules Table */}
           <table className={styles.scheduleTable}>
             <thead>
               <tr>
@@ -205,7 +180,6 @@ const FtCoaches = () => {
             </tbody>
           </table>
 
-          {/* Confirmation Buttons */}
           <div className={styles.buttons}>
             <button
               type="button"
@@ -217,7 +191,6 @@ const FtCoaches = () => {
             </button>
           </div>
 
-          {/* Confirmation Message */}
           {confirmationMessage && (
             <div className={styles.confirmationMessage}>
               {confirmationMessage}
@@ -226,13 +199,10 @@ const FtCoaches = () => {
         </div>
       </section>
 
-      {/* Confirmation Modal */}
       {showModal && (
         <div className={`${styles.confirmationModal} ${styles.show}`}>
           <div className={styles.confirmationBox}>
             <h3>Confirm Registration</h3>
-            
-            {/* Error Details */}
             {errorDetails.length > 0 && (
               <div className={styles.errorContainer}>
                 <h4>Please correct the following:</h4>
@@ -244,27 +214,17 @@ const FtCoaches = () => {
               </div>
             )}
 
-            {/* Loading State */}
             {isLoading ? (
-              <div className={styles.loadingSpinner}>
-                Processing registration...
-              </div>
+              <div className={styles.loadingSpinner}>Processing registration...</div>
             ) : (
               <>
                 <p>You are selecting: {coachSelection}</p>
                 <p>Are you sure you want to proceed with this registration?</p>
-                
                 <div className={styles.modalButtons}>
-                  <button
-                    className={styles.confirmBooking}
-                    onClick={handleConfirmBooking}
-                  >
+                  <button className={styles.confirmBooking} onClick={handleConfirmBooking}>
                     Confirm Booking
                   </button>
-                  <button
-                    className={styles.cancelBooking}
-                    onClick={handleCloseModal}
-                  >
+                  <button className={styles.cancelBooking} onClick={handleCloseModal}>
                     Cancel
                   </button>
                 </div>
