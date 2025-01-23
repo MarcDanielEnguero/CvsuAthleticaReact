@@ -2,186 +2,198 @@
 
 /* Style for the active history title section */
 .activeHistoryTitle {
-    /* Add styles if needed */
-  }
-  
-  /* Style for the h2 element inside the active history title section */
-  .activeHistoryTitle h2,
-  .activeHistoryTitle1 h2 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ffffff;
-      margin: 0;
-      padding: 10px 0;
-      margin-left: 250px;
-      margin-bottom: 10px;
-  }
-  
-  .activeHistoryTitle1 {
-      border-top: #ffffff 2px solid;
-      margin-top: 60px;
-      margin-bottom: 30px;
-      margin-left: 100px;
-      margin-right: 100px;
-  }
-  
-  
-  /* tryouts-training-student.module.css */
-  
-  /* Style for the tryouts container */
-  .tryoutsContainer {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      background-color: rgba(175, 14, 14, 0.314);
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      outline: 2px solid black;
-      margin-bottom: 30px;
-  }
-  
-  /* Style for the tryouts title */
-  .tryoutsContainer h2 {
-      color: white;
-      text-align: left;
-      margin-bottom: 20px;
-  }
-  
-  .tryoutsContainer p {
-      color: white;
-      text-align: left;
-      margin-bottom: 20px;
-      margin: 0;
-  }
-  
-  .tryoutsContainer h2,
-  .tryoutsContainer p {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0 100px 0px 0;
-      margin-bottom: 20px;
-  }
-  
-  .tryoutsContainer h3 {
-      margin-top: 20px;
-      color: white;
-      text-align: right;
-      margin-bottom: 20px;
-      font-weight: normal;
-  }
-  
-  /* Style for the table */
-  .tryoutsContainer table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      color: white;
-      background-color: transparent;
-  }
-  
-  /* Style for the table headers */
-  .tryoutsContainer th {
-      border-bottom: 2px solid #fff;
-      padding: 12px;
-      text-align: center;
-  }
-  
-  /* Style for the table cells */
-  .tryoutsContainer td {
-      padding: 12px;
-      text-align: center;
-  }
-  
-  /* Style for the cancel button */
-  .confirmCancelBookingButton {
-      padding: 10px 20px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-      background-color: #f44336;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin: 10px 0;
-      display: flex;
-      justify-content: flex-end;
-      margin-left: auto;
-      margin-right: 30px;
-  }
-  
-  .confirmCancelBookingButton:hover {
-      background-color: #e53935;
-  }
-  
-  /* Modal Styling */
-  .confirmationModal,
-  .alertModal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1000;
-      width: 60%;
-      max-width: 500px;
-      padding: 20px;
-      border-radius: 10px;
-      justify-content: center;
-      align-items: center;
-  }
-  
-  /* Modal content box */
-  .confirmationBox {
-      background-color: rgba(40, 1, 1, 0.85);
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      color: white;
-      border: 3px solid #FFBB00;
-  }
-  
-  .confirmationBox h3 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #ffffff;
-      margin-bottom: 10px;
-  }
-  
-  .confirmationBox h2 {
-      font-size: 18px;
-      color: #ffffff;
-      text-align: center;
-  }
-  
-  /* Confirm and Cancel Button Styling */
-  .modalButtons .confirm {
-      background-color: #3B862C;
-  }
-  
-  .modalButtons .confirm:hover {
-      background-color: #03771e;
-  }
-  
-  .modalButtons .cancel {
-      background-color: #D32F2F;
-  }
-  
-  .modalButtons .cancel:hover {
-      background-color: #971111;
-  }
-  
-  .hidden {
-      display: none;
-  }
-  
-  .ok {
-      margin-top: 10px;
-      background-color: green;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-  }
-  
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Style for the h2 element inside the active history title section */
+.activeHistoryTitle h2,
+.activeHistoryTitle1 h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+.activeHistoryTitle1 {
+    border-top: 2px solid #ffffff;
+    margin: 60px 100px 30px;
+}
+
+/* tryouts-training-student.module.css */
+
+/* Style for the tryouts container */
+.tryoutsContainer {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: rgba(175, 14, 14, 0.85);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid black;
+}
+
+/* Style for the tryouts title */
+.tryoutsContainer h2 {
+    color: white;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.tryoutsContainer p {
+    color: white;
+    text-align: left;
+    margin: 0 0 20px 0;
+}
+
+.tryoutsContainer h2,
+.tryoutsContainer p {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 100px 20px 0;
+}
+
+.tryoutsContainer h3 {
+    margin-top: 20px;
+    color: white;
+    text-align: right;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+/* Style for the table */
+.tryoutsContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+    background-color: transparent;
+}
+
+/* Style for the table headers */
+.tryoutsContainer th {
+    border-bottom: 2px solid #fff;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Style for the table cells */
+.tryoutsContainer td {
+    padding: 12px;
+    text-align: center;
+}
+
+/* Style for the cancel button */
+.confirmCancelBookingButton {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px 30px 10px auto;
+    display: block;
+    text-align: right;
+}
+
+.confirmCancelBookingButton:hover {
+    background-color: #e53935;
+}
+
+/* Modal Styling */
+.confirmationModal,
+.alertModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal content box */
+.confirmationBox {
+    background-color: rgba(40, 1, 1, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    border: 3px solid #FFBB00;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.confirmationBox h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.confirmationBox p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Confirm and Cancel Button Styling */
+.modalButtons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.modalButtons .confirm {
+    background-color: #3B862C;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modalButtons .confirm:hover {
+    background-color: #03771e;
+}
+
+.modalButtons .cancel {
+    background-color: #D32F2F;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modalButtons .cancel:hover {
+    background-color: #971111;
+}
+
+/* Hidden Class */
+.hidden {
+    display: none;
+}
+
+/* Fade-in Animation */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
