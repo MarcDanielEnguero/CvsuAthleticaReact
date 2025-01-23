@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import styles from './Login.module.css';
 import logo from '../assets/img/logo.png';
-import Navbar from './Navbar';
 
 const Login = () => {
+  const { login, error: authError } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,34 +14,55 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadGoogleScript = () => {
+    const loadGoogleSignIn = () => {
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
-      script.onload = () => {
-        console.log('Google API script loaded.');
-        initializeGoogleClient();
-      };
-      script.onerror = () => {
-        console.error('Failed to load Google API script.');
-        setError('Failed to load Google Sign-In. Please try again.');
-      };
+      script.onload = initializeGoogleClient;
+      script.onerror = () => setError('Failed to load Google Sign-In');
       document.head.appendChild(script);
+
+      return () => {
+        document.head.removeChild(script);
+      };
     };
 
-    if (!window.google) {
-      loadGoogleScript();
-    } else {
-      initializeGoogleClient();
-    }
-
-    return () => {
-      window.google?.accounts?.id?.cancel();
-    };
+    loadGoogleSignIn();
   }, []);
 
-  const handleCredentialResponse = async (response) => {
+  const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    timeout: 10000 // 10 seconds
+  });
+  
+
+  const initializeGoogleClient = () => {
+    try {
+      window.google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        callback: handleGoogleSignIn
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        { 
+          theme: 'outline', 
+          size: 'large', 
+          text: 'continue_with' 
+        }
+      );
+    } catch (err) {
+      console.error('Error initializing Google Sign-In:', err);
+      setError('Failed to initialize Google Sign-In');
+    }
+  };
+
+  const handleGoogleSignIn = async (response) => {
     if (response.credential) {
       try {
         setLoading(true);
@@ -50,143 +72,116 @@ const Login = () => {
         });
 
         if (backendResponse.data.token) {
+          login(backendResponse.data.token, backendResponse.data.user);
           localStorage.setItem('token', backendResponse.data.token);
           localStorage.setItem('user', JSON.stringify(backendResponse.data.user));
           setError('');
           navigate('/landing');
-        } else {
-          throw new Error('No token received from server');
         }
       } catch (err) {
         console.error('Google login error:', err);
-        setError('Login failed. Please ensure you are using a valid CvSU email.');
+        setError(err.response?.data?.error || 'Google login failed');
       } finally {
         setLoading(false);
       }
     }
   };
 
-  const initializeGoogleClient = () => {
-    if (!window.google?.accounts?.id) {
-      setTimeout(initializeGoogleClient, 100);
-      return;
-    }
-
-    try {
-      window.google.accounts.id.initialize({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        callback: handleCredentialResponse,
-        auto_select: false,
-        hosted_domain: 'cvsu.edu.ph',
-        cancel_on_tap_outside: true,
-      });
-
-      window.google.accounts.id.renderButton(
-        document.getElementById('google-signin-button'),
-        {
-          theme: 'outline',
-          size: 'large',
-          text: 'continue_with',
-        }
-      );
-
-      console.log('Google Client initialized and button rendered.');
-    } catch (err) {
-      console.error('Error initializing Google Sign-In:', err);
-      setError('Failed to initialize Google Sign-In. Please refresh the page.');
-    }
-  };
-
-  const handleFormSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
     try {
-      // Make sure this matches your backend route
       const apiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/auth/login`;
-      const response = await axios.post(apiUrl, { 
-        email, 
-        password 
+      const response = await axios.post(apiUrl, {
+        email,
+        password
       });
-
-      // Check if we have both token and user data
+  
       if (response.data.token) {
+        login(response.data.token, response.data.user);
         localStorage.setItem('token', response.data.token);
-        if (response.data.user) {
-          localStorage.setItem('user', JSON.stringify(response.data.user));
-        }
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         navigate('/landing');
-      } else {
-        throw new Error('Invalid response from server');
       }
     } catch (err) {
-      console.error('Login error:', err);
-      setError(
-        err.response?.data?.error || 
-        'Login failed. Please check your credentials.'
-      );
+      console.error('Full error:', err);
+      console.error('Error response:', err.response);
+      
+      // More detailed error logging
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Data:', err.response.data);
+        console.error('Status:', err.response.status);
+        console.error('Headers:', err.response.headers);
+        
+        setError(err.response.data?.message || 'Server error');
+      } else if (err.request) {
+        // The request was made but no response was received
+        console.error('Request:', err.request);
+        setError('No response from server');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error:', err.message);
+        setError('Error setting up request');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <Navbar />
-      <div className={styles.loginBackgroundContainer}>
-        <div className={styles.loginContainer}>
-          <img src={logo} alt="CvSU Athletica" className={styles.logo} />
-
-          <form onSubmit={handleFormSubmit}>
-            <div className={styles.formGroup}>
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="example@cvsu.edu.ph"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className={styles.forgotPassword}>
-              <a href="/forgot-password">Forgot Password</a>
-            </div>
-            <button
-              type="submit"
-              className={styles.loginBtn}
-              disabled={loading}
-            >
-              {loading ? 'Signing in...' : 'Login'}
-            </button>
-          </form>
-
+    <div className={styles.loginBackgroundContainer}>
+      <div className={styles.loginContainer}>
+        <img src={logo} alt="CvSU Athletica" className={styles.logo} />
+        <form onSubmit={handleLogin}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button 
+            type="submit" 
+            className={styles.loginBtn}
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
           <div className={styles.orDivider}>
             <span>Or With</span>
           </div>
-
-          <div id="google-signin-button" className={styles.googleBtn} />
-
-          {error && <p className={styles.errorMessage}>{error}</p>}
-        </div>
-
+          <div 
+            id="google-signin-button" 
+            className={styles.googleBtn}
+          />
+          {(error || authError) && (
+            <p className={styles.errorMessage}>{error || authError}</p>
+          )}
+        </form>
         <div className={styles.loginFooter}>
-          <p>csgmain@cvsu.edu.ph | cvsu.cspear.sc@cvsu.edu.ph</p>
+          <p>© 2024 CvSU Athletica</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

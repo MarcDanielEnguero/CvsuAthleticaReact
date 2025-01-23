@@ -2,39 +2,65 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
-
 const router = express.Router();
-
-// Create a Google OAuth client
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-// Regular email/password login route
-router.post('/login', async (req, res) => {
+// Validation middleware
+const validateRequest = (req, res, next) => {
+  console.log('Received request:', {
+    method: req.method,
+    path: req.path,
+    body: req.body,
+    headers: req.headers
+  });
+  next();
+};
+
+// Login route with enhanced error handling
+router.post('/login', validateRequest, async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Validate input
     if (!email || !password) {
-      return res.status(400).json({ error: 'Please provide both email and password' });
+      return res.status(400).json({ 
+        success: false,
+        message: 'Email and password are required' 
+      });
     }
 
     // Find user by email
-    const user = await User.findOne({ email });
-
-    // Check if user exists
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'User not found' 
+      });
+    }
+
+    // Check if it's a Google account
+    if (user.googleId && !user.password) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'This account uses Google Sign-In. Please login with Google.'
+      });
     }
 
     // Verify password
     const isValidPassword = await user.comparePassword(password);
     if (!isValidPassword) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ 
+        success: false,
+        message: 'Invalid credentials' 
+      });
     }
 
     // Check if user is active
     if (!user.isActive) {
-      return res.status(403).json({ error: 'Account is inactive' });
+      return res.status(403).json({ 
+        success: false,
+        message: 'Account is inactive' 
+      });
     }
 
     // Generate JWT token
@@ -44,13 +70,13 @@ router.post('/login', async (req, res) => {
         email: user.email, 
         role: user.role 
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
 
     // Send successful response
     res.status(200).json({
-      message: 'Login successful',
+      success: true,
       token,
       user: {
         email: user.email,
@@ -60,56 +86,61 @@ router.post('/login', async (req, res) => {
 
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed. Please try again.' });
+    res.status(500).json({ 
+      success: false,
+      message: 'Login failed. Please try again.',
+      error: error.message 
+    });
   }
 });
 
-// Google login route
-router.post('/google', async (req, res) => {
+// Google login route with enhanced validation
+router.post('/google', validateRequest, async (req, res) => {
   try {
     const { credential } = req.body;
 
     if (!credential) {
-      console.error('No credential provided');
-      return res.status(400).json({ error: 'No credential provided' });
+      return res.status(400).json({ 
+        success: false,
+        message: 'No credential provided' 
+      });
     }
 
     // Verify the Google ID token
     const ticket = await client.verifyIdToken({
       idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: process.env.GOOGLE_CLIENT_ID
     });
 
     const payload = ticket.getPayload();
-    console.log('Google payload:', payload);
+    const email = payload.email;
 
-    // Check if the email is from CvSU domain
-    if (!payload.email.endsWith('@cvsu.edu.ph')) {
-      console.error('Invalid email domain:', payload.email);
+    // Validate CvSU email domain
+    if (!email.endsWith('@cvsu.edu.ph')) {
       return res.status(403).json({ 
-        error: 'Please use your CvSU email address to login.' 
+        success: false,
+        message: 'Please use your CvSU email address to login.' 
       });
     }
 
     // Find or create user
-    let user = await User.findOne({ email: payload.email });
+    let user = await User.findOne({ email });
 
     if (!user) {
       // Create new user if doesn't exist
       user = await User.create({
-        email: payload.email,
+        email,
         googleId: payload.sub,
         role: 'student',
-        isActive: true
+        isActive: true,
+        name: payload.name || ''
       });
       console.log('New user created:', user.email);
-    } else {
+    } else if (!user.googleId) {
       // Update existing user's Google ID if not set
-      if (!user.googleId) {
-        user.googleId = payload.sub;
-        await user.save();
-        console.log('Updated existing user with Google ID:', user.email);
-      }
+      user.googleId = payload.sub;
+      await user.save();
+      console.log('Updated existing user with Google ID:', user.email);
     }
 
     // Generate JWT token
@@ -119,24 +150,27 @@ router.post('/google', async (req, res) => {
         email: user.email, 
         role: user.role 
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '24h' }
     );
 
     // Send successful response
     res.status(200).json({
-      message: 'Login successful',
+      success: true,
       token,
       user: {
         email: user.email,
-        role: user.role
+        role: user.role,
+        name: user.name
       }
     });
 
   } catch (error) {
     console.error('Google authentication error:', error);
     res.status(500).json({ 
-      error: 'Authentication failed. Please try again.' 
+      success: false,
+      message: 'Authentication failed. Please try again.',
+      error: error.message 
     });
   }
 });
