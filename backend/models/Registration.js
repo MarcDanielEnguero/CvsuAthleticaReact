@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const RegistrationSchema = new mongoose.Schema({
+const registrationSchema = new mongoose.Schema({
   firstName: { 
     type: String, 
     required: [true, 'First name is required'],
@@ -15,7 +15,9 @@ const RegistrationSchema = new mongoose.Schema({
   },
   studentNumber: {
     type: String,
-    required: true
+    required: [true, 'Student number is required'],
+    unique: true,
+    trim: true
   },
   phoneNumber: { 
     type: String, 
@@ -68,17 +70,16 @@ const RegistrationSchema = new mongoose.Schema({
     },
     default: 'Pending'
   },
-  type: {  // New field for type
+  type: {  
     type: String,
-    enum: ['freeTraining', 'tryout'], // Only these two options are allowed
-    default: 'freeTraining', // Default is freeTraining
+    enum: ['freeTraining', 'tryout'], 
+    default: 'freeTraining',
     required: true
   }
 }, {
-  // Enable error messages for validation
+  timestamps: true, // Automatically add createdAt and updatedAt
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
 
-// Create a model based on the schema
-module.exports = mongoose.model('Registration', RegistrationSchema);
+module.exports = mongoose.model('Registration', registrationSchema);
