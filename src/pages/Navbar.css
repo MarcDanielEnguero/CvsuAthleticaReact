@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+
+
 .navbar {
     position: fixed; 
     top: 0;
@@ -10,6 +14,7 @@
     padding: 0 20px;
     z-index: 1000; 
     justify-content: space-between;
+    font-family: 'Raleway', sans-serif;
 }
 
 .logonav {
@@ -153,4 +158,60 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    position: relative; /* Ensure proper positioning */
+}
+
+.profile i {
+    font-size: 24px; /* Make the icon size larger */
+    color: #FFBB00;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.profile i:hover {
+    color: #FFD966; /* Highlight on hover */
+}
+
+/* Ensure clickable area around the profile icon */
+.profile a {
+    text-decoration: none;
+}
+
+
+/* Notifications Badge */
+.notifications-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #FF0000;
+    color: #FFFFFF;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Profile Email */
+.user-email {
+    color: #FFBB00;
+    margin-right: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Profile Icon */
+.profile i {
+    font-size: 20px;
+    color: #FFBB00;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+.profile i:hover {
+    color: #FFD966;
 }

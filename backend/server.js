@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const userRoutes = require('./routes/user');
 
 // Load environment variables
 dotenv.config();
@@ -40,9 +41,11 @@ app.use((req, res, next) => {
 const authRoutes = require('./routes/auth'); // Import the auth.js file
 const registrationRoutes = require('./routes/registration');
 
+
 // Mount routes
 app.use('/api/auth', authRoutes); // Use the auth routes
 app.use('/api/registration', registrationRoutes); // Use the registration routes
+app.use('/api/user', userRoutes); // Use the user routes
 
 // Catch-all route to help diagnose routing issues
 app.use((req, res, next) => {

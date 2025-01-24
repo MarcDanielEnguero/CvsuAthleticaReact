@@ -1,34 +1,72 @@
-import React, { useState } from 'react';
-import styles from './profile.module.css'; // Import scoped CSS modules
-import Navbar from '../Navbar'; // Import Navbar from separate file
+import React, { useState, useEffect } from 'react';
+import styles from './profile.module.css'; // Import CSS module
+import Navbar from '../Navbar'; // Import Navbar component
+import axios from 'axios'; // Axios for API requests
 
 const Profile = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [studentId, setStudentId] = useState('');
-    const [phoneNo, setPhoneNo] = useState('');
-    const [college, setCollege] = useState('');
-    const [email, setEmail] = useState('');
-    const [year, setYear] = useState('');
-    const [course, setCourse] = useState('');
+    const [userData, setUserData] = useState({}); // Initialize with empty object to avoid form issues
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [isUpdated, setIsUpdated] = useState(false); // Show success message after update
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        // Fetch user profile data
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get('/api/user/profile', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token in headers
+                    },
+                });
+                setUserData(response.data); // Populate user data
+                setLoading(false);
+            } catch (err) {
+                setError('Failed to fetch user data. Please try again later.');
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log("Profile Updated:", { firstName, lastName, studentId, phoneNo, college, email, year, course });
+        setIsUpdated(false); // Reset success message
+        try {
+            const response = await axios.put('/api/user/profile', userData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+            setIsUpdated(true); // Show success message
+            console.log('Profile updated successfully:', response.data);
+        } catch (err) {
+            console.error('Failed to update profile:', err);
+            setError('Failed to update profile. Please try again.');
+        }
     };
 
     return (
         <div>
-            {/* Use imported Navbar component */}
-            <Navbar />
+            <Navbar /> {/* Render Navbar */}
 
             <div className={styles.profileContainer}>
                 <h1>Profile</h1>
                 <div className={styles.profileContent}>
+                    {error && <p className={styles.errorMessage}>{error}</p>} {/* Display error message */}
                     <div className={styles.profileIcon}>
                         <i className="fas fa-user-circle fa-10x"></i>
-                        <p><a href="#">Upload Photo</a></p>
+                        <p>
+                            <a href="#">Upload Photo</a>
+                        </p>
                         <h2>STUDENT</h2>
                         <button className={styles.changePasswordBtn}>Change Password</button>
                     </div>
@@ -38,45 +76,49 @@ const Profile = () => {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <label htmlFor="first-name">First Name</label>
+                                            <label htmlFor="firstName">First Name</label>
                                             <input
                                                 type="text"
-                                                id="first-name"
-                                                name="first-name"
-                                                value={firstName}
-                                                onChange={(e) => setFirstName(e.target.value)}
+                                                id="firstName"
+                                                name="firstName"
+                                                value={userData.firstName || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                         <td>
-                                            <label htmlFor="last-name">Last Name</label>
+                                            <label htmlFor="lastName">Last Name</label>
                                             <input
                                                 type="text"
-                                                id="last-name"
-                                                name="last-name"
-                                                value={lastName}
-                                                onChange={(e) => setLastName(e.target.value)}
+                                                id="lastName"
+                                                name="lastName"
+                                                value={userData.lastName || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label htmlFor="student-id">Student ID</label>
+                                            <label htmlFor="studentId">Student ID</label>
                                             <input
                                                 type="text"
-                                                id="student-id"
-                                                name="student-id"
-                                                value={studentId}
-                                                onChange={(e) => setStudentId(e.target.value)}
+                                                id="studentId"
+                                                name="studentId"
+                                                value={userData.studentId || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                         <td>
-                                            <label htmlFor="phone-no">Phone No.</label>
+                                            <label htmlFor="phoneNo">Phone No.</label>
                                             <input
                                                 type="text"
-                                                id="phone-no"
-                                                name="phone-no"
-                                                value={phoneNo}
-                                                onChange={(e) => setPhoneNo(e.target.value)}
+                                                id="phoneNo"
+                                                name="phoneNo"
+                                                value={userData.phoneNo || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                     </tr>
@@ -87,8 +129,9 @@ const Profile = () => {
                                                 type="text"
                                                 id="college"
                                                 name="college"
-                                                value={college}
-                                                onChange={(e) => setCollege(e.target.value)}
+                                                value={userData.college || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                         <td>
@@ -97,8 +140,8 @@ const Profile = () => {
                                                 type="text"
                                                 id="email"
                                                 name="email"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
+                                                value={userData.email || ''}
+                                                disabled // Email should not be editable
                                             />
                                         </td>
                                     </tr>
@@ -109,8 +152,9 @@ const Profile = () => {
                                                 type="text"
                                                 id="year"
                                                 name="year"
-                                                value={year}
-                                                onChange={(e) => setYear(e.target.value)}
+                                                value={userData.year || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                         <td>
@@ -119,14 +163,18 @@ const Profile = () => {
                                                 type="text"
                                                 id="course"
                                                 name="course"
-                                                value={course}
-                                                onChange={(e) => setCourse(e.target.value)}
+                                                value={userData.course || ''}
+                                                onChange={handleChange}
+                                                disabled={loading} // Disable during loading
                                             />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <button type="submit" className={styles.submitBtn}>Update Profile</button>
+                            <button type="submit" className={styles.submitBtn} disabled={loading}>
+                                {loading ? 'Updating...' : 'Update Profile'}
+                            </button>
+                            {isUpdated && <p className={styles.successMessage}>Profile updated successfully!</p>}
                         </form>
                     </div>
                 </div>
