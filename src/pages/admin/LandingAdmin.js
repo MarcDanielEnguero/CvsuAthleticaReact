@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import Navbar from "../Navbar";
 import { useNavigate } from "react-router-dom";
 import "./LandingAdmin.module.css";
@@ -6,7 +7,6 @@ import beeLogo from '../../assets/img/bee-logo.png';
 import banner1 from '../../assets/img/banner1.png';
 import banner2 from '../../assets/img/banner2.png';
 import banner3 from '../../assets/img/banner3.png';
-import news from '../../assets/img/news.png';
 
 const LandingAdmin = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -30,8 +30,62 @@ const LandingAdmin = () => {
       }
     ]
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchLandingContent();
+  }, []);
+
+  const fetchLandingContent = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await axios.get('http://localhost:5000/api/landing', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      // Use existing content as default if backend returns empty
+      setEditableContent(prevContent => ({
+        ...prevContent,
+        ...response.data
+      }));
+      
+      setLoading(false);
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setError('Failed to fetch landing content');
+      setLoading(false);
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      await axios.put('http://localhost:5000/api/landing', editableContent, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      setIsEditing(false);
+      fetchLandingContent();
+    } catch (err) {
+      console.error('Save error:', err);
+      setError('Failed to save changes');
+    }
+  };
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -74,6 +128,14 @@ const LandingAdmin = () => {
     setEditableContent({ ...editableContent, [type]: updatedCards });
   };
 
+  const handleDeleteCard = (type, index) => {
+    const updatedCards = editableContent[type].filter((_, i) => i !== index);
+    setEditableContent({ ...editableContent, [type]: updatedCards });
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <div className="landing">
       <Navbar />
@@ -97,7 +159,10 @@ const LandingAdmin = () => {
         </div>
       </div>
 
-      <button className="addBtn" onClick={handleEditClick}>
+      <button 
+        className="addBtn" 
+        onClick={isEditing ? handleSaveChanges : handleEditClick}
+      >
         {isEditing ? "Save Changes" : "Edit Content"}
       </button>
 
@@ -114,11 +179,13 @@ const LandingAdmin = () => {
                   name="newsTitle"
                   value={editableContent.newsTitle}
                   onChange={handleChange}
+                  placeholder="News Title"
                 />
                 <textarea
                   name="newsText"
                   value={editableContent.newsText}
                   onChange={handleChange}
+                  placeholder="News Description"
                 />
                 <input
                   type="file"
@@ -132,14 +199,18 @@ const LandingAdmin = () => {
               </>
             )}
           </div>
-          {editableContent.newsImage && (
+          {(editableContent.newsImage || isEditing) && (
             <div className="news-image">
-              <img src={editableContent.newsImage} alt="Athlete in Action" />
+              <img 
+                src={editableContent.newsImage || banner1} 
+                alt="Athlete in Action" 
+              />
             </div>
           )}
         </div>
       </div>
 
+      {/* Similar rendering pattern for other sections */}
       <div className="title2">
         <h1 className="slide-up">LATEST EVENTS AND ACHIEVEMENTS</h1>
       </div>
@@ -153,11 +224,13 @@ const LandingAdmin = () => {
                   name="thirdTitle"
                   value={editableContent.thirdTitle}
                   onChange={handleChange}
+                  placeholder="Third Section Title"
                 />
                 <textarea
                   name="thirdText"
                   value={editableContent.thirdText}
                   onChange={handleChange}
+                  placeholder="Third Section Description"
                 />
                 <input
                   type="file"
@@ -171,14 +244,18 @@ const LandingAdmin = () => {
               </>
             )}
           </div>
-          {editableContent.thirdImage && (
+          {(editableContent.thirdImage || isEditing) && (
             <div className="third-image">
-              <img src={editableContent.thirdImage} alt="Uploaded Photo" />
+              <img 
+                src={editableContent.thirdImage || banner2} 
+                alt="Uploaded Photo" 
+              />
             </div>
           )}
         </div>
       </div>
 
+      {/* Events Section */}
       <div className="title3">
         <h1 className="slide-up">EVENTS AND GAME SCHEDULE</h1>
       </div>
@@ -204,12 +281,17 @@ const LandingAdmin = () => {
               </div>
               <div className="event-details">
                 {isEditing ? (
-                  <textarea
-                    value={card.details}
-                    onChange={(e) =>
-                      updateCardDetails("eventCards", index, "details", e.target.value)
-                    }
-                  />
+                  <>
+                    <textarea
+                      value={card.details}
+                      onChange={(e) =>
+                        updateCardDetails("eventCards", index, "details", e.target.value)
+                      }
+                    />
+                    <button onClick={() => handleDeleteCard("eventCards", index)}>
+                      Delete Card
+                    </button>
+                  </>
                 ) : (
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
                 )}
@@ -222,6 +304,7 @@ const LandingAdmin = () => {
         </div>
       </div>
 
+      {/* Tryouts Section */}
       <div className="title4">
         <h1 className="slide-up">TRYOUTS AND TRAINING</h1>
       </div>
@@ -247,12 +330,17 @@ const LandingAdmin = () => {
               </div>
               <div className="tryout-details">
                 {isEditing ? (
-                  <textarea
-                    value={card.details}
-                    onChange={(e) =>
-                      updateCardDetails("tryoutCards", index, "details", e.target.value)
-                    }
-                  />
+                  <>
+                    <textarea
+                      value={card.details}
+                      onChange={(e) =>
+                        updateCardDetails("tryoutCards", index, "details", e.target.value)
+                      }
+                    />
+                    <button onClick={() => handleDeleteCard("tryoutCards", index)}>
+                      Delete Card
+                    </button>
+                  </>
                 ) : (
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
                 )}

@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/user');
+const connectDB = require('./config/db');
 
 // Load environment variables
 dotenv.config();
@@ -18,38 +17,42 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Middleware - ensure these are in the correct order
+// Middleware for parsing JSON and URL-encoded data
 app.use(
   express.json({
     limit: '10mb',
-    strict: false, // More flexible JSON parsing
   })
 );
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Comprehensive request logging middleware
+// Request logging middleware
 app.use((req, res, next) => {
-  console.log('=== Incoming Request ===');
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  console.log('Full URL:', req.protocol + '://' + req.get('host') + req.originalUrl);
-  console.log('Incoming request headers:', JSON.stringify(req.headers, null, 2));
-  console.log('Incoming request body:', JSON.stringify(req.body, null, 2));
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
 
 // Routes
-const authRoutes = require('./routes/auth'); // Import the auth.js file
+const authRoutes = require('./routes/auth');
 const registrationRoutes = require('./routes/registration');
-
+const userRoutes = require('./routes/user');
+const landingRoutes = require('./routes/landing');
 
 // Mount routes
-app.use('/api/auth', authRoutes); // Use the auth routes
-app.use('/api/registration', registrationRoutes); // Use the registration routes
-app.use('/api/user', userRoutes); // Use the user routes
+app.use('/api/auth', authRoutes);
+app.use('/api/registration', registrationRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/landing', landingRoutes);
 
-// Catch-all route to help diagnose routing issues
-app.use((req, res, next) => {
-  console.log('404 - Route Not Found:', req.method, req.url);
+// Debug logs for routes initialization
+console.log('Routes initialized:', {
+  authRoutes: typeof authRoutes,
+  registrationRoutes: typeof registrationRoutes,
+  userRoutes: typeof userRoutes,
+  landingRoutes: typeof landingRoutes,
+});
+
+// Catch-all route for undefined paths
+app.use((req, res) => {
   res.status(404).json({
     error: 'Route Not Found',
     method: req.method,
@@ -57,31 +60,31 @@ app.use((req, res, next) => {
   });
 });
 
-// Error handling middleware
+// Centralized error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
+  console.error('Unhandled error:', err.message);
   res.status(500).json({
-    error: 'Internal server error',
+    error: 'Internal Server Error',
     message: err.message,
-    stack: err.stack,
   });
 });
 
-// Connect to MongoDB and start the server
+// MongoDB connection and server startup
 const PORT = process.env.PORT || 5000;
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('MongoDB connected successfully');
+const startServer = async () => {
+  try {
+    console.log('Connecting to MongoDB...');
+    await connectDB();
+    console.log('Connected to MongoDB.');
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  });
+  } catch (error) {
+    console.error('Failed to start the server:', error.message);
+    process.exit(1); // Exit with failure
+  }
+};
+
+startServer();

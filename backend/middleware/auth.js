@@ -1,8 +1,10 @@
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Import your User model
+const { OAuth2Client } = require('google-auth-library');
+const User = require('../models/User');
 
-// Authenticate with Google using the credential (Google token)
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 const authenticateWithGoogle = async (req, res) => {
     const { credential } = req.body;
 
@@ -11,43 +13,35 @@ const authenticateWithGoogle = async (req, res) => {
     }
 
     try {
-        // Verify Google token
         const ticket = await verifyGoogleToken(credential);
-
-        // Extract email and other user info from the Google token
         const { email, name, sub: googleId } = ticket;
 
-        // Ensure the email domain matches CvSU
         if (!email.endsWith('@cvsu.edu.ph')) {
             return res.status(400).json({ success: false, error: 'Invalid email domain. Please use a CvSU email.' });
         }
 
-        // Check if user already exists in the database
         let user = await User.findOne({ email });
 
         if (!user) {
-            // Create a new user if it doesn't exist
             user = await User.create({
                 email,
                 googleId,
-                role: 'student', // Default role for new users
+                role: 'student',
                 isActive: true,
                 name: name || 'Unnamed User',
             });
         } else if (!user.googleId) {
-            // Update the existing user with the Google ID if not already linked
             user.googleId = googleId;
             await user.save();
         }
 
-        // Create a JWT token for the user
         const token = jwt.sign(
             { id: user._id, email: user.email, role: user.role },
-            process.env.JWT_SECRET || 'your-secret-key',
+            process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
-        return res.status(200).json({
+        res.status(200).json({
             success: true,
             message: 'Authenticated successfully with Google.',
             token,
@@ -59,26 +53,137 @@ const authenticateWithGoogle = async (req, res) => {
             },
         });
     } catch (error) {
-        console.error('Google login error:', error);
-        return res.status(500).json({ success: false, error: 'Failed to authenticate with Google.' });
+        console.error('Google login error:', error.message);
+        res.status(500).json({ success: false, error: 'Failed to authenticate with Google.' });
     }
 };
 
-// Helper function to verify the Google token
 const verifyGoogleToken = async (token) => {
     try {
-        const url = `https://oauth2.googleapis.com/tokeninfo?id_token=${token}`;
-        const response = await axios.get(url);
-
-        if (response.status !== 200) {
-            throw new Error('Invalid token response from Google.');
-        }
-
-        return response.data; // Returns Google token payload
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        return ticket.getPayload();
     } catch (error) {
         console.error('Google token verification failed:', error.message);
         throw new Error('Invalid or expired Google token.');
     }
 };
 
-module.exports = { authenticateWithGoogle };
+const protect = async (req, res, next) => {
+    try {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith('Bearer')) {
+            return res.status(401).json({
+                success: false,
+                message: 'Not authorized, no token provided.',
+            });
+        }
+
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.id).select('-password');
+
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'User not found.',
+            });
+        }
+
+        req.user = user;
+        next();
+    } catch (error) {
+        console.error('Authentication error:', error.message);
+
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid token.',
+            });
+        }
+
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({
+                success: false,
+                message: 'Token expired. Please log in again.',
+            });
+        }
+
+        return res.status(500).json({
+            success: false,
+            message: 'Server authentication error.',
+        });
+    }
+};
+
+const checkRole = (roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            console.warn(
+                `Access denied for user ${req.user.email} with role ${req.user.role}. Required roles: ${roles.join(', ')}.`
+            );
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Insufficient permissions.',
+            });
+        }
+        next();
+    };
+};
+
+const manualLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'User not found.',
+            });
+        }
+
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid credentials.',
+            });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: 'Logged in successfully.',
+            token,
+            user: {
+                id: user._id,
+                email: user.email,
+                role: user.role,
+                name: user.name,
+            },
+        });
+    } catch (error) {
+        console.error('Manual login error:', error.message);
+        res.status(500).json({
+            success: false,
+            message: 'Login failed.',
+        });
+    }
+};
+
+module.exports = {
+    authenticateWithGoogle,
+    verifyGoogleToken,
+    protect,
+    checkRole,
+    manualLogin,
+};
