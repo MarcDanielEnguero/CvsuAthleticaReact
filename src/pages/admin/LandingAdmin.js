@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Navbar from "../Navbar";
@@ -47,6 +48,20 @@ import news from '../assets/img/news.png';
 const Landing = () => {
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
 
+=======
+import React, { useEffect } from "react";
+import Navbar from "./Navbar"; // Import the existing Navbar component
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "./Landing.css"; // Import your styles for the Landing page
+import beeLogo from '../assets/img/bee-logo.png';
+import banner1 from '../assets/img/banner1.png';
+import banner2 from '../assets/img/banner2.png';
+import banner3 from '../assets/img/banner3.png';
+import news from '../assets/img/news.png';
+
+const Landing = () => {
+
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
   const navigate = useNavigate(); // Initialize useNavigate
   useEffect(() => {
     // Banner slider logic
@@ -54,6 +69,7 @@ const Landing = () => {
     const slides = document.querySelectorAll(".banner-slide img");
     const dots = document.querySelectorAll(".banner-dots .dot");
     let currentSlide = 0;
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   useEffect(() => {
@@ -129,10 +145,16 @@ const Landing = () => {
       };
       reader.readAsDataURL(file);
 =======
+=======
+
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
     function nextSlide() {
       currentSlide = (currentSlide + 1) % slides.length;
       slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
       updateDots();
+<<<<<<< HEAD
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
+=======
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
     }
 
@@ -149,11 +171,14 @@ const Landing = () => {
       clearInterval(slideInterval); // Cleanup interval on component unmount
     };
   }, []);
+<<<<<<< HEAD
 
   const handleDeleteCard = (type, index) => {
     const updatedCards = editableContent[type].filter((_, i) => i !== index);
     setEditableContent({ ...editableContent, [type]: updatedCards });
   };
+=======
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -181,6 +206,7 @@ const Landing = () => {
       </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       <button 
         className="addBtn" 
         onClick={isEditing ? handleSaveChanges : handleEditClick}
@@ -188,6 +214,8 @@ const Landing = () => {
         {isEditing ? "Save Changes" : "Edit Content"}
       </button>
 =======
+=======
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
       <div className="tutorial-section">
         <h2 className="slide-up">DON'T KNOW HOW TO USE CVSU ATHLETICA?</h2>
         <div className="tutorial-content">
@@ -215,6 +243,9 @@ const Landing = () => {
       <div className="motto">
         <h1 className="slide-up">BE AN ATHLETE AND FIGHT WITH PRIDE!!</h1>
       </div>
+<<<<<<< HEAD
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
+=======
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
 
       <div className="title1">
@@ -223,6 +254,7 @@ const Landing = () => {
       <div className="news-section">
         <div className="news-content fade-in">
           <div className="news-text">
+<<<<<<< HEAD
 <<<<<<< HEAD
             {isEditing ? (
               <>
@@ -267,6 +299,14 @@ const Landing = () => {
             <img src={news} alt="Athlete in Action" />
           </div>
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
+=======
+            <h3>CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024</h3>
+            <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+          </div>
+          <div className="news-image">
+            <img src={news} alt="Athlete in Action" />
+          </div>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
         </div>
       </div>
 
@@ -276,6 +316,7 @@ const Landing = () => {
       </div>
       <div className="third-section">
         <div className="third-content fade-in">
+<<<<<<< HEAD
 <<<<<<< HEAD
           <div className="third-text">
             {isEditing ? (
@@ -322,6 +363,15 @@ const Landing = () => {
             <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
           </div>
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
+=======
+          <div className="third-image">
+            <img src={news} alt="Uploaded Photo" />
+          </div>
+          <div className="third-text">
+            <h3>CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024</h3>
+            <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+          </div>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
         </div>
       </div>
 
@@ -334,6 +384,7 @@ const Landing = () => {
           <h2 className="event-opening">STRASUC 2024</h2>
         </div>
         <div className="event-cards-wrapper">
+<<<<<<< HEAD
 <<<<<<< HEAD
           {editableContent.eventCards.map((card, index) => (
             <div className="event-card" key={index}>
@@ -368,12 +419,17 @@ const Landing = () => {
                 )}
               </div>
 =======
+=======
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
           <div className="event-card">
             <div className="event-title">Opening</div>
             <div className="event-details">
               <p><span>Date:</span> November 00, 0000</p>
               <p><span>Time:</span> 00:00 PM</p>
               <p><span>Place:</span> Palawan State University, Gymnasium</p>
+<<<<<<< HEAD
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
+=======
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
             </div>
           </div>
@@ -408,6 +464,7 @@ const Landing = () => {
         </div>
         <div className="tryout-cards-wrapper">
 <<<<<<< HEAD
+<<<<<<< HEAD
           {editableContent.tryoutCards.map((card, index) => (
             <div className="tryout-card" key={index}>
               <div className="tryout-title">
@@ -441,6 +498,8 @@ const Landing = () => {
                 )}
               </div>
 =======
+=======
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
           <div className="tryout-card">
             <div className="tryout-title">Opening</div>
             <div className="tryout-details">
@@ -453,6 +512,9 @@ const Landing = () => {
                 >
                   Apply Now
                 </button>
+<<<<<<< HEAD
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
+=======
 >>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
             </div>
           </div>
