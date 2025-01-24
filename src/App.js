@@ -19,6 +19,7 @@ import TryoutsTraining from './pages/extraPages/tryouts-training-student';
 import TryoutSchedule from './pages/extraPages/tryout-schedule';
 import PlayerInfoAdd from './pages/admin/PlayerInfoAdd';
 import LandingAdmin from './pages/admin/LandingAdmin';
+import Events from './pages/Events';
 
 const App = () => {
   return (
@@ -88,8 +89,14 @@ const App = () => {
                   </PublicRoute>
                 }
               />
-
-
+              <Route
+                path="/events"
+                element={
+                  <PublicRoute>
+                    <Events />
+                  </PublicRoute>
+                }
+              />
               {/* Protected Routes - Require Authentication */}
               <Route
                 path="/contactUs"
