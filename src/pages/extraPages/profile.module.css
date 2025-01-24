@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+
+body {
+    min-height: 100vh; /* Ensures background covers at least the viewport height */
+    background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+}
+
+
 /* profile.module.css */
 
 .profileContainer {
@@ -10,6 +21,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 100px;
 }
 
 .profileContainer h1 {
@@ -100,19 +112,21 @@
     opacity: .9;
 }
 
-.footerBar {
-    display: flex;
-    justify-content: space-between;
+
+/* filepath: /c:/Users/Patrick Villanueva/Desktop/CvsuAthleticaReact/src/pages/extraPages/profile.module.css */
+.submitBtn {
     padding: 10px 20px;
-    background-color: #333;
-    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #9d0f0f46; /* Set the desired background color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    float: right;
 }
 
-.emailContact {
-    display: flex;
-    align-items: center;
-}
-
-.emailContact i {
-    margin-right: 10px;
+.submitBtn:hover {
+    opacity: .9;
 }

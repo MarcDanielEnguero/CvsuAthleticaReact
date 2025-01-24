@@ -46,6 +46,7 @@ const TryoutSchedule = () => {
                                     required
                                     value={time}
                                     onChange={(e) => setTime(e.target.value)}
+                                    className={styles.selectTime}
                                 >
                                     <option value="time1">10:00 AM</option>
                                     <option value="time2">2:00 PM</option>
@@ -71,6 +72,7 @@ const TryoutSchedule = () => {
                                 required
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
+                                className={styles.selectDate}
                             />
                         </div>
                         <div className={styles.formGroup}>

@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+
+body {
+    min-height: 100vh; /* Ensures background covers at least the viewport height */
+    background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+}
+
+
+
 /* General Styles for Tryout Schedule Page */
 .registrationContainer {
     width: 100%;
@@ -5,6 +17,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
 /* Adjusted registration box for Tryout Schedule */
@@ -25,6 +38,7 @@
     font-size: 24px;
     margin-bottom: 20px;
     text-align: left;
+    font-weight: bold;
 }
 
 .formContent {
@@ -42,15 +56,7 @@
     flex: 1; /* Equal width for both sections */
 }
 
-/* Adjust the width of the 'Select Date' container only */
-.selectDateGroup {
-    width: 100%; /* Ensure it takes full width */
-    max-width: 300px; /* Limit the width of the date selection container */
-    margin: 0; /* Remove auto centering */
-    display: flex; /* Enable flexbox */
-    flex-direction: column; /* Stack label and input vertically */
-    align-items: flex-start; /* Align the label and input to the left */
-}
+
 
 .formGroup label {
     font-size: 18px;
@@ -62,9 +68,8 @@
 }
 
 /* Style for input and select elements */
-#select-time,
-#select-date,
-#medicalUpload {
+.selectTime,
+.selectDate {
     padding: 10px;
     font-size: 14px;
     border-radius: 8px;
@@ -72,6 +77,12 @@
     width: 100%;
     background-color: rgba(224, 210, 210, 0.6); /* Set the desired background color */
     color: #000; /* Ensure the text remains readable */
+    max-width: 300px;
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Align the label and input to the left */
+    margin-bottom: 5px;
+    
 }
 
 /* Upload Button */
@@ -218,16 +229,18 @@
 }
 
 .scheduleTable td {
-    background-color: #f2f2f2;
+    background-color: #f2f2f27b;
 }
 
 .scheduleTable td:nth-child(even) {
-    background-color: #ddd;
+    background-color: #dddddd4e;
 }
 
 .timeSelectionBox,
 .medicalTitle {
     font-size: 18px;
     color: #fff;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
