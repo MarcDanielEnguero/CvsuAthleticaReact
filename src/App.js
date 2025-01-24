@@ -18,6 +18,7 @@ import Profile from './pages/extraPages/profile';
 import TryoutsTraining from './pages/extraPages/tryouts-training-student';
 import TryoutSchedule from './pages/extraPages/tryout-schedule';
 import PlayerInfoAdd from './pages/admin/PlayerInfoAdd';
+import LandingAdmin from './pages/admin/LandingAdmin';
 
 const App = () => {
   return (
@@ -76,6 +77,14 @@ const App = () => {
                 element={
                   <PublicRoute>
                     <PlayerInfoAdd />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/landing-admin"
+                element={
+                  <PublicRoute>
+                    <LandingAdmin />
                   </PublicRoute>
                 }
               />
