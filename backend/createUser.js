@@ -43,7 +43,7 @@ const createUser = async (email, password, role = 'student') => {
 
 // If no arguments provided, create a default user
 if (require.main === module) {
-    createUser('newemail@example.com', 'yourpassword', 'student');
+    createUser('elreenaya@cvsu.edu.ph', 'yourpassword', 'admin');
 }
 
 module.exports = createUser;
