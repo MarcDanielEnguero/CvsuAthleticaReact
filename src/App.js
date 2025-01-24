@@ -17,6 +17,7 @@ import ForgetPassword from './pages/extraPages/forget-password';
 import Profile from './pages/extraPages/profile';
 import TryoutsTraining from './pages/extraPages/tryouts-training-student';
 import TryoutSchedule from './pages/extraPages/tryout-schedule';
+import PlayerInfoAdd from './pages/admin/PlayerInfoAdd';
 
 const App = () => {
   return (
@@ -69,6 +70,15 @@ const App = () => {
                   </PublicRoute>
                 }
               />
+              <Route
+                path="/player-info-add"
+                element={
+                  <PublicRoute>
+                    <PlayerInfoAdd />
+                  </PublicRoute>
+                }
+              />
+
 
               {/* Protected Routes - Require Authentication */}
               <Route
@@ -135,4 +145,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App
