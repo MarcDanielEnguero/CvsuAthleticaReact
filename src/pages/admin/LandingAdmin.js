@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Navbar from "../Navbar";
@@ -32,9 +33,29 @@ const LandingAdmin = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+=======
+import React, { useEffect } from "react";
+import Navbar from "./Navbar"; // Import the existing Navbar component
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "./Landing.css"; // Import your styles for the Landing page
+import beeLogo from '../assets/img/bee-logo.png';
+import banner1 from '../assets/img/banner1.png';
+import banner2 from '../assets/img/banner2.png';
+import banner3 from '../assets/img/banner3.png';
+import news from '../assets/img/news.png';
 
-  const navigate = useNavigate();
+const Landing = () => {
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
 
+  const navigate = useNavigate(); // Initialize useNavigate
+  useEffect(() => {
+    // Banner slider logic
+    const slidesContainer = document.querySelector(".banner-slide");
+    const slides = document.querySelectorAll(".banner-slide img");
+    const dots = document.querySelectorAll(".banner-dots .dot");
+    let currentSlide = 0;
+
+<<<<<<< HEAD
   useEffect(() => {
     fetchLandingContent();
   }, []);
@@ -107,26 +128,27 @@ const LandingAdmin = () => {
         }));
       };
       reader.readAsDataURL(file);
+=======
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+      updateDots();
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
     }
-  };
 
-  const addCard = (type) => {
-    const newCard = { 
-      title: "New Title", 
-      details: "<p><span>Date:</span> New Date</p><p><span>Time:</span> New Time</p><p><span>Place:</span> New Place" 
+    function updateDots() {
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === currentSlide);
+      });
+    }
+
+    const slideInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+    updateDots();
+
+    return () => {
+      clearInterval(slideInterval); // Cleanup interval on component unmount
     };
-    setEditableContent({
-      ...editableContent,
-      [type]: [...editableContent[type], newCard]
-    });
-  };
-
-  const updateCardDetails = (type, index, field, value) => {
-    const updatedCards = editableContent[type].map((card, i) =>
-      i === index ? { ...card, [field]: value } : card
-    );
-    setEditableContent({ ...editableContent, [type]: updatedCards });
-  };
+  }, []);
 
   const handleDeleteCard = (type, index) => {
     const updatedCards = editableContent[type].filter((_, i) => i !== index);
@@ -138,7 +160,6 @@ const LandingAdmin = () => {
 
   return (
     <div className="landing">
-      <Navbar />
       <div className="banner">
         <div className="banner-slide">
           <img src={banner1} alt="Slide 1" className="fade-in" />
@@ -159,12 +180,42 @@ const LandingAdmin = () => {
         </div>
       </div>
 
+<<<<<<< HEAD
       <button 
         className="addBtn" 
         onClick={isEditing ? handleSaveChanges : handleEditClick}
       >
         {isEditing ? "Save Changes" : "Edit Content"}
       </button>
+=======
+      <div className="tutorial-section">
+        <h2 className="slide-up">DON'T KNOW HOW TO USE CVSU ATHLETICA?</h2>
+        <div className="tutorial-content">
+          <div className="tutorial-text fade-in">
+            <p className="intro-text">Just Watch This Video And We Will Teach You How To Use The Cvsu Athletica Website</p>
+            <h3>WHAT IS CVSU ATHLETICA?</h3>
+            <p className="description-text">
+              <span>CvSU Athletica</span> is a dedicated webpage designed for Cavite State University (CvSU) students and sports enthusiasts. It serves as the central hub for tryout schedules, game updates, and announcements about various sports events. Created to highlight and give proper recognition to university sports, CvSU Athletica ensures these activities are not overshadowed by other social media platforms. This platform keeps students informed and engaged, fostering a stronger sense of community within CvSU's athletic programs.
+            </p>
+          </div>
+          <div className="video-box fade-in">
+            <iframe
+              width="100%"
+              height="100%"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div className="motto">
+        <h1 className="slide-up">BE AN ATHLETE AND FIGHT WITH PRIDE!!</h1>
+      </div>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
 
       <div className="title1">
         <h1 className="slide-up">ANNOUNCEMENTS</h1>
@@ -172,6 +223,7 @@ const LandingAdmin = () => {
       <div className="news-section">
         <div className="news-content fade-in">
           <div className="news-text">
+<<<<<<< HEAD
             {isEditing ? (
               <>
                 <input
@@ -207,6 +259,14 @@ const LandingAdmin = () => {
               />
             </div>
           )}
+=======
+            <h3>CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024</h3>
+            <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+          </div>
+          <div className="news-image">
+            <img src={news} alt="Athlete in Action" />
+          </div>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
         </div>
       </div>
 
@@ -216,6 +276,7 @@ const LandingAdmin = () => {
       </div>
       <div className="third-section">
         <div className="third-content fade-in">
+<<<<<<< HEAD
           <div className="third-text">
             {isEditing ? (
               <>
@@ -252,6 +313,15 @@ const LandingAdmin = () => {
               />
             </div>
           )}
+=======
+          <div className="third-image">
+            <img src={news} alt="Uploaded Photo" />
+          </div>
+          <div className="third-text">
+            <h3>CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024</h3>
+            <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+          </div>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
         </div>
       </div>
 
@@ -264,6 +334,7 @@ const LandingAdmin = () => {
           <h2 className="event-opening">STRASUC 2024</h2>
         </div>
         <div className="event-cards-wrapper">
+<<<<<<< HEAD
           {editableContent.eventCards.map((card, index) => (
             <div className="event-card" key={index}>
               <div className="event-title">
@@ -296,11 +367,34 @@ const LandingAdmin = () => {
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
                 )}
               </div>
+=======
+          <div className="event-card">
+            <div className="event-title">Opening</div>
+            <div className="event-details">
+              <p><span>Date:</span> November 00, 0000</p>
+              <p><span>Time:</span> 00:00 PM</p>
+              <p><span>Place:</span> Palawan State University, Gymnasium</p>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
             </div>
-          ))}
-          {isEditing && (
-            <button onClick={() => addCard("eventCards")}>Add Event Card</button>
-          )}
+          </div>
+
+          <div className="event-card">
+            <div className="event-title">Taekwondo</div>
+            <div className="event-details">
+              <p><span>Date:</span> November 00, 0000</p>
+              <p><span>Time:</span> 00:00 PM</p>
+              <p><span>Place:</span> Palawan State University, Gymnasium</p>
+            </div>
+          </div>
+
+          <div className="event-card">
+            <div className="event-title">Basketball</div>
+            <div className="event-details">
+              <p><span>Date:</span> November 00, 0000</p>
+              <p><span>Time:</span> 00:00 PM</p>
+              <p><span>Place:</span> Palawan State University, Gymnasium</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -313,6 +407,7 @@ const LandingAdmin = () => {
           <h2 className="tryout-opening">CEIT U-GAMES TRYOUTS</h2>
         </div>
         <div className="tryout-cards-wrapper">
+<<<<<<< HEAD
           {editableContent.tryoutCards.map((card, index) => (
             <div className="tryout-card" key={index}>
               <div className="tryout-title">
@@ -345,15 +440,65 @@ const LandingAdmin = () => {
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
                 )}
               </div>
+=======
+          <div className="tryout-card">
+            <div className="tryout-title">Opening</div>
+            <div className="tryout-details">
+              <p><span>Date:</span> November 00, 0000</p>
+              <p><span>Time:</span> 00:00 PM</p>
+              <p><span>Place:</span> Palawan State University, Gymnasium</p>
+              <button
+                  className="apply-btn"
+                  onClick={() => navigate("/free-training-form")}
+                >
+                  Apply Now
+                </button>
+>>>>>>> parent of a3b714e (Working LandingAdmin not backend yet)
             </div>
-          ))}
-          {isEditing && (
-            <button onClick={() => addCard("tryoutCards")}>Add Tryout Card</button>
-          )}
+          </div>
+
+          <div className="tryout-card">
+            <div className="tryout-title">Taekwondo</div>
+            <div className="tryout-details">
+              <p><span>Date:</span> November 00, 0000</p>
+              <p><span>Time:</span> 00:00 PM</p>
+              <p><span>Place:</span> Palawan State University, Gymnasium</p>
+              <button
+                  className="apply-btn"
+                  onClick={() => navigate("/free-training-form")}
+                >
+                  Apply Now
+                </button>
+            </div>
+          </div>
+
+          <div className="tryout-card">
+            <div className="tryout-title">Basketball</div>
+            <div className="tryout-details">
+              <p><span>Date:</span> November 00, 0000</p>
+              <p><span>Time:</span> 00:00 PM</p>
+              <p><span>Place:</span> Palawan State University, Gymnasium</p>
+              <button
+                  className="apply-btn"
+                  onClick={() => navigate("/free-training-form")}
+                >
+                  Apply Now
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="footer-bar">
+        <div className="email-contact">
+          <i className="fa fa-envelope"></i> email1@periodt.com
+        </div>
+        <div className="email-contact">
+          <i className="fa fa-envelope"></i> email2@periodt.com
         </div>
       </div>
     </div>
   );
 };
 
-export default LandingAdmin;
+export default Landing;
