@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Registration = require('../models/Registration');
+const { registerTraining } = require('./controllers/registrationController');
 
 // POST: Create a new registration
 router.post('/', async (req, res) => {
@@ -106,6 +107,8 @@ router.delete('/:id', async (req, res) => {
       details: error.message 
     });
   }
+
+  router.post('/registration', registerTraining);
 });
 
 module.exports = router;

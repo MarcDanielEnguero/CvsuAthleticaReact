@@ -1,87 +1,92 @@
+// server.js
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/user');
+const session = require('express-session');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 
-// Enhanced CORS configuration
+// CORS configuration
 const corsOptions = {
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
 
-// Middleware - ensure these are in the correct order
-app.use(
-  express.json({
-    limit: '10mb',
-    strict: false, // More flexible JSON parsing
-  })
-);
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Middleware
+app.use(express.json());
 
-// Comprehensive request logging middleware
+// Request logging middleware
 app.use((req, res, next) => {
-  console.log('=== Incoming Request ===');
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  console.log('Full URL:', req.protocol + '://' + req.get('host') + req.originalUrl);
-  console.log('Incoming request headers:', JSON.stringify(req.headers, null, 2));
-  console.log('Incoming request body:', JSON.stringify(req.body, null, 2));
+  console.log('Incoming request body:', req.body);
   next();
 });
 
+// Session configuration
+app.use(session({
+  secret: process.env.JWT_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
 // Routes
-const authRoutes = require('./routes/auth'); // Import the auth.js file
-const registrationRoutes = require('./routes/registration');
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
 
+// Health check route
+app.get('/', (req, res) => {
+  res.json({ message: 'Server is running' });
+});
 
-// Mount routes
-app.use('/api/auth', authRoutes); // Use the auth routes
-app.use('/api/registration', registrationRoutes); // Use the registration routes
-app.use('/api/user', userRoutes); // Use the user routes
-
-// Catch-all route to help diagnose routing issues
-app.use((req, res, next) => {
-  console.log('404 - Route Not Found:', req.method, req.url);
-  res.status(404).json({
-    error: 'Route Not Found',
-    method: req.method,
-    path: req.url,
-  });
+// 404 handler
+app.use((req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.url}`);
+  res.status(404).json({ error: 'Route not found' });
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({
+  console.error('Server error:', err);
+  res.status(500).json({ 
     error: 'Internal server error',
-    message: err.message,
-    stack: err.stack,
+    message: process.env.NODE_ENV === 'production' ? 'Something went wrong' : err.message
   });
 });
 
-// Connect to MongoDB and start the server
-const PORT = process.env.PORT || 5000;
-
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('MongoDB connected successfully');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+// MongoDB connection with retry logic
+const connectDB = async () => {
+  const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/your-database';
+  
+  try {
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     });
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    // Retry connection after 5 seconds
+    setTimeout(connectDB, 5000);
+  }
+};
+
+// Connect to MongoDB and start server
+connectDB().then(() => {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
   });
+});

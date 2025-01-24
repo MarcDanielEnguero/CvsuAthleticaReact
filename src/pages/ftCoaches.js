@@ -1,9 +1,45 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import TrainingContext from './TrainingContext';
 import styles from './ftCoaches.module.css';
+
+const COACHES = [
+  {
+    name: 'Coach 1',
+    sports: ['Basketball', 'Volleyball'],
+    schedule: {
+      Monday: '9 AM - 12 PM',
+      Wednesday: '9 AM - 12 PM',
+      Friday: '9 AM - 12 PM',
+    },
+  },
+  {
+    name: 'Coach 2',
+    sports: ['Tennis', 'Badminton'],
+    schedule: {
+      Tuesday: '10 AM - 1 PM',
+      Thursday: '10 AM - 1 PM',
+    },
+  },
+  {
+    name: 'Coach 3', 
+    sports: ['Track and Field', 'Swimming'],
+    schedule: {
+      Monday: '8 AM - 11 AM',
+      Wednesday: '8 AM - 11 AM',
+    },
+  },
+  {
+    name: 'Coach 4',
+    sports: ['Football', 'Rugby'],
+    schedule: {
+      Tuesday: '9 AM - 12 PM',
+      Thursday: '9 AM - 12 PM',
+    },
+  },
+];
 
 const FtCoaches = () => {
   const { formData, coachSelection, setCoachSelection } = useContext(TrainingContext);
@@ -14,44 +50,10 @@ const FtCoaches = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorDetails, setErrorDetails] = useState([]);
-  const [coaches] = useState([
-    {
-      name: 'Coach 1',
-      sports: ['Basketball', 'Volleyball'],
-      schedule: {
-        Monday: '9 AM - 12 PM',
-        Wednesday: '9 AM - 12 PM',
-        Friday: '9 AM - 12 PM',
-      },
-    },
-    {
-      name: 'Coach 2',
-      sports: ['Tennis', 'Badminton'],
-      schedule: {
-        Monday: '10 AM - 1 PM',
-        Wednesday: '10 AM - 1 PM',
-        Friday: '10 AM - 1 PM',
-      },
-    },
-    {
-      name: 'Coach 3',
-      sports: ['Track and Field', 'Swimming'],
-      schedule: {
-        Tuesday: '8 AM - 11 AM',
-        Thursday: '8 AM - 11 AM',
-      },
-    },
-    {
-      name: 'Coach 4',
-      sports: ['Football', 'Rugby'],
-      schedule: {
-        Tuesday: '9 AM - 12 PM',
-        Thursday: '9 AM - 12 PM',
-      },
-    },
-  ]);
+  const [notificationType, setNotificationType] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
-  // Validation Check: Ensure form data is complete before allowing coach selection
+  // Validation Check
   useEffect(() => {
     const requiredFields = [
       'firstName', 'lastName', 'studentNumber',
@@ -68,24 +70,42 @@ const FtCoaches = () => {
     }
   }, [formData, navigate]);
 
+  // Notification Banner Component
+  const NotificationBanner = React.memo(() => {
+    if (!notificationMessage) return null;
+
+    return (
+      <div 
+        className={`
+          ${styles.notificationBanner} 
+          ${notificationType === 'success' ? styles.successBanner : styles.errorBanner}
+        `}
+      >
+        {notificationMessage}
+      </div>
+    );
+  });
+
   // Coach Selection Handler
-  const handleCoachSelection = (e) => {
+  const handleCoachSelection = useCallback((e) => {
     setCoachSelection(e.target.value);
     setConfirmationMessage('');
-  };
+  }, [setCoachSelection]);
 
   // Confirm Registration Click
-  const handleConfirmClick = () => {
+  const handleConfirmClick = useCallback(() => {
     if (!coachSelection) {
       setConfirmationMessage('Please select a coach before confirming.');
       return;
     }
     setShowModal(true);
-  };
+  }, [coachSelection]);
 
   // Confirm Booking Process
-  const handleConfirmBooking = async () => {
+  const handleConfirmBooking = useCallback(async () => {
     setIsLoading(true);
+    setNotificationType(null);
+    setNotificationMessage('');
     setConfirmationMessage('');
     setErrorDetails([]);
 
@@ -96,11 +116,17 @@ const FtCoaches = () => {
         type: 'freeTraining',
       };
 
-      const response = await axios.post('http://localhost:5000/api/registration', dataToSubmit);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/registration`, dataToSubmit, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-      setConfirmationMessage('Registration successful! You will be contacted shortly.');
-      setShowModal(false);
-
+      // Success Handling
+      setNotificationType('success');
+      setNotificationMessage('Registration successful! A confirmation email has been sent.');
+      
+      // Navigate to confirmation page
       navigate('/confirmation', {
         state: {
           registrationId: response.data.registrationId,
@@ -108,27 +134,83 @@ const FtCoaches = () => {
         },
       });
     } catch (error) {
+      // Error Handling
+      setNotificationType('error');
+      setShowModal(false);
+
       if (error.response) {
-        setErrorDetails(error.response.data.errors || []);
-        setConfirmationMessage(error.response.data.error || 'Registration failed. Please try again.');
+        const errors = error.response.data.errors || [];
+        setErrorDetails(errors);
+        setNotificationMessage(
+          errors.length > 0 
+            ? errors.join(', ') 
+            : (error.response.data.error || 'Registration failed. Please try again.')
+        );
       } else {
-        setConfirmationMessage('An unexpected error occurred. Please check your connection.');
+        setNotificationMessage('An unexpected error occurred. Please check your connection.');
       }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formData, coachSelection, navigate]);
 
   // Close Modal Handler
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setShowModal(false);
     setConfirmationMessage('');
     setErrorDetails([]);
-  };
+  }, []);
+
+  // Coach Schedule Modal
+  const CoachScheduleModal = React.memo(() => {
+    if (!showModal) return null;
+
+    return (
+      <div className={`${styles.confirmationModal} ${styles.show}`}>
+        <div className={styles.confirmationBox}>
+          <h3>Confirm Registration</h3>
+          {errorDetails.length > 0 && (
+            <div className={styles.errorContainer}>
+              <h4>Please correct the following:</h4>
+              <ul>
+                {errorDetails.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className={styles.loadingSpinner}>Processing registration...</div>
+          ) : (
+            <>
+              <p>You are selecting: {coachSelection}</p>
+              <p>Are you sure you want to proceed with this registration?</p>
+              <div className={styles.modalButtons}>
+                <button 
+                  className={styles.confirmBooking} 
+                  onClick={handleConfirmBooking}
+                >
+                  Confirm Booking
+                </button>
+                <button 
+                  className={styles.cancelBooking} 
+                  onClick={handleCloseModal}
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  });
 
   return (
     <div className={styles.container}>
       <Navbar />
+      <NotificationBanner />
 
       <section className={styles.coachSection}>
         <div className={styles.registrationBox}>
@@ -145,7 +227,7 @@ const FtCoaches = () => {
               value={coachSelection || ''}
             >
               <option value="">Choose a coach</option>
-              {coaches.map((coach, index) => (
+              {COACHES.map((coach, index) => (
                 <option key={index} value={coach.name}>
                   {coach.name} - {coach.sports.join(', ')}
                 </option>
@@ -166,7 +248,7 @@ const FtCoaches = () => {
               </tr>
             </thead>
             <tbody>
-              {coaches.map((coach, index) => (
+              {COACHES.map((coach, index) => (
                 <tr key={index}>
                   <td>{coach.name}</td>
                   <td>{coach.sports.join(', ')}</td>
@@ -199,42 +281,9 @@ const FtCoaches = () => {
         </div>
       </section>
 
-      {showModal && (
-        <div className={`${styles.confirmationModal} ${styles.show}`}>
-          <div className={styles.confirmationBox}>
-            <h3>Confirm Registration</h3>
-            {errorDetails.length > 0 && (
-              <div className={styles.errorContainer}>
-                <h4>Please correct the following:</h4>
-                <ul>
-                  {errorDetails.map((error, index) => (
-                    <li key={index}>{error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {isLoading ? (
-              <div className={styles.loadingSpinner}>Processing registration...</div>
-            ) : (
-              <>
-                <p>You are selecting: {coachSelection}</p>
-                <p>Are you sure you want to proceed with this registration?</p>
-                <div className={styles.modalButtons}>
-                  <button className={styles.confirmBooking} onClick={handleConfirmBooking}>
-                    Confirm Booking
-                  </button>
-                  <button className={styles.cancelBooking} onClick={handleCloseModal}>
-                    Cancel
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <CoachScheduleModal />
     </div>
   );
 };
 
-export default FtCoaches;
+export default React.memo(FtCoaches);
