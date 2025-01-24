@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoute, PublicRoute, AdminRoute } from './components/ProtectedRoute';
 import Login from './pages/Login';
 import FreeTrainingForm from './pages/FreeTrainingForm';
@@ -27,7 +27,8 @@ const App = () => {
           <div className="page-container">
             <Routes>
               {/* Root redirect */}
-            <Route path="/" element={<Navigate to="/landing" replace />} />
+              <Route path="/" element={<Navigate to="/landing" replace />} />
+              
               {/* Public Routes */}
               <Route
                 path="/landing"
@@ -127,6 +128,27 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Admin Routes */}
+              <Route
+                path="/admin/coach-profile"
+                element={
+                  <AdminRoute>
+                    <CoachProfile />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/forget-password"
+                element={
+                  <AdminRoute>
+                    <ForgetPassword />
+                  </AdminRoute>
+                }
+              />
+
+              {/* 404 - Catch-all */}
+              <Route path="*" element={<Navigate to="/landing" replace />} />
             </Routes>
           </div>
         </div>
