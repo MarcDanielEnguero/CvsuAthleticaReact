@@ -161,36 +161,3 @@
 .cancelBooking:hover {
     background-color: #0056b3;
 }
-/* In ftCoaches.module.css */
-.notificationBanner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 15px;
-    text-align: center;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    animation: slideIn 0.3s ease-out;
-  }
-  
-  .successBanner {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .errorBanner {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  @keyframes slideIn {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
