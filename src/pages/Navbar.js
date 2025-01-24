@@ -4,12 +4,12 @@ import './Navbar.css';
 import logonav from '../assets/img/logonav.png';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     const checkAuthStatus = () => {
@@ -40,10 +40,6 @@ const Navbar = () => {
     navigate('/landing');
   };
 
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
-  };
-
   return (
     <nav className="navbar">
       <div className="logonav">
@@ -67,62 +63,20 @@ const Navbar = () => {
       {isAuthenticated && (
         <>
           {/* Notifications */}
-          <div className="notifications" onClick={toggleNotifications}>
-            <div className="notifications-box">
-              <div className="notifications-icon">
-                <i className="fas fa-bell"></i>
-              </div>
-              <div className="notifications-badge">3</div>
-              {showNotifications && (
-                <div className="notifications-dropdown">
-                  {/* Notification content goes here */}
-                  <div className="notification-item">
-                    <div className="notification-icon">
-                      <img src="/ceit-basketball-icon.png" alt="CEIT Basketball" />
-                    </div>
-                    <div className="notification-details">
-                      <a href="/tryouts-form" className="notification-title">20 New Answers at CEIT Basketball Team Tryouts</a>
-                      <div className="notification-action">
-                        Click to Open Form
-                      </div>
-                    </div>
-                  </div>
-                  <div className="notification-item">
-                    <div className="notification-icon">
-                      <img src="/opening-date-changes-icon.png" alt="Opening Date Changes" />
-                    </div>
-                    <div className="notification-details">
-                      <a href="/opening-date-changes" className="notification-title">STRASUC Opening Date Changes</a>
-                      <div className="notification-action">
-                        New Opening Date: Month 00, 00000
-                      </div>
-                    </div>
-                  </div>
-                  <div className="notification-item">
-                    <div className="notification-icon">
-                      <img src="/opening-place-changes-icon.png" alt="Opening Place Changes" />
-                    </div>
-                    <div className="notification-details">
-                      <a href="/opening-place-changes" className="notification-title">STRASUC Opening Place Changes</a>
-                      <div className="notification-action">
-                        New Opening Place: Cavite State University, Indang, Cavite
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+          <div className="notifications">
+            <i className="fas fa-bell"></i>
+            <div className="notifications-badge">3</div>
           </div>
 
           {/* Profile */}
           <div className="profile">
-            <span className="user-email">{userEmail}</span>
-            <Link to="/profile">
-              <i className="fas fa-user-circle"></i>
-            </Link>
-            <Link to="#" onClick={handleLogout} className="nav-button">
-              LOGOUT
-            </Link>
+                  <span className="user-email">{userEmail}</span>
+                  <Link to="/profile">
+                      <i className="fas fa-user-circle"></i>
+                  </Link>
+              <Link to="#" onClick={handleLogout} className="nav-button">
+                LOGOUT
+              </Link>
           </div>
         </>
       )}
