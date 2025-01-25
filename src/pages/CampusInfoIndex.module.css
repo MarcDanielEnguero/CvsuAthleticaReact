@@ -1,4 +1,6 @@
 /* ----GENERAL---- */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
 
 /* ------- ANIMATION -----------*/
 @keyframes slideUpFadeIn {
@@ -35,6 +37,7 @@
     align-items: center;
     min-height: 100vh;
     overflow-y: auto;
+    
 }
 
 /* ----------FOOTER BAR-------------*/
@@ -80,6 +83,7 @@
     padding: 150px; 
     color: #FFFFFF; 
     font-family: 'Ramaraja', serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 .logoContainer {
@@ -99,6 +103,7 @@
     letter-spacing: 1px; 
     line-height: 1.4; 
     text-align: left; 
+    font-family: 'Raleway', sans-serif;
 }
 
 /* Menu container */
@@ -179,6 +184,7 @@
     margin-bottom: 10px;
     color: white;
     font-family: 'Ramaraja', serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 .sportsList {
@@ -201,6 +207,7 @@
     font-weight: bold;
     padding: 10px 20px;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Raleway', sans-serif;
 }
 
 .sportsLink:hover {
@@ -215,16 +222,21 @@
     align-items: center; 
     justify-content: flex-end; 
     padding: 0px;
-    color: #FFFFFF; 
+    color: #FFFFFF;
+    background: linear-gradient(to right, #FFFFFF 26%, #F1E04E 86%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-family: 'Ramaraja', serif;
     position: relative;
     right: 0; 
     transform: translateY(-50%); 
     padding-right: 50px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
 }
 
 .teamName h1 {
-    font-size: 150px;
+    font-size: 140px;
     text-transform: uppercase;
     text-align: right;
     margin: 0;
@@ -257,6 +269,7 @@
     text-align: right; 
     flex: 1;
     margin-right: 30px; 
+    font-family: 'Raleway', sans-serif;
 }
 
 .playerText h3 {

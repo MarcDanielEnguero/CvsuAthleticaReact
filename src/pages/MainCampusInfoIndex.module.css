@@ -1,5 +1,6 @@
 /* ----GENERAL---- */
-
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
 /* ------- ANIMATION -----------*/
 @keyframes slideUpFadeIn {
     0% {
@@ -99,6 +100,8 @@
     text-align: left;
     padding-left: 150px;
     width: 100%;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
 }
 
 /* Content Container: Align Main Campus and Colleges Grid */
@@ -125,6 +128,7 @@
     justify-content: center;
     padding: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    font-family: 'Raleway', sans-serif;
 }
 
 .mainCampusBox img {
@@ -157,6 +161,7 @@
     font-size: 40px;
     color: #FFFFFF;
     margin: 40px;
+    font-family: 'Raleway', sans-serif;
 }
 
 /* Colleges Grid */
@@ -167,6 +172,7 @@
     justify-items: center;
     align-items: center;
     width: 100%;
+    font-family: 'Raleway', sans-serif;
 }
 
 .detailsBox {
@@ -185,6 +191,7 @@
     padding: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s, box-shadow 0.3s;
+    font-family: 'Raleway', sans-serif;
 }
 
 .detailsBox:hover {

@@ -57,7 +57,7 @@ const Navbar = () => {
         <li><Link to="/tryouts-training-student">TRYOUTS/TRAINING</Link></li>
         <li><Link to="/events">EVENTS</Link></li>
         <li><Link to="/campusIndex">COLLEGES</Link></li>
-        <li><Link to="/contactUs">CONTACT US</Link></li>
+        <li><Link to="/contactUs">CONTACTS</Link></li>
       </ul>
 
       {isAuthenticated && (
