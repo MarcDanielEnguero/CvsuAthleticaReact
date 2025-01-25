@@ -2,27 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Navbar.css';
 import logonav from '../assets/img/logonav.png';
-import { useAuth } from '../context/AuthContext';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
-  // Check authentication status
   useEffect(() => {
     const checkAuthStatus = () => {
       const token = localStorage.getItem('token');
+      const email = localStorage.getItem('email');
       setIsAuthenticated(!!token);
+      if (token) {
+        setUserEmail(email || ""); // Optional: Fetch or use stored email.
+      }
     };
 
-    // Check initially
     checkAuthStatus();
-
-    // Add event listener for storage changes
     window.addEventListener('storage', checkAuthStatus);
 
-    // Check auth status on route changes
     const interval = setInterval(checkAuthStatus, 1000);
 
     return () => {
@@ -32,9 +33,10 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const handleLogout = () => {
-    // Clear token
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
     setIsAuthenticated(false);
+    setUserEmail("");
     navigate('/landing');
   };
 
@@ -58,25 +60,34 @@ const Navbar = () => {
         <li><Link to="/contactUs">CONTACT US</Link></li>
       </ul>
 
-      {/* Notifications (Only if logged in) */}
       {isAuthenticated && (
-        <div className="notifications">
-          <i className="fas fa-bell"></i>
-        </div>
+        <>
+          {/* Notifications */}
+          <div className="notifications">
+            <i className="fas fa-bell"></i>
+            <div className="notifications-badge">3</div>
+          </div>
+
+          {/* Profile */}
+          <div className="profile">
+                  <span className="user-email">{userEmail}</span>
+                  <Link to="/profile">
+                      <i className="fas fa-user-circle"></i>
+                  </Link>
+              <Link to="#" onClick={handleLogout} className="nav-button">
+                LOGOUT
+              </Link>
+          </div>
+        </>
       )}
 
-      {/* Profile and Login/Logout Button */}
-      <div className="profile">
-        {isAuthenticated ? (
-          <Link to="#" onClick={handleLogout} className="nav-button">
-            LOGOUT
-          </Link>
-        ) : (
+      {!isAuthenticated && (
+        <div className="profile">
           <Link to="/login" className="nav-button">
             LOGIN
           </Link>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };

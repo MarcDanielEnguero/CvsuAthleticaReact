@@ -1,112 +1,139 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
-
-.body {
-    min-height: 100vh; /* Ensures background covers at least the viewport height */
-    background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
-    font-family: 'Raleway', sans-serif;
-    margin: 0;
-}
-/* profile.module.css */
 
 .profileContainer {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: transparent;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.8); /* Updated for better contrast */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-top: 100px;
 }
 
 .profileContainer h1 {
-    text-align: left;
+    text-align: center; /* Center the heading */
     width: 100%;
     margin-bottom: 20px;
-    color: white; /* Adjust the color as needed */
+    font-size: 24px;
+    font-weight: bold;
+    color: #f0f0f0; /* Slightly lighter white */
 }
 
 .profileContent {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     width: 100%;
+    gap: 20px; /* Add spacing between sections */
+    flex-wrap: wrap; /* Ensure responsiveness on smaller screens */
 }
 
 .profileIcon {
-    text-align: left;
-    margin-right: 20px;
+    text-align: center; /* Center align the profile icon */
+    flex: 1; /* Ensure it takes appropriate space */
+    min-width: 150px; /* Minimum size for smaller screens */
 }
 
 .profileIcon i {
-    color: #333;
+    color: #ffcc00; /* Bright icon color for visibility */
+    font-size: 6rem; /* Adjust size for emphasis */
 }
 
 .profileIcon p {
     text-align: center;
     margin-top: 10px;
+    font-size: 14px;
+    color: #f0f0f0;
 }
 
 .profileIcon p a {
-    text-decoration: none;
-    color: white;
+    text-decoration: underline;
+    color: #ffcc00; /* Bright link color */
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .profileIcon h2 {
     text-align: center;
-    color: white; /* Adjust the color as needed */
+    color: #ffcc00; /* Highlight "STUDENT" */
     margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .profileDetails {
-    flex-grow: 1;
+    flex: 2;
+    width: 100%;
 }
 
 .profileDetails table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 10px;
 }
 
 .profileDetails table td {
     padding: 10px;
     vertical-align: top;
+    width: 50%; /* Ensure equal width for columns */
 }
 
 .profileDetails table td label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: white; /* Adjust the color as needed */
+    color: #ffcc00; /* Match theme */
 }
 
 .profileDetails table td input {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #ffcc00;
     border-radius: 5px;
-    background-color: rgba(224, 210, 210, 0.8); /* Slightly darker on focus */
+    background-color: rgba(255, 255, 255, 0.2); /* Light input background */
+    color: white; /* Input text color */
+    outline: none;
 }
 
 .profileDetails table td input:focus {
-    background-color: rgba(224, 210, 210, 1); /* Slightly darker on focus */
+    background-color: rgba(255, 255, 255, 0.4); /* Highlight on focus */
+    border-color: #fff; /* Focus border color */
 }
 
 .changePasswordBtn {
-    display: block;
-    margin: 10px auto;
+    display: inline-block;
+    margin: 10px 0;
     padding: 10px 20px;
-    background-color: rgba(224, 210, 210, 1);
-    color: rgb(0, 0, 0);
+    background-color: #ffcc00;
+    color: #000;
     border: none;
-    border-radius: 20px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .changePasswordBtn:hover {
-    opacity: .9;
+    background-color: #e6b800; /* Slightly darker on hover */
 }
+
+.submitBtn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #00cc99; /* Bright green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+    background-color: #009973; /* Darker green on hover */
+}
+
 

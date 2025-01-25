@@ -1,13 +1,13 @@
 import React from 'react';
-import Navbar from '../pages/Navbar';
 import styles from './AboutUs.module.css';
 import historicalBackground from '../assets/img/AboutUs/historical.png';
+import coachPicture from '../assets/img/coach.png';
+
+
 
 const AboutUs = () => {
   return (
-    <div className={styles.container}>
-      <Navbar />
-      
+    <>
       <div className={styles.bannerSection}></div>
 
       <div className={styles.historicalSection}>
@@ -38,6 +38,75 @@ const AboutUs = () => {
         </div>
       </div>
 
+      <div className={styles.coachTitle}>
+        <h2>COACHES</h2>
+      </div>
+      <div className={styles.coachGridContainer}>
+        <div className={styles.coachCard}>
+          <img src={coachPicture} alt="Marco C. Dalanon" />
+          <h3>Marco C. Dalanon</h3>
+          <p>BASKETBALL & SCAMMER COACH</p>
+          <p>marco.dalanon@cvsu.edu.ph</p>
+          <p>09363625388</p>
+        </div>
+        <div className={styles.coachCard}>
+          <img src={coachPicture} alt="Elreen Aya De Guzman" />
+          <h3>Elreen Aya De Guzman</h3>
+          <p>TENNIS COACH</p>
+          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
+          <p>09155334879</p>
+        </div>
+        <div className={styles.coachCard}>
+          <img src={coachPicture} alt="Elreen Aya De Guzman" />
+          <h3>Elreen Aya De Guzman</h3>
+          <p>SOCCER, SWIMMING COACH</p>
+          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
+          <p>09155334879</p>
+        </div>
+        <div className={styles.coachCard}>
+          <img src={coachPicture} alt="Marco C. Dalanon" />
+          <h3>Marco C. Dalanon</h3>
+          <p>BASKETBALL & SCAMMER COACH</p>
+          <p>marco.dalanon@cvsu.edu.ph</p>
+          <p>09363625388</p>
+        </div>
+        <div className={styles.coachCard}>
+          <img src={coachPicture} alt="Elreen Aya De Guzman" />
+          <h3>Elreen Aya De Guzman</h3>
+          <p>TENNIS COACH</p>
+          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
+          <p>09155334879</p>
+        </div>
+        <div className={styles.coachCard}>
+          <img src={coachPicture} alt="Elreen Aya De Guzman" />
+          <h3>Elreen Aya De Guzman</h3>
+          <p>SOCCER, SWIMMING COACH</p>
+          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
+          <p>09155334879</p>
+        </div>
+      </div>
+    
+      <div className={styles.adminTitle}>
+          <h2>ADMINS</h2>
+        </div>
+        <div className={styles.adminGridContainer}>
+          <div className={styles.adminCard}>
+            <img src={coachPicture} alt="Admin 1" />
+            <h3>Admin 1 Name</h3>
+            <p>Position</p>
+            <p>admin1.email@domain.com</p>
+            <p>09123456789</p>
+          </div>
+          <div className={styles.adminCard}>
+            <img src={coachPicture} alt="Admin 2" />
+            <h3>Admin 2 Name</h3>
+            <p>Position</p>
+            <p>admin2.email@domain.com</p>
+            <p>09876543210</p>
+          </div>
+        </div>
+
+
       <div className={styles.footerBar}>
         <div className={styles.emailContact}>
           <i className="fa fa-envelope"></i> email1@periodt.com
@@ -46,7 +115,9 @@ const AboutUs = () => {
           <i className="fa fa-envelope"></i> email2@periodt.com
         </div>
       </div>
-    </div>
+
+      
+    </>
   );
 };
 
