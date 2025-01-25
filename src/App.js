@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoute, PublicRoute, AdminRoute } from './components/ProtectedRoute';
 import Login from './pages/Login';
 import FreeTrainingForm from './pages/FreeTrainingForm';
@@ -17,6 +17,9 @@ import ForgetPassword from './pages/extraPages/forget-password';
 import Profile from './pages/extraPages/profile';
 import TryoutsTraining from './pages/extraPages/tryouts-training-student';
 import TryoutSchedule from './pages/extraPages/tryout-schedule';
+import PlayerInfoAdd from './pages/admin/PlayerInfoAdd';
+import LandingAdmin from './pages/admin/LandingAdmin';
+import Events from './pages/Events';
 
 const App = () => {
   return (
@@ -27,7 +30,8 @@ const App = () => {
           <div className="page-container">
             <Routes>
               {/* Root redirect */}
-            <Route path="/" element={<Navigate to="/landing" replace />} />
+              <Route path="/" element={<Navigate to="/landing" replace />} />
+              
               {/* Public Routes */}
               <Route
                 path="/landing"
@@ -69,7 +73,30 @@ const App = () => {
                   </PublicRoute>
                 }
               />
-
+              <Route
+                path="/player-info-add"
+                element={
+                  <PublicRoute>
+                    <PlayerInfoAdd />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/landing-admin"
+                element={
+                  <PublicRoute>
+                    <LandingAdmin />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/events"
+                element={
+                  <PublicRoute>
+                    <Events />
+                  </PublicRoute>
+                }
+              />
               {/* Protected Routes - Require Authentication */}
               <Route
                 path="/contactUs"
@@ -127,6 +154,27 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Admin Routes */}
+              <Route
+                path="/admin/coach-profile"
+                element={
+                  <AdminRoute>
+                    <CoachProfile />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/forget-password"
+                element={
+                  <AdminRoute>
+                    <ForgetPassword />
+                  </AdminRoute>
+                }
+              />
+
+              {/* 404 - Catch-all */}
+              <Route path="*" element={<Navigate to="/landing" replace />} />
             </Routes>
           </div>
         </div>
@@ -135,4 +183,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default App

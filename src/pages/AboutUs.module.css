@@ -12,6 +12,15 @@
   }
 }
 
+/* ------------BODY--------------*/
+body {
+  min-height: 100vh; /* Ensures background covers at least the viewport height */
+  background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
+
+  font-family: 'Raleway', sans-serif;
+  margin: 0;
+}
+
 .container {
   margin: 0;
   padding: 0;
@@ -193,4 +202,124 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+
+.coachTitle h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 800;
+  font-size: 65px;
+  margin-bottom: 20px;
+  color: #F2E57A;
+  background: linear-gradient(to right, #FFFFFF 26%, #F1E04E 86%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-top: 50px;
+}
+.coachGridContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1450px;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #5C0C0C 10%, #7F2D17 33%, #C6702E 69%, #7F2D17 86%);
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.coachCard {
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.coachCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
+}
+
+.coachCard img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10%;
+  margin-bottom: 15px;
+  border: 1px solid #FFFFFF;
+  object-fit: cover;
+}
+
+.coachCard h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #FFD966;
+}
+
+.coachCard p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #FFFFFF;
+}
+
+
+.adminTitle h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 800;
+  font-size: 65px;
+  margin-bottom: 20px;
+  color: #F2E57A;
+  background: linear-gradient(to right, #FFFFFF 26%, #F1E04E 86%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.adminGridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1450px;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #5C0C0C 10%, #7F2D17 33%, #C6702E 69%, #7F2D17 86%);
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.adminCard {
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adminCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.5);
+}
+
+.adminCard img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10%;
+  margin-bottom: 15px;
+  border: 1px solid #FFFFFF;
+  object-fit: cover;
+}
+
+.adminCard h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #FFD966;
+}
+
+.adminCard p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #FFFFFF;
 }
