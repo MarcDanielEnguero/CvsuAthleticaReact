@@ -1,11 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './AboutUs.module.css';
 import historicalBackground from '../assets/img/AboutUs/historical.png';
 import coachPicture from '../assets/img/coach.png';
 
-
-
 const AboutUs = () => {
+  const [coachProfiles, setCoachProfiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch coaches data from localStorage first
+    const savedProfiles = localStorage.getItem('coachProfiles');
+    if (savedProfiles) {
+      setCoachProfiles(JSON.parse(savedProfiles));
+      setIsLoading(false);
+    }
+
+    // Fetch from backend to ensure latest data
+    fetch("http://localhost:5000/coaches")
+      .then((res) => res.json())
+      .then((data) => {
+        setCoachProfiles(data);
+        localStorage.setItem('coachProfiles', JSON.stringify(data));
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching coaches:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  // Fallback coach data if nothing is loaded
+  const fallbackCoaches = [
+    {
+      id: 1,
+      name: "Marco C. Dalanon",
+      role: "BASKETBALL & SCAMMER COACH",
+      email: "marco.dalanon@cvsu.edu.ph",
+      contact: "09363625388",
+      image: coachPicture,
+    },
+    {
+      id: 2,
+      name: "Elreen Aya De Guzman",
+      role: "TENNIS COACH",
+      email: "elreen.aya.deguzman@cvsu.edu.ph",
+      contact: "09155334879",
+      image: coachPicture,
+    },
+    {
+      id: 3,
+      name: "Elreen Aya De Guzman",
+      role: "SOCCER, SWIMMING COACH",
+      email: "elreen.aya.deguzman@cvsu.edu.ph",
+      contact: "09155334879",
+      image: coachPicture,
+    }
+  ];
+
+  const displayCoaches = coachProfiles.length > 0 ? coachProfiles : fallbackCoaches;
+
   return (
     <>
       <div className={styles.bannerSection}></div>
@@ -42,70 +95,36 @@ const AboutUs = () => {
         <h2>COACHES</h2>
       </div>
       <div className={styles.coachGridContainer}>
-        <div className={styles.coachCard}>
-          <img src={coachPicture} alt="Marco C. Dalanon" />
-          <h3>Marco C. Dalanon</h3>
-          <p>BASKETBALL & SCAMMER COACH</p>
-          <p>marco.dalanon@cvsu.edu.ph</p>
-          <p>09363625388</p>
-        </div>
-        <div className={styles.coachCard}>
-          <img src={coachPicture} alt="Elreen Aya De Guzman" />
-          <h3>Elreen Aya De Guzman</h3>
-          <p>TENNIS COACH</p>
-          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
-          <p>09155334879</p>
-        </div>
-        <div className={styles.coachCard}>
-          <img src={coachPicture} alt="Elreen Aya De Guzman" />
-          <h3>Elreen Aya De Guzman</h3>
-          <p>SOCCER, SWIMMING COACH</p>
-          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
-          <p>09155334879</p>
-        </div>
-        <div className={styles.coachCard}>
-          <img src={coachPicture} alt="Marco C. Dalanon" />
-          <h3>Marco C. Dalanon</h3>
-          <p>BASKETBALL & SCAMMER COACH</p>
-          <p>marco.dalanon@cvsu.edu.ph</p>
-          <p>09363625388</p>
-        </div>
-        <div className={styles.coachCard}>
-          <img src={coachPicture} alt="Elreen Aya De Guzman" />
-          <h3>Elreen Aya De Guzman</h3>
-          <p>TENNIS COACH</p>
-          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
-          <p>09155334879</p>
-        </div>
-        <div className={styles.coachCard}>
-          <img src={coachPicture} alt="Elreen Aya De Guzman" />
-          <h3>Elreen Aya De Guzman</h3>
-          <p>SOCCER, SWIMMING COACH</p>
-          <p>elreen.aya.deguzman@cvsu.edu.ph</p>
-          <p>09155334879</p>
-        </div>
+        {displayCoaches.map((coach) => (
+          <div className={styles.coachCard} key={coach.id}>
+            <img src={coach.image} alt={coach.name} />
+            <h3>{coach.name}</h3>
+            <p>{coach.role}</p>
+            <p>{coach.email}</p>
+            <p>{coach.contact}</p>
+          </div>
+        ))}
       </div>
     
       <div className={styles.adminTitle}>
-          <h2>ADMINS</h2>
+        <h2>ADMINS</h2>
+      </div>
+      <div className={styles.adminGridContainer}>
+        <div className={styles.adminCard}>
+          <img src={coachPicture} alt="Admin 1" />
+          <h3>Admin 1 Name</h3>
+          <p>Position</p>
+          <p>admin1.email@domain.com</p>
+          <p>09123456789</p>
         </div>
-        <div className={styles.adminGridContainer}>
-          <div className={styles.adminCard}>
-            <img src={coachPicture} alt="Admin 1" />
-            <h3>Admin 1 Name</h3>
-            <p>Position</p>
-            <p>admin1.email@domain.com</p>
-            <p>09123456789</p>
-          </div>
-          <div className={styles.adminCard}>
-            <img src={coachPicture} alt="Admin 2" />
-            <h3>Admin 2 Name</h3>
-            <p>Position</p>
-            <p>admin2.email@domain.com</p>
-            <p>09876543210</p>
-          </div>
+        <div className={styles.adminCard}>
+          <img src={coachPicture} alt="Admin 2" />
+          <h3>Admin 2 Name</h3>
+          <p>Position</p>
+          <p>admin2.email@domain.com</p>
+          <p>09876543210</p>
         </div>
-
+      </div>
 
       <div className={styles.footerBar}>
         <div className={styles.emailContact}>
@@ -115,8 +134,6 @@ const AboutUs = () => {
           <i className="fa fa-envelope"></i> email2@periodt.com
         </div>
       </div>
-
-      
     </>
   );
 };

@@ -1,28 +1,48 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Coach = require('../models/Coach');  // Import your Coach model
+const Coach = require("../models/Coach");
 
-// POST request to add a new coach
-router.post('/', async (req, res) => {
-  try {
-    const { name, sport } = req.body;
-    const newCoach = new Coach({ name, sport });
-    await newCoach.save();
-    res.status(201).json({ message: 'Coach added successfully', coach: newCoach });
-  } catch (error) {
-    console.error('Error adding coach:', error);
-    res.status(500).json({ error: 'Error adding coach' });
-  }
+let coaches = [
+  {
+    id: 1,
+    name: 'Marco',
+    role: 'BASKETBALL & SCAMMER COACH',
+    email: 'marco.dalanon@cvsu.edu.ph',
+    contact: '09363625388',
+    image: '/static/media/coach.fdf4d83a94bd22020102.png',
+  },
+  {
+    id: 2,
+    name: 'Elreen Aya De Guzman',
+    role: 'TENNIS COACH',
+    email: 'elreen.aya.deguzman@cvsu.edu.ph',
+    contact: '09155334879',
+    image: '/static/media/coach.fdf4d83a94bd22020102.png',
+  },
+];
+
+
+// Get all coaches
+router.get('/', (req, res) => {
+  res.status(200).json(coaches);
 });
 
-// GET request to fetch all coaches
-router.get('/', async (req, res) => {
+// Update or add coaches
+router.put('/', async (req, res) => {
+  const updatedCoaches = req.body;
+
+  if (!Array.isArray(updatedCoaches)) {
+    return res.status(400).json({ error: 'Request body must be an array of coaches' });
+  }
+
   try {
-    const coaches = await Coach.find();  // Fetch coaches from the database
-    res.status(200).json(coaches);
+    // Replace all coaches in the database with the updated list
+    await Coach.deleteMany({});
+    const savedCoaches = await Coach.insertMany(updatedCoaches);
+    res.status(200).json({ message: 'Coaches updated successfully!', coaches: savedCoaches });
   } catch (error) {
-    console.error('Error fetching coaches:', error);
-    res.status(500).json({ error: 'Error fetching coaches' });
+    console.error('Error updating coaches:', error);
+    res.status(500).json({ error: 'Failed to update coaches' });
   }
 });
 

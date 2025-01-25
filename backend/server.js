@@ -3,9 +3,16 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/user');
+const coachRoutes = require('./routes/coaches'); // Fix import name
 
 // Load environment variables
 dotenv.config();
+
+// Ensure required environment variables are defined
+if (!process.env.MONGO_URI || !process.env.FRONTEND_URL) {
+  console.error('Missing required environment variables: MONGO_URI or FRONTEND_URL');
+  process.exit(1);
+}
 
 const app = express();
 
@@ -18,34 +25,33 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Middleware - ensure these are in the correct order
+// Middleware
 app.use(
   express.json({
     limit: '10mb',
-    strict: false, // More flexible JSON parsing
+    strict: false,
   })
 );
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Comprehensive request logging middleware
+// Request logging middleware
 app.use((req, res, next) => {
   console.log('=== Incoming Request ===');
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  console.log('Full URL:', req.protocol + '://' + req.get('host') + req.originalUrl);
-  console.log('Incoming request headers:', JSON.stringify(req.headers, null, 2));
-  console.log('Incoming request body:', JSON.stringify(req.body, null, 2));
+  console.log('Incoming request headers:', req.headers);
+  console.log('Incoming request body:', req.body);
   next();
 });
 
 // Routes
-const authRoutes = require('./routes/auth'); // Import the auth.js file
+const authRoutes = require('./routes/auth');
 const registrationRoutes = require('./routes/registration');
 
-
 // Mount routes
-app.use('/api/auth', authRoutes); // Use the auth routes
-app.use('/api/registration', registrationRoutes); // Use the registration routes
-app.use('/api/user', userRoutes); // Use the user routes
+app.use('/api/auth', authRoutes);
+app.use('/api/registration', registrationRoutes);
+app.use('/api/user', userRoutes);
+app.use('/coaches', coachRoutes); // Fix route name
 
 // Catch-all route to help diagnose routing issues
 app.use((req, res, next) => {
@@ -63,7 +69,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     error: 'Internal server error',
     message: err.message,
-    stack: err.stack,
   });
 });
 
@@ -71,10 +76,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected successfully');
     app.listen(PORT, () => {
