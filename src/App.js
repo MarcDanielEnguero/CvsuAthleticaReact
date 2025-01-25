@@ -20,6 +20,7 @@ import TryoutSchedule from './pages/extraPages/tryout-schedule';
 import PlayerInfoAdd from './pages/admin/PlayerInfoAdd';
 import LandingAdmin from './pages/admin/LandingAdmin';
 import Events from './pages/Events';
+import AboutUsAdmin from './pages/admin/AboutUsAdmin';
 
 const App = () => {
   return (
@@ -95,6 +96,14 @@ const App = () => {
                   <PublicRoute>
                     <Events />
                   </PublicRoute>
+                }
+              />
+              <Route
+                path="/aboutUsAdmin"
+                element={
+                  <PublicRoute>
+                    <AboutUsAdmin />
+                    </PublicRoute>
                 }
               />
               {/* Protected Routes - Require Authentication */}

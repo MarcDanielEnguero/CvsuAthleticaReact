@@ -66,7 +66,7 @@ body {
 
 .bannerSection {
   position: relative;
-  background: url('../assets/img/AboutUs/background-image.png') no-repeat center;
+  background: url('../../assets/img/AboutUs/background-image.png') no-repeat center;
   background-size: cover;
   height: 600px;
   display: flex;
