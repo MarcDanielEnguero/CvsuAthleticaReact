@@ -3,6 +3,7 @@ import Navbar from '../pages/Navbar'; // Assuming your Navbar component is here
 import styles from './MainCampusInfoIndex.module.css';
 import MainCampusLogo from '../assets/img/MainCampusInfoIndex/cvsu-logo.png';
 
+
 const MainCampusInfoIndex = () => {
     return (
         <div className={styles.container}>

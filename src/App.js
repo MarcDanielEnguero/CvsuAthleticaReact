@@ -21,6 +21,7 @@ import PlayerInfoAdd from './pages/admin/PlayerInfoAdd';
 import LandingAdmin from './pages/admin/LandingAdmin';
 import Events from './pages/Events';
 import AboutUsAdmin from './pages/admin/AboutUsAdmin';
+import TryoutsTrainingAdmin from './pages/extraPages/tryouts-training-student';
 
 const App = () => {
   return (
