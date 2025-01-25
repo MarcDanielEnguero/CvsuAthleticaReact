@@ -1,3 +1,15 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+
+body {
+    min-height: 100vh; /* Ensures background covers at least the viewport height */
+    background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+}
+
+
 .profileContainer {
     max-width: 800px;
     margin: 20px auto;
@@ -7,8 +19,6 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center alignment for better presentation */
-    color: white; /* Universal text color for readability */
 }
 
 .profileContainer h1 {
@@ -137,20 +147,4 @@
     background-color: #009973; /* Darker green on hover */
 }
 
-.footerBar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-    border-top: 1px solid #555;
-}
 
-.emailContact {
-    display: flex;
-    align-items: center;
-}
-
-.emailContact i {
-    margin-right: 10px;
-}

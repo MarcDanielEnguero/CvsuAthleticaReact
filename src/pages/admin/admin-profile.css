@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap');
+
+body {
+    min-height: 100vh; /* Ensures background covers at least the viewport height */
+    background: linear-gradient(160deg, #400404 0%, #742403 80%, #EC6E00 100%);
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+}
+
 .profile-container {
     max-width: 800px;
     margin: 20px auto;
