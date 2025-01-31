@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import Navbar from "../Navbar";
 import { useNavigate } from "react-router-dom";
 import "./LandingAdmin.module.css";
@@ -6,7 +7,6 @@ import beeLogo from '../../assets/img/bee-logo.png';
 import banner1 from '../../assets/img/banner1.png';
 import banner2 from '../../assets/img/banner2.png';
 import banner3 from '../../assets/img/banner3.png';
-import news from '../../assets/img/news.png';
 
 const LandingAdmin = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -30,12 +30,61 @@ const LandingAdmin = () => {
       }
     ]
   });
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
+  useEffect(() => {
+    fetchLandingContent();
+  }, []);
+
+  const fetchLandingContent = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await axios.get('http://localhost:5000/api/landing', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setEditableContent(prevContent => ({
+        ...prevContent,
+        ...response.data
+      }));
+      setLoading(false);
+    } catch (err) {
+      console.error('Fetch error:', err);
+      setError('Failed to fetch landing content');
+      setLoading(false);
+    }
   };
+
+  const handleSaveChanges = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      await axios.put('http://localhost:5000/api/landing', editableContent, {
+        headers: { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      setIsEditing(false);
+      fetchLandingContent();
+    } catch (err) {
+      console.error('Save error:', err);
+      setError('Failed to save changes');
+    }
+  };
+
+  const handleEditClick = () => setIsEditing(!isEditing);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,37 +105,30 @@ const LandingAdmin = () => {
     }
   };
 
-  const addCard = (type) => {
-    const newCard = { 
-      title: "New Title", 
-      details: "<p><span>Date:</span> New Date</p><p><span>Time:</span> New Time</p><p><span>Place:</span> New Place" 
-    };
-    setEditableContent({
-      ...editableContent,
-      [type]: [...editableContent[type], newCard]
-    });
-  };
-
   const updateCardDetails = (type, index, field, value) => {
-    const updatedCards = editableContent[type].map((card, i) =>
+    const updatedCards = editableContent[type].map((card, i) => 
       i === index ? { ...card, [field]: value } : card
     );
     setEditableContent({ ...editableContent, [type]: updatedCards });
   };
 
+  const handleDeleteCard = (type, index) => {
+    const updatedCards = editableContent[type].filter((_, i) => i !== index);
+    setEditableContent({ ...editableContent, [type]: updatedCards });
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <div className="landing">
       <Navbar />
+      {/* Banner Section */}
       <div className="banner">
         <div className="banner-slide">
           <img src={banner1} alt="Slide 1" className="fade-in" />
           <img src={banner2} alt="Slide 2" className="fade-in" />
           <img src={banner3} alt="Slide 3" className="fade-in" />
-        </div>
-        <div className="banner-dots">
-          <span className="dot"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
         </div>
         <div className="banner-content">
           <div className="banner-text">
@@ -97,10 +139,11 @@ const LandingAdmin = () => {
         </div>
       </div>
 
-      <button className="addBtn" onClick={handleEditClick}>
+      <button className="addBtn" onClick={isEditing ? handleSaveChanges : handleEditClick}>
         {isEditing ? "Save Changes" : "Edit Content"}
       </button>
 
+      {/* News Section */}
       <div className="title1">
         <h1 className="slide-up">ANNOUNCEMENTS</h1>
       </div>
@@ -109,21 +152,9 @@ const LandingAdmin = () => {
           <div className="news-text">
             {isEditing ? (
               <>
-                <input
-                  type="text"
-                  name="newsTitle"
-                  value={editableContent.newsTitle}
-                  onChange={handleChange}
-                />
-                <textarea
-                  name="newsText"
-                  value={editableContent.newsText}
-                  onChange={handleChange}
-                />
-                <input
-                  type="file"
-                  onChange={(e) => handleImageUpload(e, "newsImage")}
-                />
+                <input type="text" name="newsTitle" value={editableContent.newsTitle} onChange={handleChange} />
+                <textarea name="newsText" value={editableContent.newsText} onChange={handleChange} />
+                <input type="file" onChange={(e) => handleImageUpload(e, "newsImage")} />
               </>
             ) : (
               <>
@@ -132,71 +163,25 @@ const LandingAdmin = () => {
               </>
             )}
           </div>
-          {editableContent.newsImage && (
-            <div className="news-image">
-              <img src={editableContent.newsImage} alt="Athlete in Action" />
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="title2">
-        <h1 className="slide-up">LATEST EVENTS AND ACHIEVEMENTS</h1>
-      </div>
-      <div className="third-section">
-        <div className="third-content fade-in">
-          <div className="third-text">
-            {isEditing ? (
-              <>
-                <input
-                  type="text"
-                  name="thirdTitle"
-                  value={editableContent.thirdTitle}
-                  onChange={handleChange}
-                />
-                <textarea
-                  name="thirdText"
-                  value={editableContent.thirdText}
-                  onChange={handleChange}
-                />
-                <input
-                  type="file"
-                  onChange={(e) => handleImageUpload(e, "thirdImage")}
-                />
-              </>
-            ) : (
-              <>
-                <h3>{editableContent.thirdTitle}</h3>
-                <p>{editableContent.thirdText}</p>
-              </>
-            )}
+          <div className="news-image">
+            <img src={editableContent.newsImage || banner1} alt="News" />
           </div>
-          {editableContent.thirdImage && (
-            <div className="third-image">
-              <img src={editableContent.thirdImage} alt="Uploaded Photo" />
-            </div>
-          )}
         </div>
       </div>
 
+      {/* Events Section */}
       <div className="title3">
         <h1 className="slide-up">EVENTS AND GAME SCHEDULE</h1>
       </div>
       <div className="event-container fade-in">
-        <div className="event-opening-wrapper">
-          <h2 className="event-opening">STRASUC 2024</h2>
-        </div>
         <div className="event-cards-wrapper">
           {editableContent.eventCards.map((card, index) => (
             <div className="event-card" key={index}>
               <div className="event-title">
                 {isEditing ? (
                   <input
-                    type="text"
                     value={card.title}
-                    onChange={(e) =>
-                      updateCardDetails("eventCards", index, "title", e.target.value)
-                    }
+                    onChange={(e) => updateCardDetails("eventCards", index, "title", e.target.value)}
                   />
                 ) : (
                   card.title
@@ -204,42 +189,35 @@ const LandingAdmin = () => {
               </div>
               <div className="event-details">
                 {isEditing ? (
-                  <textarea
-                    value={card.details}
-                    onChange={(e) =>
-                      updateCardDetails("eventCards", index, "details", e.target.value)
-                    }
-                  />
+                  <>
+                    <textarea
+                      value={card.details}
+                      onChange={(e) => updateCardDetails("eventCards", index, "details", e.target.value)}
+                    />
+                    <button onClick={() => handleDeleteCard("eventCards", index)}>Delete</button>
+                  </>
                 ) : (
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
                 )}
               </div>
             </div>
           ))}
-          {isEditing && (
-            <button onClick={() => addCard("eventCards")}>Add Event Card</button>
-          )}
         </div>
       </div>
 
+      {/* Tryouts Section */}
       <div className="title4">
         <h1 className="slide-up">TRYOUTS AND TRAINING</h1>
       </div>
       <div className="tryout-container fade-in">
-        <div className="tryout-opening-wrapper">
-          <h2 className="tryout-opening">CEIT U-GAMES TRYOUTS</h2>
-        </div>
         <div className="tryout-cards-wrapper">
           {editableContent.tryoutCards.map((card, index) => (
             <div className="tryout-card" key={index}>
               <div className="tryout-title">
                 {isEditing ? (
                   <input
-                    type="text"
                     value={card.title}
-                    onChange={(e) =>
-                      updateCardDetails("tryoutCards", index, "title", e.target.value)
-                    }
+                    onChange={(e) => updateCardDetails("tryoutCards", index, "title", e.target.value)}
                   />
                 ) : (
                   card.title
@@ -247,21 +225,19 @@ const LandingAdmin = () => {
               </div>
               <div className="tryout-details">
                 {isEditing ? (
-                  <textarea
-                    value={card.details}
-                    onChange={(e) =>
-                      updateCardDetails("tryoutCards", index, "details", e.target.value)
-                    }
-                  />
+                  <>
+                    <textarea
+                      value={card.details}
+                      onChange={(e) => updateCardDetails("tryoutCards", index, "details", e.target.value)}
+                    />
+                    <button onClick={() => handleDeleteCard("tryoutCards", index)}>Delete</button>
+                  </>
                 ) : (
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
                 )}
               </div>
             </div>
           ))}
-          {isEditing && (
-            <button onClick={() => addCard("tryoutCards")}>Add Tryout Card</button>
-          )}
         </div>
       </div>
     </div>
