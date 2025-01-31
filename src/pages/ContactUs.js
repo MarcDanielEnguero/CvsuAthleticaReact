@@ -172,16 +172,7 @@ const ContactUs = () => {
           ))}
         </div>
       </div>
-
-      <div className={styles.footerBar}>
-        <div className={styles.emailContact}>
-          <FontAwesomeIcon icon={faEnvelope} /> email1@periodt.com
-        </div>
-        <div className={styles.emailContact}>
-          <FontAwesomeIcon icon={faEnvelope} /> email2@periodt.com
-        </div>
       </div>
-    </div>
   );
 };
 

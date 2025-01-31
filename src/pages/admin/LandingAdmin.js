@@ -74,6 +74,23 @@ const LandingAdmin = () => {
     setEditableContent({ ...editableContent, [type]: updatedCards });
   };
 
+  const inputStyles = {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '10px',
+    fontSize: '16px',
+    border: '2px solid #ddd',
+    borderRadius: '4px',
+    backgroundColor: '#f8f9fa',
+    transition: 'border-color 0.3s'
+  };
+
+  const textareaStyles = {
+    ...inputStyles,
+    minHeight: '100px',
+    resize: 'vertical'
+  };
+
   return (
     <div className="landing">
       <Navbar />
@@ -97,7 +114,25 @@ const LandingAdmin = () => {
         </div>
       </div>
 
-      <button className="addBtn" onClick={handleEditClick}>
+      <button 
+        className="edit-button"
+        style={{
+          padding: '12px 24px',
+          fontSize: '16px',
+          backgroundColor: '#007bff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          margin: '20px auto',
+          transition: 'background-color 0.3s',
+          display: 'block',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+        }}
+        onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+        onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+        onClick={handleEditClick}
+      >
         {isEditing ? "Save Changes" : "Edit Content"}
       </button>
 
@@ -114,15 +149,22 @@ const LandingAdmin = () => {
                   name="newsTitle"
                   value={editableContent.newsTitle}
                   onChange={handleChange}
+                  style={inputStyles}
+                  onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'}
                 />
                 <textarea
                   name="newsText"
                   value={editableContent.newsText}
                   onChange={handleChange}
+                  style={textareaStyles}
+                  onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'}
                 />
                 <input
                   type="file"
                   onChange={(e) => handleImageUpload(e, "newsImage")}
+                  style={inputStyles}
                 />
               </>
             ) : (
@@ -153,15 +195,22 @@ const LandingAdmin = () => {
                   name="thirdTitle"
                   value={editableContent.thirdTitle}
                   onChange={handleChange}
+                  style={inputStyles}
+                  onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'}
                 />
                 <textarea
                   name="thirdText"
                   value={editableContent.thirdText}
                   onChange={handleChange}
+                  style={textareaStyles}
+                  onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                  onBlur={(e) => e.target.style.borderColor = '#ddd'}
                 />
                 <input
                   type="file"
                   onChange={(e) => handleImageUpload(e, "thirdImage")}
+                  style={inputStyles}
                 />
               </>
             ) : (
@@ -197,6 +246,9 @@ const LandingAdmin = () => {
                     onChange={(e) =>
                       updateCardDetails("eventCards", index, "title", e.target.value)
                     }
+                    style={inputStyles}
+                    onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
                   />
                 ) : (
                   card.title
@@ -209,6 +261,9 @@ const LandingAdmin = () => {
                     onChange={(e) =>
                       updateCardDetails("eventCards", index, "details", e.target.value)
                     }
+                    style={textareaStyles}
+                    onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
                   />
                 ) : (
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
@@ -217,7 +272,25 @@ const LandingAdmin = () => {
             </div>
           ))}
           {isEditing && (
-            <button onClick={() => addCard("eventCards")}>Add Event Card</button>
+            <button 
+              className="add-card-btn" 
+              style={{
+                padding: '8px 16px',
+                fontSize: '14px',
+                backgroundColor: '#28a745',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                margin: '10px 0',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#218838'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#28a745'}
+              onClick={() => addCard("eventCards")}
+            >
+              Add Event Card
+            </button>
           )}
         </div>
       </div>
@@ -240,6 +313,9 @@ const LandingAdmin = () => {
                     onChange={(e) =>
                       updateCardDetails("tryoutCards", index, "title", e.target.value)
                     }
+                    style={inputStyles}
+                    onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
                   />
                 ) : (
                   card.title
@@ -252,6 +328,9 @@ const LandingAdmin = () => {
                     onChange={(e) =>
                       updateCardDetails("tryoutCards", index, "details", e.target.value)
                     }
+                    style={textareaStyles}
+                    onFocus={(e) => e.target.style.borderColor = '#007bff'}
+                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
                   />
                 ) : (
                   <div dangerouslySetInnerHTML={{ __html: card.details }} />
@@ -260,7 +339,25 @@ const LandingAdmin = () => {
             </div>
           ))}
           {isEditing && (
-            <button onClick={() => addCard("tryoutCards")}>Add Tryout Card</button>
+            <button 
+              className="add-card-btn"
+              style={{
+                padding: '8px 16px',
+                fontSize: '14px',
+                backgroundColor: '#28a745',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                margin: '10px 0',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#218838'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#28a745'}
+              onClick={() => addCard("tryoutCards")}
+            >
+              Add Tryout Card
+            </button>
           )}
         </div>
       </div>
