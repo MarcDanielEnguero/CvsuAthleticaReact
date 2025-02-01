@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import { useNavigate } from "react-router-dom";
 import "./LandingAdmin.module.css";
@@ -6,7 +6,6 @@ import beeLogo from '../../assets/img/bee-logo.png';
 import banner1 from '../../assets/img/banner1.png';
 import banner2 from '../../assets/img/banner2.png';
 import banner3 from '../../assets/img/banner3.png';
-import news from '../../assets/img/news.png';
 
 const LandingAdmin = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -32,9 +31,104 @@ const LandingAdmin = () => {
   });
 
   const navigate = useNavigate();
+  // Remove the trailing slash
+  const API_URL = process.env.REACT_APP_API_URL.replace(/\/$/, '');
+
+  // Fetch initial content
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        // Add '/api' to match the router mounting
+        const response = await fetch(`${API_URL}/api/landing`);
+        if (!response.ok) {
+          // Log more detailed error information
+          const errorText = await response.text();
+          console.error('Fetch response not OK:', {
+            status: response.status,
+            statusText: response.statusText,
+            body: errorText
+          });
+          throw new Error('Failed to fetch content');
+        }
+        
+        const data = await response.json();
+        setEditableContent(data);
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      }
+    };
+    fetchContent();
+  }, []);
 
   const handleEditClick = () => {
-    setIsEditing(!isEditing);
+    if (isEditing) {
+      handleSave();
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  // ✅ Define fetchContent before using it
+  const fetchContent = async () => {
+    try {
+      // Use the correct, consistent API endpoint
+      const response = await fetch(`${API_URL}/landing`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch content');
+      }
+      const data = await response.json();
+      setEditableContent(data);
+    } catch (error) {
+      console.error('Error fetching content:', error);
+    }
+  };
+
+  // ✅ Fetch initial content when component mounts
+  useEffect(() => {
+    fetchContent();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      const formData = new FormData();
+      
+      // Append all text fields
+      Object.keys(editableContent).forEach(key => {
+        if (typeof editableContent[key] === 'string') {
+          formData.append(key, editableContent[key]);
+        }
+      });
+  
+      // Handle card data
+      formData.append('eventCards', JSON.stringify(editableContent.eventCards));
+      formData.append('tryoutCards', JSON.stringify(editableContent.tryoutCards));
+  
+      // Handle image uploads
+      ['newsImage', 'thirdImage'].forEach(field => {
+        if (editableContent[field] instanceof File) {
+          formData.append(field, editableContent[field]);
+        }
+      });
+  
+      const response = await fetch(`${API_URL}/api/landing`, {
+        method: 'PUT',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to save changes: ${response.status} ${errorText}`);
+      }
+  
+      const updatedContent = await response.json();
+      console.log("✅ Response from backend:", updatedContent);
+  
+      fetchContent();
+      setIsEditing(false);
+    } catch (error) {
+      console.error('❌ Error saving changes:', error);
+      alert(`Failed to save changes: ${error.message}`);
+    }
   };
 
   const handleChange = (e) => {
@@ -45,14 +139,10 @@ const LandingAdmin = () => {
   const handleImageUpload = (e, field) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setEditableContent(prevContent => ({
-          ...prevContent, 
-          [field]: reader.result
-        }));
-      };
-      reader.readAsDataURL(file);
+      setEditableContent(prevContent => ({
+        ...prevContent,
+        [field]: file
+      }));
     }
   };
 
@@ -174,11 +264,18 @@ const LandingAdmin = () => {
               </>
             )}
           </div>
-          {editableContent.newsImage && (
-            <div className="news-image">
-              <img src={editableContent.newsImage} alt="Athlete in Action" />
-            </div>
-          )}
+          {(editableContent.newsImage) && (
+  <div className="news-image">
+    <img 
+      src={
+        editableContent.newsImage instanceof File 
+          ? URL.createObjectURL(editableContent.newsImage)
+          : `${API_URL}/${editableContent.newsImage}`
+      } 
+      alt="News" 
+    />
+  </div>
+)}
         </div>
       </div>
 
@@ -220,9 +317,15 @@ const LandingAdmin = () => {
               </>
             )}
           </div>
-          {editableContent.thirdImage && (
+          {(editableContent.thirdImage instanceof File ? URL.createObjectURL(editableContent.thirdImage) : editableContent.thirdImage) && (
             <div className="third-image">
-              <img src={editableContent.thirdImage} alt="Uploaded Photo" />
+              <img 
+                src={editableContent.thirdImage instanceof File ? 
+                  URL.createObjectURL(editableContent.thirdImage) : 
+                  `${API_URL}${editableContent.thirdImage}`
+                } 
+                alt="Third Section" 
+              />
             </div>
           )}
         </div>
@@ -273,7 +376,7 @@ const LandingAdmin = () => {
           ))}
           {isEditing && (
             <button 
-              className="add-card-btn" 
+              className="add-card-btn"
               style={{
                 padding: '8px 16px',
                 fontSize: '14px',
@@ -296,71 +399,78 @@ const LandingAdmin = () => {
       </div>
 
       <div className="title4">
-        <h1 className="slide-up">TRYOUTS AND TRAINING</h1>
-      </div>
-      <div className="tryout-container fade-in">
-        <div className="tryout-opening-wrapper">
-          <h2 className="tryout-opening">CEIT U-GAMES TRYOUTS</h2>
-        </div>
-        <div className="tryout-cards-wrapper">
-          {editableContent.tryoutCards.map((card, index) => (
-            <div className="tryout-card" key={index}>
-              <div className="tryout-title">
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={card.title}
-                    onChange={(e) =>
-                      updateCardDetails("tryoutCards", index, "title", e.target.value)
-                    }
-                    style={inputStyles}
-                    onFocus={(e) => e.target.style.borderColor = '#007bff'}
-                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
-                  />
-                ) : (
-                  card.title
-                )}
-              </div>
-              <div className="tryout-details">
-                {isEditing ? (
-                  <textarea
-                    value={card.details}
-                    onChange={(e) =>
-                      updateCardDetails("tryoutCards", index, "details", e.target.value)
-                    }
-                    style={textareaStyles}
-                    onFocus={(e) => e.target.style.borderColor = '#007bff'}
-                    onBlur={(e) => e.target.style.borderColor = '#ddd'}
-                  />
-                ) : (
-                  <div dangerouslySetInnerHTML={{ __html: card.details }} />
-                )}
-              </div>
-            </div>
-          ))}
-          {isEditing && (
-            <button 
-              className="add-card-btn"
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                backgroundColor: '#28a745',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                margin: '10px 0',
-                transition: 'background-color 0.3s'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#218838'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#28a745'}
-              onClick={() => addCard("tryoutCards")}
-            >
-              Add Tryout Card
-            </button>
+  <h1 className="slide-up">TRYOUTS AND TRAINING</h1>
+</div>
+<div className="tryout-container fade-in">
+  <div className="tryout-opening-wrapper">
+    <h2 className="tryout-opening">CEIT U-GAMES TRYOUTS</h2>
+  </div>
+  <div className="tryout-cards-wrapper">
+    {editableContent.tryoutCards.map((card, index) => (
+      <div className="tryout-card" key={index}>
+        <div className="tryout-title">
+          {isEditing ? (
+            <input
+              type="text"
+              value={card.title}
+              onChange={(e) =>
+                updateCardDetails("tryoutCards", index, "title", e.target.value)
+              }
+              style={inputStyles}
+              onFocus={(e) => e.target.style.borderColor = '#007bff'}
+              onBlur={(e) => e.target.style.borderColor = '#ddd'}
+            />
+          ) : (
+            card.title
           )}
         </div>
+        <div className="tryout-details">
+          {isEditing ? (
+            <textarea
+              value={card.details}
+              onChange={(e) =>
+                updateCardDetails("tryoutCards", index, "details", e.target.value)
+              }
+              style={textareaStyles}
+              onFocus={(e) => e.target.style.borderColor = '#007bff'}
+              onBlur={(e) => e.target.style.borderColor = '#ddd'}
+            />
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: card.details }} />
+          )}
+        </div>
+        {/* Add a button for redirection */}
+        <button 
+          className="apply-btn" // Use the apply-btn class
+          onClick={() => window.location.href = '/free-training-form'} // Redirect to /free-training-form
+        >
+          APPLY NOW
+        </button>
       </div>
+    ))}
+    {isEditing && (
+      <button 
+        className="add-card-btn"
+        style={{
+          padding: '8px 16px',
+          fontSize: '14px',
+          backgroundColor: '#28a745',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          margin: '10px 0',
+          transition: 'background-color 0.3s'
+        }}
+        onMouseOver={(e) => e.target.style.backgroundColor = '#218838'}
+        onMouseOut={(e) => e.target.style.backgroundColor = '#28a745'}
+        onClick={() => addCard("tryoutCards")}
+      >
+        Add Tryout Card
+      </button>
+    )}
+  </div>
+</div>
     </div>
   );
 };

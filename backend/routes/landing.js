@@ -1,125 +1,135 @@
 const express = require('express');
 const router = express.Router();
-const { protect, checkRole } = require('../middleware/auth');
 const LandingContent = require('../models/LandingContent');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
-// Get landing content
-router.get('/', protect, async (req, res) => {
-  console.log('Fetching landing content requested by user:', req.user);
+// Ensure uploads directory exists
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir);
+}
 
+// Configure multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'image-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5000000 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    checkFileType(file, cb);
+  }
+}).fields([
+  { name: 'newsImage', maxCount: 1 },
+  { name: 'thirdImage', maxCount: 1 }
+]);
+
+// Check file type
+function checkFileType(file, cb) {
+  const filetypes = /jpeg|jpg|png|gif/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb(new Error('Error: Images Only!'));
+  }
+}
+
+// Logging middleware
+router.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
+
+router.get('/landing', async (req, res) => {
   try {
-    // Find the latest landing content
-    const content = await LandingContent.findOne().sort({ lastUpdated: -1 });
-
+    console.log('Received GET request to /landing');
+    console.log('Request headers:', req.headers);
+    console.log('Request method:', req.method);
+    
+    let content = await LandingContent.findOne();
+    
     if (!content) {
-      console.log('No content found. Creating default content.');
-
-      // Create default content if none exists
-      const defaultContent = new LandingContent({
-        newsTitle: 'CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024',
-        newsText: 'Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-        newsImage: '',
-        thirdTitle: 'CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024',
-        thirdText: 'Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-        thirdImage: '',
-        eventCards: [
-          { 
-            title: "Opening", 
-            details: "<p><span>Date:</span> November 00, 0000</p><p><span>Time:</span> 00:00 PM</p><p><span>Place:</span> Palawan State University, Gymnasium" 
-          }
-        ],
-        tryoutCards: [
-          { 
-            title: "Opening", 
-            details: "<p><span>Date:</span> November 00, 0000</p><p><span>Time:</span> 00:00 PM</p><p><span>Place:</span> Palawan State University, Gymnasium" 
-          }
-        ],
-        updatedBy: req.user._id,
-      });
-
-      await defaultContent.save();
-      return res.status(201).json({
-        success: true,
-        message: 'Default content created.',
-        data: defaultContent,
-      });
+      console.log('No existing content found, creating default');
+      content = await LandingContent.create({});
     }
-
-    res.status(200).json({
-      success: true,
-      message: 'Landing content fetched successfully.',
-      data: content,
-    });
+    
+    console.log('Landing content retrieved:', content);
+    res.json(content);
   } catch (error) {
-    console.error('Error fetching landing content:', error.message);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch landing content.',
-      error: error.message,
+    console.error('GET landing content error:', {
+      message: error.message,
+      stack: error.stack
+    });
+    res.status(500).json({ 
+      message: 'Server error retrieving landing content', 
+      error: error.message 
     });
   }
 });
 
-// Update landing content (admin only)
-router.put('/', protect, checkRole(['admin']), async (req, res) => {
+router.put('/landing', upload, async (req, res) => {
   try {
-    const {
-      newsTitle,
-      newsText,
-      newsImage,
-      thirdTitle,
-      thirdText,
-      thirdImage,
-      eventCards,
-      tryoutCards,
-    } = req.body;
+    console.log('Received PUT request to /landing');
+    console.log('Request body:', req.body);
+    console.log('Request files:', req.files);
 
-    // Validate required fields
-    if (!newsTitle || !newsText || !thirdTitle || !thirdText) {
-      return res.status(400).json({
-        success: false,
-        message: 'Missing required fields: newsTitle, newsText, thirdTitle, and thirdText.',
-      });
+    // Find existing content
+    let content = await LandingContent.findOne();
+    if (!content) {
+      content = new LandingContent();
     }
 
-    // Validate eventCards and tryoutCards structure
-    if (!Array.isArray(eventCards) || !Array.isArray(tryoutCards)) {
-      return res.status(400).json({
-        success: false,
-        message: 'eventCards and tryoutCards must be arrays.',
-      });
+    // Update text fields
+    content.newsTitle = req.body.newsTitle || content.newsTitle;
+    content.newsText = req.body.newsText || content.newsText;
+    content.thirdTitle = req.body.thirdTitle || content.thirdTitle;
+    content.thirdText = req.body.thirdText || content.thirdText;
+
+    // Parse and update event and tryout cards
+    if (req.body.eventCards) {
+      content.eventCards = JSON.parse(req.body.eventCards);
+    }
+    if (req.body.tryoutCards) {
+      content.tryoutCards = JSON.parse(req.body.tryoutCards);
     }
 
-    // Update or create content
-    const updatedContent = await LandingContent.findOneAndUpdate(
-      {}, // Match any document
-      {
-        newsTitle,
-        newsText,
-        newsImage,
-        thirdTitle,
-        thirdText,
-        thirdImage,
-        eventCards,
-        tryoutCards,
-        lastUpdated: new Date(),
-        updatedBy: req.user._id,
-      },
-      { new: true, upsert: true } // Create new document if none exists
-    );
+    // Handle image uploads
+    if (req.files) {
+      if (req.files.newsImage) {
+        const newsImagePath = req.files.newsImage[0].path;
+        // Ensure the path starts with '/uploads/'
+        content.newsImage = '/uploads/' + newsImagePath.replace(/\\/g, '/').split('/').pop();
+      }
+      if (req.files.thirdImage) {
+        const thirdImagePath = req.files.thirdImage[0].path;
+        // Ensure the path starts with '/uploads/'
+        content.thirdImage = '/uploads/' + thirdImagePath.replace(/\\/g, '/').split('/').pop();
+      }
+    }
 
-    console.log('Landing content updated by admin:', req.user._id);
-    res.status(200).json({
-      success: true,
-      message: 'Landing content updated successfully.',
-      data: updatedContent,
-    });
+    // Save updated content
+    const updatedContent = await content.save();
+    console.log('Content updated successfully');
+    res.json(updatedContent);
   } catch (error) {
-    console.error('Error updating landing content:', error.message);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to update landing content.',
-      error: error.message,
+    console.error('PUT landing content error:', {
+      message: error.message,
+      stack: error.stack
+    });
+    res.status(500).json({ 
+      message: 'Server error updating landing content', 
+      error: error.message 
     });
   }
 });

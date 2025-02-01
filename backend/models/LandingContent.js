@@ -1,64 +1,32 @@
 const mongoose = require('mongoose');
 
-const CardSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
-    required: true, 
-    trim: true, 
-    maxlength: 100 
+const LandingContentSchema = new mongoose.Schema({
+  newsTitle: { type: String, default: "CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024" },
+  newsText: { type: String, default: "Lorem ipsum is simply dummy text..." },
+  newsImage: { type: String, default: '' },
+  thirdTitle: { type: String, default: "CEIT TABLE TENNIS WOMEN BAGS GOLD LAST UNIVERSITY GAMES 2024" },
+  thirdText: { type: String, default: "Lorem ipsum is simply dummy text..." },
+  thirdImage: { type: String, default: '' },
+  eventCards: { 
+    type: [{
+      title: { type: String, default: "Opening" },
+      details: { type: String, default: "<p><span>Date:</span> November 00, 0000</p><p><span>Time:</span> 00:00 PM</p><p><span>Place:</span> Palawan State University, Gymnasium" }
+    }],
+    default: [{
+      title: "Opening",
+      details: "<p><span>Date:</span> November 00, 0000</p><p><span>Time:</span> 00:00 PM</p><p><span>Place:</span> Palawan State University, Gymnasium"
+    }]
   },
-  details: { 
-    type: String, 
-    required: true, 
-    trim: true 
-  },
+  tryoutCards: { 
+    type: [{
+      title: { type: String, default: "Opening" },
+      details: { type: String, default: "<p><span>Date:</span> November 00, 0000</p><p><span>Time:</span> 00:00 PM</p><p><span>Place:</span> Palawan State University, Gymnasium" }
+    }],
+    default: [{
+      title: "Opening",
+      details: "<p><span>Date:</span> November 00, 0000</p><p><span>Time:</span> 00:00 PM</p><p><span>Place:</span> Palawan State University, Gymnasium"
+    }]
+  }
 });
-
-const LandingContentSchema = new mongoose.Schema(
-  {
-    newsTitle: { 
-      type: String, 
-      required: true, 
-      trim: true, 
-      maxlength: 150 
-    },
-    newsText: { 
-      type: String, 
-      required: true, 
-      trim: true 
-    },
-    newsImage: { 
-      type: String, 
-      default: '' 
-    },
-    thirdTitle: { 
-      type: String, 
-      required: true, 
-      trim: true, 
-      maxlength: 150 
-    },
-    thirdText: { 
-      type: String, 
-      required: true, 
-      trim: true 
-    },
-    thirdImage: { 
-      type: String, 
-      default: '' 
-    },
-    eventCards: [CardSchema],
-    tryoutCards: [CardSchema],
-    lastUpdated: {
-      type: Date,
-      default: Date.now,
-      index: true,
-    },
-    updatedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-  },
-  { timestamps: true }
-);
 
 module.exports = mongoose.model('LandingContent', LandingContentSchema);
