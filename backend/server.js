@@ -2,8 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const path = require('path');
 const userRoutes = require('./routes/user');
-const coachRoutes = require('./routes/coaches'); // Fix import name
+const coachRoutes = require('./routes/coaches');
+const landingRoutes = require('./routes/landing');
 
 // Load environment variables
 dotenv.config();
@@ -18,12 +20,13 @@ const app = express();
 
 // Enhanced CORS configuration
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
+app.use(cors());
 
 // Middleware
 app.use(
@@ -33,6 +36,9 @@ app.use(
   })
 );
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -51,7 +57,10 @@ const registrationRoutes = require('./routes/registration');
 app.use('/api/auth', authRoutes);
 app.use('/api/registration', registrationRoutes);
 app.use('/api/user', userRoutes);
-app.use('/coaches', coachRoutes); // Fix route name
+app.use('/api/coaches', coachRoutes); // Updated to use /api prefix for consistency
+
+// Mount landing routes
+app.use('/api', landingRoutes);
 
 // Catch-all route to help diagnose routing issues
 app.use((req, res, next) => {
@@ -87,3 +96,10 @@ mongoose
     console.error('MongoDB connection error:', error);
     process.exit(1);
   });
+
+  // Serve static files from the uploads directory
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+  
+  
